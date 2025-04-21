@@ -185,7 +185,44 @@ import {
                       </Text>
                     </>
                   ) : (
-                    <View /> // Empty view to maintain layout spacing
+                    <>
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        color: appColors.GreyScale[500],
+                        fontFamily: appFonts.UrbanistBold,
+                      }}
+                    >
+                    By signing up, you agree to our
+                    </Text>
+                    <Text
+                      style={{
+                        color: appColors.main.Primary,
+                        fontSize: 16,
+                        fontFamily: appFonts.UrbanistBold,
+                      }}
+                    >
+                     Terms of Service
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        color: appColors.GreyScale[500],
+                        fontFamily: appFonts.UrbanistBold,
+                      }}
+                    >
+                   and
+                    </Text>
+                    <Text
+                      style={{
+                        color: appColors.main.Primary,
+                        fontSize: 16,
+                        fontFamily: appFonts.UrbanistBold,
+                      }}
+                    >
+                    Privacy Policy.
+                    </Text>
+                  </> // Empty view to maintain layout spacing
                   )}
                 </View>
                 {/* add button */}

@@ -86,13 +86,14 @@ const CarDetailsPage = () => {
 
   return (
     <CustomSafeArea>
-      <Header type="default" />
+      <Header type="home" />
       <ScrollView style={{flex: 1}} showsHorizontalScrollIndicator={false}>
-        <View style={{flex: 1, flexDirection: 'row'}}>
-    <SidebarComponent />
-    <View>
-      <VehicleDetails vehicle={audiQ7} />
-      </View>
+        <View style={{flexDirection:"row"}}>
+            <SidebarComponent />
+            <View style={{borderWidth:2,flex:1}}>
+
+            <VehicleDetails vehicle={audiQ7} />
+            </View>
         </View>
       </ScrollView>
     </CustomSafeArea>

@@ -111,6 +111,7 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
           variant="outlined"
           borderColor={appColors.main.Primary}
           width="20%"
+          color={appColors.main.Primary}
         />
       </View>
 
