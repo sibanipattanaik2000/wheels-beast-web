@@ -13,6 +13,7 @@ interface CarCardProps {
   type?: "home" | "default";
   engine?:string;
   ratings?:number;
+  isLiked?: boolean;
 }
 
 const CarCard = ({
@@ -23,14 +24,15 @@ const CarCard = ({
   brandicon,
   engine,
   type = "default",
-  ratings= 5
+  ratings= 5,
+  isLiked
 }: CarCardProps) => {
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(isLiked || false);
 
   const styles = StyleSheet.create({
     card: {
-      width: 250,
-      height: 250,
+      width: 300,
+      height: 270,
       backgroundColor: "white",
       borderRadius: 20,
       padding: 20,
@@ -51,11 +53,10 @@ const CarCard = ({
               fontFamily: appFonts.UrbanistBold,
               color: appColors.AdditionalColor.white,
               backgroundColor: appColors.main.Primary,
-              paddingHorizontal: 10,
-              paddingVertical: 4,
-              borderRadius: 10,
+              padding:8,
+              gap:8,
+              borderRadius: 6,
               textAlign:'center',
-              marginTop:2
             }}
           >
             Free Test Drive
@@ -103,7 +104,7 @@ const CarCard = ({
         </View>
       </View>
 
-      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center",marginTop:10 }}>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
         {type === "home" && (
             <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>

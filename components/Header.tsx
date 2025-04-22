@@ -1,10 +1,58 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { appColors } from '@/constants/Color';
 import appFonts from '@/constants/Font';
 import SearchBar from '@/components/Searchbar';
 import Button from './Button';
+import NotificationModal from './NotificationModal';
+
+// Sample notification data
+const sampleNotifications = [
+  {
+    id: '1',
+    type: 'discount' as const,
+    title: 'Discount Available',
+    description: 'We recommend a 5% discount for Tesla Model X in San Francisco.',
+    time: '09:00 AM',
+    isToday: true,
+  },
+  {
+    id: '2',
+    type: 'test_drive' as const,
+    title: 'Test Drive',
+    description: 'You have a scheduled test drive for tomorrow.',
+    time: '07:45 AM',
+    isToday: true,
+  },
+  {
+    id: '3',
+    type: 'message' as const,
+    title: 'New Message',
+    description: 'Florencio dorrance sent you a new message',
+    time: 'Jun 12, 2025 at 02:00 PM',
+    sender: 'Florencio dorrance',
+    isToday: false,
+  },
+  {
+    id: '4',
+    type: 'sold' as const,
+    title: 'Units already sold',
+    description: 'The car on your favorites list sold for $47,805 to California',
+    time: 'Jun 12, 2025 at 08:45 AM',
+    price: '$47,805',
+    location: 'California',
+    isToday: false,
+  },
+  {
+    id: '5',
+    type: 'discount' as const,
+    title: 'Discount Available',
+    description: 'We recommend a 5% discount for Tesla Model X in San Francisco.',
+    time: '09:00 AM',
+    isToday: false,
+  },
+];
 
 interface HeaderProps {
   type: 'home' | 'default' | string;
@@ -12,13 +60,31 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ type }) => {
   const [showPrivacy, setShowPrivacy] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
   const togglePrivacy = () => setShowPrivacy(!showPrivacy);
+  const toggleNotifications = () => setShowNotifications(!showNotifications);
 
   const styles = StyleSheet.create({
     text: {
       fontFamily: appFonts.UrbanistMedium,
       color: appColors.GreyScale[900],
       fontSize: 16,
+    },
+    notificationBadge: {
+      position: 'absolute',
+      right: -6,
+      top: -3,
+      backgroundColor: appColors.alert.Error,
+      borderRadius: 10,
+      width: 18,
+      height: 18,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    badgeText: {
+      color: appColors.AdditionalColor.white,
+      fontSize: 10,
+      fontFamily: appFonts.UrbanistBold,
     },
   });
 
@@ -159,6 +225,19 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
           <Text style={styles.text}>Home</Text>
           <Text style={styles.text}>Favourite</Text>
           <Text style={styles.text}>Favourite</Text>
+          
+          {/* Notification Bell */}
+          <TouchableOpacity 
+            onPress={toggleNotifications}
+            style={{ position: 'relative' }}
+          >
+            <Ionicons name="notifications-outline" size={24} color={appColors.GreyScale[900]} />
+            {/* Notification Badge */}
+            <View style={styles.notificationBadge}>
+              <Text style={styles.badgeText}>5</Text>
+            </View>
+          </TouchableOpacity>
+          
           <View style={{ alignItems: 'center' }}>
             <TouchableOpacity
               style={{ flexDirection: 'row', alignItems: 'center' }}
@@ -211,6 +290,13 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
           </View>
         </View>
       </View>
+
+      {/* Notification Modal */}
+      <NotificationModal
+        isVisible={showNotifications}
+        onClose={toggleNotifications}
+        notifications={sampleNotifications}
+      />
     </>
   );
 };
