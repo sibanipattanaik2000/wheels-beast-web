@@ -12,6 +12,8 @@ import { appColors } from "@/constants/Color";
 import Button from "@/components/Button";
 import { Ionicons } from "@expo/vector-icons";
 import DropDownComponent from "@/components/Dropdown";
+import FeatureCard from "./FeatureCard";
+import ShareModal from "./ShareModal";
 
 interface VehicleDetailsProps {
   vehicle: {
@@ -34,6 +36,15 @@ interface VehicleDetailsProps {
       seats: number;
       vin: string;
     };
+    finance?: {
+      registration: string;
+      audit: string;
+      importMOT: string;
+      documentation: string;
+      salesTax: string;
+      totalPrice: string;
+      monthlyPayment: string;
+    };
     features: {
       category: string;
       items: string[];
@@ -45,12 +56,70 @@ interface VehicleDetailsProps {
   };
 }
 
+const featureItems = [
+  {
+    src: require("@/assets/images/Features/automatic.png"),
+    line1: "Transmission type",
+    line2: "Automatic",
+  },
+  {
+    src: require("@/assets/images/Features/engine.png"),
+    line1: "Engine displacement",
+    line2: "2998 cc",
+  },
+  {
+    src: require("@/assets/images/Features/seat.png"),
+    line1: "Seating capacity",
+    line2: "7 Seats",
+  },
+];
+const performance = [
+  {
+    src: require("@/assets/images/Features/Speed.png"),
+    line1: "Top Speed",
+    line2: "250 kmph",
+  },
+  {
+    src: require("@/assets/images/Features/torque.png"),
+    line1: "Torque",
+    line2: "369 lb - ft",
+  },
+  {
+    src: require("@/assets/images/Features/Fuel.png"),
+    line1: "Fuel type",
+    line2: "Petrol",
+  },
+];
+const notablefeatures = [
+  {
+    src: require("@/assets/images/Features/bt.png"),
+    line1: "Bluetooth Connectivity",
+    line2: "Yes",
+    line2Color:appColors.alert.Success
+  },
+  {
+    src: require("@/assets/images/Features/snow.png"),
+    line1: "Automatic Climate",
+    line2: "Yes",
+    line2Color:appColors.alert.Success
+
+  },
+  {
+    src: require("@/assets/images/Features/ac.png"),
+    line1: "Air Conditioner",
+    line2: "Yes",
+    line2Color:appColors.alert.Success
+  },
+];
+
 const VehicleDetails = ({ vehicle }: VehicleDetailsProps) => {
   const [activeImage, setActiveImage] = useState(0);
   const [expandedSection, setExpandedSection] = useState<string | null>(
     "vehicle-details"
   );
   const [expandedFeature, setExpandedFeature] = useState<number | null>(null);
+  const [isLiked, setIsLiked] = useState(false);
+  const [shareModalVisible, setShareModalVisible] = useState(false);
 
   const toggleSection = (section: string) => {
     if (expandedSection === section) {
@@ -68,67 +137,41 @@ const VehicleDetails = ({ vehicle }: VehicleDetailsProps) => {
     }
   };
 
+  const toggleLike = () => {
+    setIsLiked(!isLiked);
+  };
+
+  const toggleShareModal = () => {
+    setShareModalVisible(!shareModalVisible);
+  };
+
   return (
     <ScrollView
       style={{
         backgroundColor: appColors.GreyScale[200],
-        paddingHorizontal: 30,
-        paddingVertical: 40,
+        width: "100%",
+        alignSelf: "flex-end",
       }}
     >
-      {/* Car Images Section */}
-      <View style={{ flexDirection: "row", gap: 10, width: "100%" }}>
-        <View style={{ width: "45%" }}>
-          <View
-            style={{
-              width: "100%",
-              height: 360,
-              position: "relative",
-              borderRadius: 10,
-            }}
-          >
+      {/* Main Vehicle Section */}
+      <View style={styles.mainContainer}>
+        {/* Vehicle Image Section - Left Side */}
+        <View style={styles.imageSection}>
+          <View style={styles.mainImageContainer}>
             <Image
               source={vehicle.images[activeImage]}
-              style={{ width: "100%", height: "100%", borderRadius: 10 }}
+              style={styles.mainImage}
               contentFit="cover"
             />
-            <View
-              style={{
-                position: "absolute",
-                bottom: 20,
-                width: "100%",
-                flexDirection: "row",
-                justifyContent: "center",
-              }}
-            >
-              <TouchableOpacity
-                style={{
-                  backgroundColor: "#1E293B",
-                  paddingHorizontal: 15,
-                  paddingVertical: 8,
-                  borderRadius: 20,
-                }}
-              >
-                <Text
-                  style={{
-                    color: "#fff",
-                    fontFamily: appFonts.UrbanistSemiBold,
-                  }}
-                >
-                  360
-                </Text>
+            <View style={styles.threeSixtyButtonContainer}>
+              <TouchableOpacity style={styles.threeSixtyButton}>
+                <Text style={styles.threeSixtyButtonText}>360</Text>
               </TouchableOpacity>
             </View>
           </View>
 
-          <View
-            style={{
-              flexDirection: "row",
-              marginTop: 15,
-              justifyContent: "space-between",
-            }}
-          >
-            {vehicle.images.map((image, index) => (
+          <View style={styles.thumbnailsContainer}>
+            {vehicle.images.slice(0, 3).map((image, index) => (
               <TouchableOpacity
                 key={index}
                 style={[
@@ -144,61 +187,44 @@ const VehicleDetails = ({ vehicle }: VehicleDetailsProps) => {
                 />
               </TouchableOpacity>
             ))}
-            <TouchableOpacity
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                position: "absolute",
-                gap: 10,
-              }}
-            >
-              <Text
-                style={{
-                  color: "#fff",
-                  fontFamily: appFonts.UrbanistBold,
-                  fontSize: 16,
-                  textAlign: "center",
-                }}
-              >
-                +3
-              </Text>
-              <Text style={styles.moreImagesSubtext}>Images</Text>
+            <TouchableOpacity style={styles.moreImagesButton}>
+              <Text style={styles.moreImagesCount}>+3</Text>
+              <Text style={styles.moreImagesText}>Images</Text>
             </TouchableOpacity>
           </View>
         </View>
 
-        {/* Car Details Section */}
-        <View style={{ borderWidth: 1, width: "40%" }}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <View style={{width:'60%'}}>
-              <View style={{borderWidth:2,}}>
-              <Text style={styles.carTitle}>{vehicle.name}</Text>
-              <Text style={styles.carDescription}>{vehicle.description}</Text>
-              </View>
-               <View style={styles.actionButtons}>
-              <TouchableOpacity style={styles.iconButton}>
-                <Ionicons name="heart-outline" size={24} color="#000" />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.iconButton}>
-                <Ionicons name="share-social-outline" size={24} color="#000" />
-              </TouchableOpacity>
-            </View> 
+        {/* Vehicle Details Section - Right Side */}
+        <View style={styles.detailsSection}>
+          {/* Header with Title, Description, and Action Buttons */}
+          <View style={styles.detailsHeader}>
+            <View style={styles.titleContainer}>
+              <Text style={styles.vehicleTitle}>{vehicle.name}</Text>
+              <Text style={styles.vehicleDescription}>
+                {vehicle.description}
+              </Text>
             </View>
-           
+            <View style={styles.actionButtons}>
+              <TouchableOpacity style={styles.iconButton} onPress={toggleLike}>
+                <Ionicons
+                  name={isLiked ? "heart" : "heart-outline"}
+                  size={24}
+                  color={isLiked ? "#FF3B30" : "#000"}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.iconButton} onPress={toggleShareModal}>
+                <Image source={require("@/assets/images/Features/share.png")} style={{width:24,height:24}} />
+              </TouchableOpacity>
+            </View>
           </View>
 
-          {/* Specs Section */}
-          <View style={styles.specsContainer}>
+          {/* Specs Row */}
+          <View style={styles.specsRow}>
             <View style={styles.specItem}>
               <Ionicons name="speedometer-outline" size={24} color="#000" />
               <Text style={styles.specValue}>
                 {vehicle.specs.horsepower}{" "}
-                <Text style={styles.specUnit}>hp</Text>
+                <Text style={styles.specUnit}>HP</Text>
               </Text>
               <Text style={styles.specLabel}>Horsepower</Text>
             </View>
@@ -226,11 +252,8 @@ const VehicleDetails = ({ vehicle }: VehicleDetailsProps) => {
             variant="filled"
             fontWeight="UrbanistBold"
             color={appColors.AdditionalColor.white}
-            style={{
-              backgroundColor: appColors.main.Primary,
-              marginVertical: 20,
-            }}
-            width="100%"
+            style={styles.testDriveButton}
+            width="40%"
           />
 
           {/* Price and Buy Section */}
@@ -246,17 +269,16 @@ const VehicleDetails = ({ vehicle }: VehicleDetailsProps) => {
               variant="filled"
               fontWeight="UrbanistBold"
               color={appColors.AdditionalColor.white}
-              style={{ backgroundColor: appColors.main.Primary }}
+              style={styles.buyButton}
               width="30%"
             />
           </View>
         </View>
       </View>
 
-      {/* Collapsible Details Sections */}
-
+      {/* Collapsible Sections */}
       <View style={styles.collapsibleSections}>
-        {/* Vehicle Details */}
+        {/* Vehicle Details Section */}
         <TouchableOpacity
           style={styles.sectionHeader}
           onPress={() => toggleSection("vehicle-details")}
@@ -334,94 +356,49 @@ const VehicleDetails = ({ vehicle }: VehicleDetailsProps) => {
           </View>
         )}
 
-        {/* Vehicle Conditions Section */}
-        <TouchableOpacity
-          style={styles.sectionHeader}
-          onPress={() => toggleSection("vehicle-conditions")}
-        >
-          <Text style={styles.sectionTitle}>Vehicle Conditions</Text>
-          <Ionicons
-            name={
-              expandedSection === "vehicle-conditions"
-                ? "chevron-up"
-                : "chevron-down"
-            }
-            size={24}
-            color="#4F46E5"
-          />
-        </TouchableOpacity>
-
         {/* Features Section */}
         <TouchableOpacity
-          style={styles.sectionHeader}
-          onPress={() => toggleSection("features")}
-        >
-          <Text style={styles.sectionTitle}>Features</Text>
-          <Ionicons
-            name={
-              expandedSection === "features" ? "chevron-up" : "chevron-down"
-            }
-            size={24}
-            color="#4F46E5"
-          />
-        </TouchableOpacity>
+  style={styles.sectionHeader}
+  onPress={() => toggleSection("features")}
+>
+  <Text style={styles.sectionTitle}>Features</Text>
+  <Ionicons
+    name={
+      expandedSection === "features" ? "chevron-up" : "chevron-down"
+    }
+    size={24}
+    color="#4F46E5"
+  />
+</TouchableOpacity>
 
-        {expandedSection === "features" && (
-          <View style={styles.sectionContent}>
-            <View style={styles.featureCardsContainer}>
-              {vehicle.features.map((featureCategory, index) => (
-                <View key={index} style={styles.featureCard}>
-                  <TouchableOpacity
-                    style={styles.featureHeader}
-                    onPress={() => toggleFeature(index)}
-                  >
-                    <View style={styles.featureHeaderLeft}>
-                      <View style={styles.featureIconContainer}>
-                        <Ionicons
-                          name="car-sport-outline"
-                          size={24}
-                          color="#4F46E5"
-                        />
-                      </View>
-                      <Text style={styles.featureCategoryTitle}>
-                        {featureCategory.category}
-                      </Text>
-                    </View>
-                    <Ionicons
-                      name={
-                        expandedFeature === index
-                          ? "chevron-up"
-                          : "chevron-down"
-                      }
-                      size={20}
-                      color="#4F46E5"
-                    />
-                  </TouchableOpacity>
+{expandedSection === "features" && (
+  <>
+    <View style={styles.sectionContent}>
+      <View style={styles.featureCardsContainer}>
+        <FeatureCard title="Key specs of Audi Q7" items={featureItems} />
+      </View>
+    </View>
 
-                  {expandedFeature === index && (
-                    <View style={styles.featureItemsContainer}>
-                      {featureCategory.items.map((item, itemIndex) => (
-                        <View key={itemIndex} style={styles.featureItem}>
-                          <Ionicons
-                            name="checkmark-circle"
-                            size={20}
-                            color="#4F46E5"
-                          />
-                          <Text style={styles.featureItemText}>{item}</Text>
-                        </View>
-                      ))}
-                    </View>
-                  )}
-                </View>
-              ))}
-            </View>
-          </View>
-        )}
+    <View style={styles.sectionContent}>
+      <View style={styles.featureCardsContainer}>
+        <FeatureCard title="Performance" items={performance} />
+      </View>
+    </View>
+
+    <View style={styles.sectionContent}>
+      <View style={styles.featureCardsContainer}>
+        <FeatureCard title="Notable Features" items={notablefeatures} />
+      </View>
+    </View>
+  </>
+)}
+
 
         {/* Design Section */}
         <TouchableOpacity
           style={styles.sectionHeader}
-          onPress={() => toggleSection("design")} >
+          onPress={() => toggleSection("design")}
+        >
           <Text style={styles.sectionTitle}>Design</Text>
           <Ionicons
             name={expandedSection === "design" ? "chevron-up" : "chevron-down"}
@@ -433,14 +410,25 @@ const VehicleDetails = ({ vehicle }: VehicleDetailsProps) => {
         {expandedSection === "design" && (
           <View style={styles.sectionContent}>
             <View style={styles.designContainer}>
-              <View style={styles.designCategoryContainer}>
-                <DropDownComponent
-                  label="Select Design Category"
-                  options={vehicle.designImages.map((item) => item.category)}
-                  onSelect={(value) =>
-                    console.log("Selected design category:", value)
-                  }
-                />
+              <View style={{gap:10}}>
+                <Text
+                  style={{
+                    fontSize: 20,
+                    fontFamily: appFonts.UrbanistBold,
+                    color: appColors.GreyScale[900],
+                  }}
+                >
+                  Powerful and sporty - The exterior
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontFamily: appFonts.UrbanistMedium,
+                    color: appColors.GreyScale[500],
+                  }}
+                >
+                  For an even sportier look, opt for optional Design Packages.
+                </Text>
               </View>
 
               <View style={styles.designImagesGrid}>
@@ -451,9 +439,6 @@ const VehicleDetails = ({ vehicle }: VehicleDetailsProps) => {
                       style={styles.designImage}
                       contentFit="cover"
                     />
-                    <Text style={styles.designImageCaption}>
-                      {designItem.category}
-                    </Text>
                   </View>
                 ))}
               </View>
@@ -477,7 +462,7 @@ const VehicleDetails = ({ vehicle }: VehicleDetailsProps) => {
         </TouchableOpacity>
 
         {/* Financing Section */}
-         <TouchableOpacity
+        <TouchableOpacity
           style={styles.sectionHeader}
           onPress={() => toggleSection("financing")}
         >
@@ -490,15 +475,120 @@ const VehicleDetails = ({ vehicle }: VehicleDetailsProps) => {
             color="#4F46E5"
           />
         </TouchableOpacity>
+        
+        {expandedSection === "financing" && (
+          <View style={styles.sectionContent}>
+            <View style={styles.detailRow}>
+              <Text style={styles.detailLabel}>Car Audit</Text>
+              <Text style={styles.detailValue}>{vehicle.finance?.audit || "$79"}</Text>
+            </View>
+
+            <View style={styles.detailRow}>
+              <Text style={styles.detailLabel}>Import MOT</Text>
+              <Text style={styles.detailValue}>{vehicle.finance?.importMOT || "$175"}</Text>
+            </View>
+
+            <View style={styles.detailRow}>
+              <Text style={styles.detailLabel}>Documentation</Text>
+              <View style={styles.colorContainer}>
+                <Text style={styles.detailValue}>
+                  {vehicle.finance?.documentation || "$30"}
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.detailRow}>
+              <Text style={styles.detailLabel}>Car registration</Text>
+              <Text style={styles.detailValue}>
+                {vehicle.finance?.registration || "$80"}
+              </Text>
+            </View>
+
+            <View style={styles.detailRow}>
+              <Text style={styles.detailLabel}>Sales Tax</Text>
+              <Text style={styles.detailValue}>{vehicle.finance?.salesTax || "$5,876"}</Text>
+            </View>
+            <View style={{backgroundColor:appColors.GreyScale[50],padding:16,gap:8,borderRadius:12}}>
+            <View style={styles.detailRow}>
+              <Text style={styles.detailLabel}>Total Price</Text>
+              <Text style={{fontSize:18,fontFamily:appFonts.UrbanistBold,color:appColors.main.Primary}}>{vehicle.finance?.totalPrice || "$80063"}</Text>
+            </View>
+
+            <View style={styles.detailRow}>
+              <Text style={styles.detailLabel}>Est. Monthly payment</Text>
+              <Text style={styles.detailValue}>{vehicle.finance?.monthlyPayment || "$1,075"}</Text>
+            </View>
+            </View>
+            <Button title="Credit Simulation" variant="outlined" />
+          </View>
+        )}
       </View>
+
+      {/* Share Modal Component */}
+      <ShareModal 
+        isVisible={shareModalVisible}
+        onClose={() => setShareModalVisible(false)}
+        title="Share Car"
+        shareMessage={`Check out this ${vehicle.name}: ${vehicle.description}`}
+        shareTitle={vehicle.name}
+        shareUrl={`https://wheelbeast.com/vehicle/${vehicle.id}`}
+      />
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flexDirection: "row",
+    padding: 16,
+    gap: 16,
+    backgroundColor: appColors.GreyScale[200],
+    borderRadius: 16,
+    paddingHorizontal: 30,
+    paddingVertical: 40,
+  },
+  imageSection: {
+    width: "45%",
+    gap: 12,
+  },
+  mainImageContainer: {
+    width: "100%",
+    height: 280,
+    borderRadius: 12,
+    overflow: "hidden",
+    position: "relative",
+    backgroundColor: "#0F172A",
+  },
+  mainImage: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 12,
+  },
+  threeSixtyButtonContainer: {
+    position: "absolute",
+    bottom: 16,
+    width: "100%",
+    alignItems: "center",
+  },
+  threeSixtyButton: {
+    backgroundColor: "#1E293B",
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+  },
+  threeSixtyButtonText: {
+    color: "#fff",
+    fontFamily: appFonts.UrbanistSemiBold,
+    fontSize: 14,
+  },
+  thumbnailsContainer: {
+    flexDirection: "row",
+    gap: 8,
+    marginTop: 8,
+  },
   thumbnailButton: {
-    width: 128,
-    height: 124,
+    width: 72,
+    height: 72,
     borderRadius: 8,
     overflow: "hidden",
     borderWidth: 2,
@@ -511,56 +601,79 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
-  moreImagesSubtext: {
+  moreImagesButton: {
+    width: 72,
+    height: 72,
+    borderRadius: 8,
+    backgroundColor: "rgba(15, 23, 42, 0.7)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  moreImagesCount: {
+    color: "#fff",
+    fontFamily: appFonts.UrbanistBold,
+    fontSize: 16,
+  },
+  moreImagesText: {
     color: "#fff",
     fontFamily: appFonts.UrbanistRegular,
     fontSize: 12,
   },
-
-  carTitle: {
+  detailsSection: {
+    width: "55%",
+    padding: 8,
+    backgroundColor: appColors.AdditionalColor.white,
+    borderRadius: 10,
+  },
+  detailsHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    marginBottom: 16,
+  },
+  titleContainer: {
+    flex: 1,
+    paddingRight: 16,
+  },
+  vehicleTitle: {
     fontSize: 28,
     fontFamily: appFonts.UrbanistBold,
     color: appColors.GreyScale[900],
     marginBottom: 8,
   },
-  carDescription: {
+  vehicleDescription: {
     fontSize: 16,
     fontFamily: appFonts.UrbanistRegular,
     color: appColors.GreyScale[600],
-    lineHeight: 24,
+    marginBottom: 8,
   },
   actionButtons: {
     flexDirection: "row",
-    gap: 15,
+    gap: 12,
   },
   iconButton: {
     width: 40,
     height: 40,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: appColors.GreyScale[200],
   },
-  specsContainer: {
+  specsRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 25,
+    marginBottom: 20,
   },
   specItem: {
-    flex: 1,
     alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 15,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: appColors.GreyScale[200],
+    padding: 12,
+    backgroundColor: appColors.GreyScale[50],
+    borderRadius: 12,
+    width: "30%",
   },
   specValue: {
     fontSize: 20,
     fontFamily: appFonts.UrbanistBold,
     color: appColors.GreyScale[900],
-    marginVertical: 5,
+    marginVertical: 4,
   },
   specUnit: {
     fontSize: 14,
@@ -572,11 +685,15 @@ const styles = StyleSheet.create({
     fontFamily: appFonts.UrbanistRegular,
     color: appColors.GreyScale[500],
   },
+  testDriveButton: {
+    backgroundColor: appColors.main.Primary,
+    marginBottom: 16,
+  },
   priceContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 30,
+    marginTop: 8,
   },
   priceLabel: {
     fontSize: 14,
@@ -588,24 +705,41 @@ const styles = StyleSheet.create({
     fontFamily: appFonts.UrbanistBold,
     color: appColors.GreyScale[900],
   },
+  buyButton: {
+    backgroundColor: appColors.main.Primary,
+  },
   collapsibleSections: {
-    marginTop: 10,
+    // backgroundColor: appColors.AdditionalColor.white,
+    borderRadius: 16,
+    marginHorizontal: 16,
+    marginVertical: 16,
+    padding: 16,
   },
   sectionHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: appColors.GreyScale[200],
+    paddingVertical: 16,
+    paddingHorizontal: 10,
+    marginVertical: 10,
+    backgroundColor: appColors.AdditionalColor.white,
+    borderRadius: 10,
+    shadowColor: appColors.GreyScale[500],
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 3,
   },
   sectionTitle: {
     fontSize: 18,
     fontFamily: appFonts.UrbanistBold,
-    color: appColors.GreyScale[900],
+    color: appColors.main.Primary,
   },
   sectionContent: {
-    paddingVertical: 15,
+    paddingVertical: 16,
+    backgroundColor: appColors.AdditionalColor.white,
+    paddingHorizontal: 10,
+    borderRadius: 10,
   },
   detailRow: {
     flexDirection: "row",
@@ -614,8 +748,8 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   detailLabel: {
-    fontSize: 16,
-    fontFamily: appFonts.UrbanistRegular,
+    fontSize: 14,
+    fontFamily: appFonts.UrbanistMedium,
     color: appColors.GreyScale[500],
   },
   detailValueContainer: {
@@ -628,8 +762,8 @@ const styles = StyleSheet.create({
     height: 24,
   },
   detailValue: {
-    fontSize: 16,
-    fontFamily: appFonts.UrbanistMedium,
+    fontSize: 14,
+    fontFamily: appFonts.UrbanistBold,
     color: appColors.GreyScale[900],
   },
   colorContainer: {
@@ -646,7 +780,6 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   featureCard: {
-    borderWidth: 1,
     borderColor: appColors.GreyScale[200],
     borderRadius: 12,
     overflow: "hidden",

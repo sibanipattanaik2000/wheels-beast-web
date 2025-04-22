@@ -3,18 +3,16 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { appColors } from '@/constants/Color';
 import appFonts from '@/constants/Font';
-import SearchBar from '@/components/Searchbar'; // Make sure you have this component
-import Button from './Button'; // Adjust import if needed
+import SearchBar from '@/components/Searchbar';
+import Button from './Button';
 
 interface HeaderProps {
-  type: 'home' | string;
+  type: 'home' | 'default' | string;
 }
 
 const Header: React.FC<HeaderProps> = ({ type }) => {
   const [showPrivacy, setShowPrivacy] = useState(false);
   const togglePrivacy = () => setShowPrivacy(!showPrivacy);
-
-  if (type !== 'home') return null;
 
   const styles = StyleSheet.create({
     text: {
@@ -23,6 +21,35 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
       fontSize: 16,
     },
   });
+
+  if (type === 'default') {
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          padding: 20,
+          gap: 7,
+        }}
+      >
+        <Image
+          source={require('@/assets/images/Signup/wheel.png')}
+          style={{ height: 40, width: 40 }}
+        />
+        <Text
+          style={{
+            fontSize: 24,
+            color: appColors.main.SecondaryBase,
+            fontFamily: appFonts.UrbanistBold,
+          }}
+        >
+          WheelsBeast
+        </Text>
+      </View>
+    );
+  }
+
+  if (type !== 'home') return null;
 
   return (
     <>
@@ -102,7 +129,7 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
           </View>
         </View>
 
-        <View style={{ width: '30%' ,justifyContent:'center'}}>
+        <View style={{ width: '30%', justifyContent: 'center' }}>
           <SearchBar />
         </View>
 
@@ -133,33 +160,55 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
           <Text style={styles.text}>Favourite</Text>
           <Text style={styles.text}>Favourite</Text>
           <View style={{ alignItems: 'center' }}>
-           <TouchableOpacity
-            style={{ flexDirection: 'row', alignItems: 'center'}}
-            onPress={togglePrivacy}
-          >
-            <Text style={styles.text}>Privacy </Text>
-            <AntDesign name={showPrivacy ? 'up' : 'down'} size={16} />
-          </TouchableOpacity>
-       
+            <TouchableOpacity
+              style={{ flexDirection: 'row', alignItems: 'center' }}
+              onPress={togglePrivacy}
+            >
+              <Text style={styles.text}>Privacy </Text>
+              <AntDesign name={showPrivacy ? 'up' : 'down'} size={16} />
+            </TouchableOpacity>
 
-        {/* Expandable Privacy Section */}
-        {showPrivacy && (
-          <View
-            style={{
-              padding: 8,
-              borderRadius: 8,
-              width: '60%',
-              alignSelf: 'center',
-              alignItems:'center',
-              gap:5
-            }}
-          >
-            <Text style={{fontFamily:appFonts.UrbanistMedium,color:appColors.GreyScale[900],fontSize:14}}>Privacy Policy</Text>
-            <Text style={{fontFamily:appFonts.UrbanistMedium,color:appColors.GreyScale[900],fontSize:14}}>Terms & Conditions</Text>
-            <Text style={{fontFamily:appFonts.UrbanistMedium,color:appColors.GreyScale[900],fontSize:14}}>Data Sharing</Text>
+            {showPrivacy && (
+              <View
+                style={{
+                  padding: 8,
+                  borderRadius: 8,
+                  width: '60%',
+                  alignSelf: 'center',
+                  alignItems: 'center',
+                  gap: 5,
+                }}
+              >
+                <Text
+                  style={{
+                    fontFamily: appFonts.UrbanistMedium,
+                    color: appColors.GreyScale[900],
+                    fontSize: 14,
+                  }}
+                >
+                  Privacy Policy
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: appFonts.UrbanistMedium,
+                    color: appColors.GreyScale[900],
+                    fontSize: 14,
+                  }}
+                >
+                  Terms & Conditions
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: appFonts.UrbanistMedium,
+                    color: appColors.GreyScale[900],
+                    fontSize: 14,
+                  }}
+                >
+                  Data Sharing
+                </Text>
+              </View>
+            )}
           </View>
-        )}
-         </View>
         </View>
       </View>
     </>
