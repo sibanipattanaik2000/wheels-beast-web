@@ -61,6 +61,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ type }) => {
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [notificationCount, setNotificationCount] = useState(0);
   const togglePrivacy = () => setShowPrivacy(!showPrivacy);
   const toggleNotifications = () => setShowNotifications(!showNotifications);
 
@@ -220,23 +221,14 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
             flexDirection: 'row',
             alignSelf: 'center',
             gap: 20,
+            justifyContent: 'space-between',
           }}
         >
           <Text style={styles.text}>Home</Text>
           <Text style={styles.text}>Favourite</Text>
           <Text style={styles.text}>Favourite</Text>
           
-          {/* Notification Bell */}
-          <TouchableOpacity 
-            onPress={toggleNotifications}
-            style={{ position: 'relative' }}
-          >
-            <Ionicons name="notifications-outline" size={24} color={appColors.GreyScale[900]} />
-            {/* Notification Badge */}
-            <View style={styles.notificationBadge}>
-              <Text style={styles.badgeText}>5</Text>
-            </View>
-          </TouchableOpacity>
+         
           
           <View style={{ alignItems: 'center' }}>
             <TouchableOpacity
@@ -288,6 +280,19 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
               </View>
             )}
           </View>
+           {/* Notification Bell */}
+           <TouchableOpacity 
+            onPress={toggleNotifications}
+            style={{ position: 'relative',alignSelf:'flex-end' }}
+          >
+            <Ionicons name="notifications-outline" size={24} color={appColors.GreyScale[900]} />
+            {/* Notification Badge */}
+            { notificationCount> 0 && (
+            <View style={styles.notificationBadge}>
+              <Text style={styles.badgeText}>5</Text>
+            </View>
+             )}
+          </TouchableOpacity>
         </View>
       </View>
 

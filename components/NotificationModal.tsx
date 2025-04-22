@@ -1,13 +1,21 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Modal, FlatList, ScrollView } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { Image } from 'expo-image';
-import appFonts from '@/constants/Font';
-import { appColors } from '@/constants/Color';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Modal,
+  FlatList,
+  ScrollView,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { Image } from "expo-image";
+import appFonts from "@/constants/Font";
+import { appColors } from "@/constants/Color";
 
 interface NotificationItem {
   id: string;
-  type: 'discount' | 'test_drive' | 'message' | 'sold' | 'promo' | 'offer';
+  type: "discount" | "test_drive" | "message" | "sold" | "promo" | "offer";
   title: string;
   description: string;
   time: string;
@@ -30,36 +38,43 @@ interface NotificationModalProps {
 const NotificationModal: React.FC<NotificationModalProps> = ({
   isVisible,
   onClose,
-  notifications
+  notifications,
 }) => {
-  const [filterType, setFilterType] = useState<'all' | 'unread' | 'promo' | 'offer'>('all');
+  const [filterType, setFilterType] = useState<
+    "all" | "unread" | "promo" | "offer"
+  >("all");
+  const [showSortOptions, setShowSortOptions] = useState(false);
+
+  const toggleSortOptions = () => {
+    setShowSortOptions(!showSortOptions);
+  };
 
   const getIcon = (type: string) => {
-    switch(type) {
-      case 'discount':
-      case 'promo':
+    switch (type) {
+      case "discount":
+      case "promo":
         return (
           <View style={styles.circleIconBlue}>
             <Ionicons name="pricetag-outline" size={24} color="#FFFFFF" />
           </View>
         );
-      case 'test_drive':
+      case "test_drive":
         return (
           <View style={styles.circleIconDark}>
             <Ionicons name="car-outline" size={24} color="#FFFFFF" />
           </View>
         );
-      case 'message':
+      case "message":
         return (
-          <Image 
-            source={{ uri: 'https://randomuser.me/api/portraits/men/32.jpg' }}
+          <Image
+            source={{ uri: "https://randomuser.me/api/portraits/men/32.jpg" }}
             style={styles.profileImage}
           />
         );
-      case 'sold':
+      case "sold":
         return (
-          <Image 
-            source={require('@/assets/images/Signup/car.png')}
+          <Image
+            source={require("@/assets/images/Signup/car.png")}
             style={styles.carImage}
           />
         );
@@ -90,14 +105,18 @@ const NotificationModal: React.FC<NotificationModalProps> = ({
     <Text style={styles.sectionHeader}>{title}</Text>
   );
 
-  const filteredNotifications = notifications.filter(notification => {
-    if (filterType === 'all') return true;
-    if (filterType === 'unread') return !notification.isRead;
+  const filteredNotifications = notifications.filter((notification) => {
+    if (filterType === "all") return true;
+    if (filterType === "unread") return !notification.isRead;
     return notification.type === filterType;
   });
 
-  const todayNotifications = filteredNotifications.filter(item => item.isToday);
-  const weekNotifications = filteredNotifications.filter(item => !item.isToday);
+  const todayNotifications = filteredNotifications.filter(
+    (item) => item.isToday
+  );
+  const weekNotifications = filteredNotifications.filter(
+    (item) => !item.isToday
+  );
 
   return (
     <Modal
@@ -112,7 +131,7 @@ const NotificationModal: React.FC<NotificationModalProps> = ({
         onPress={onClose}
       >
         <View style={styles.modalContainer}>
-          <TouchableOpacity 
+          <TouchableOpacity
             activeOpacity={1}
             onPress={(e) => e.stopPropagation()}
             style={styles.modalContent}
@@ -122,71 +141,112 @@ const NotificationModal: React.FC<NotificationModalProps> = ({
               <TouchableOpacity style={styles.checkAllButton}>
                 <Ionicons name="checkmark-done" size={24} color="#4F46E5" />
               </TouchableOpacity>
+              <View style={styles.headerRightSection}>
+                <TouchableOpacity
+                  style={styles.sortByContainer}
+                  onPress={toggleSortOptions}
+                >
+                  <Text style={styles.title}>Sort by</Text>
+                  <Ionicons
+                    name={showSortOptions ? "chevron-up" : "chevron-down"}
+                    size={20}
+                    color="#6B7280"
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
 
-            <View style={styles.divider} />
+            {/* Sort options */}
+            {showSortOptions && (
+              <View style={styles.sortOptionsContainer}>
+                <TouchableOpacity
+                  style={styles.filterOption}
+                  onPress={() => setFilterType("all")}
+                >
+                  <Text style={styles.filterOptionText}>All notifications</Text>
+                  <View
+                    style={[
+                      styles.radioButton,
+                      filterType === "all" && styles.radioButtonSelected,
+                    ]}
+                  >
+                    {filterType === "all" && (
+                      <View style={styles.radioButtonInner} />
+                    )}
+                  </View>
+                </TouchableOpacity>
 
-            <View style={styles.filterSection}>
-              <Text style={styles.filterTitle}>Sort by</Text>
-              <Ionicons name="chevron-up" size={24} color="#6B7280" />
-            </View>
+                <TouchableOpacity
+                  style={styles.filterOption}
+                  onPress={() => setFilterType("unread")}
+                >
+                  <Text style={styles.filterOptionText}>
+                    Unread notifications
+                  </Text>
+                  <View
+                    style={[
+                      styles.radioButton,
+                      filterType === "unread" && styles.radioButtonSelected,
+                    ]}
+                  >
+                    {filterType === "unread" && (
+                      <View style={styles.radioButtonInner} />
+                    )}
+                  </View>
+                </TouchableOpacity>
 
-            <View style={styles.divider} />
+                <TouchableOpacity
+                  style={styles.filterOption}
+                  onPress={() => setFilterType("promo")}
+                >
+                  <Text style={styles.filterOptionText}>Promo</Text>
+                  <View
+                    style={[
+                      styles.radioButton,
+                      filterType === "promo" && styles.radioButtonSelected,
+                    ]}
+                  >
+                    {filterType === "promo" && (
+                      <View style={styles.radioButtonInner} />
+                    )}
+                  </View>
+                </TouchableOpacity>
 
-            <TouchableOpacity 
-              style={styles.filterOption}
-              onPress={() => setFilterType('all')}
-            >
-              <Text style={styles.filterOptionText}>All notifications</Text>
-              <View style={[styles.radioButton, filterType === 'all' && styles.radioButtonSelected]}>
-                {filterType === 'all' && <View style={styles.radioButtonInner} />}
+                <TouchableOpacity
+                  style={styles.filterOption}
+                  onPress={() => setFilterType("offer")}
+                >
+                  <Text style={styles.filterOptionText}>Offer</Text>
+                  <View
+                    style={[
+                      styles.radioButton,
+                      filterType === "offer" && styles.radioButtonSelected,
+                    ]}
+                  >
+                    {filterType === "offer" && (
+                      <View style={styles.radioButtonInner} />
+                    )}
+                  </View>
+                </TouchableOpacity>
               </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity 
-              style={styles.filterOption}
-              onPress={() => setFilterType('unread')}
-            >
-              <Text style={styles.filterOptionText}>Unread notifications</Text>
-              <View style={[styles.radioButton, filterType === 'unread' && styles.radioButtonSelected]}>
-                {filterType === 'unread' && <View style={styles.radioButtonInner} />}
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity 
-              style={styles.filterOption}
-              onPress={() => setFilterType('promo')}
-            >
-              <Text style={styles.filterOptionText}>Promo</Text>
-              <View style={[styles.radioButton, filterType === 'promo' && styles.radioButtonSelected]}>
-                {filterType === 'promo' && <View style={styles.radioButtonInner} />}
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity 
-              style={styles.filterOption}
-              onPress={() => setFilterType('offer')}
-            >
-              <Text style={styles.filterOptionText}>Offer</Text>
-              <View style={[styles.radioButton, filterType === 'offer' && styles.radioButtonSelected]}>
-                {filterType === 'offer' && <View style={styles.radioButtonInner} />}
-              </View>
-            </TouchableOpacity>
-
-            <View style={styles.divider} />
+            )}
 
             <ScrollView style={styles.notificationList}>
               {todayNotifications.length > 0 && (
                 <>
-                  {renderSectionHeader('Today')}
-                  {todayNotifications.map(item => renderNotificationItem({ item }))}
+                  {renderSectionHeader("Today")}
+                  {todayNotifications.map((item) =>
+                    renderNotificationItem({ item })
+                  )}
                 </>
               )}
 
               {weekNotifications.length > 0 && (
                 <>
-                  {renderSectionHeader('This Week')}
-                  {weekNotifications.map(item => renderNotificationItem({ item }))}
+                  {renderSectionHeader("This Week")}
+                  {weekNotifications.map((item) =>
+                    renderNotificationItem({ item })
+                  )}
                 </>
               )}
             </ScrollView>
@@ -200,57 +260,77 @@ const NotificationModal: React.FC<NotificationModalProps> = ({
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "flex-end",
   },
   modalContainer: {
-    height: '100%',
-    width: '30%',
-    backgroundColor: 'white',
+    height: "100%",
+    width: "30%",
+    backgroundColor: "white",
   },
   modalContent: {
     flex: 1,
     padding: 20,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 15,
   },
+  headerRightSection: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 16,
+  },
+  sortByContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 24,
+    paddingHorizontal:24,
+    paddingVertical:12,
+    borderWidth:1,
+    borderColor:appColors.GreyScale[200],
+    borderRadius:5,
+  },
+
   title: {
-    fontSize: 24,
+    fontSize: 18,
     fontFamily: appFonts.UrbanistBold,
     color: appColors.GreyScale[900],
   },
   checkAllButton: {
     padding: 5,
   },
-  divider: {
-    height: 1,
-    backgroundColor: appColors.GreyScale[200],
-    marginVertical: 15,
-  },
-  filterSection: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  filterTitle: {
-    fontSize: 20,
-    fontFamily: appFonts.UrbanistBold,
-    color: appColors.GreyScale[900],
+ 
+  sortOptionsContainer: {
+    position: "absolute",
+    top: 65,
+    right: 10,
+    zIndex: 10,
+    backgroundColor: "white",
+    width: 250,
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 4,
+    paddingHorizontal:24,
+    paddingVertical:12,
+
+
   },
   filterOption: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical:24
   },
   filterOptionText: {
     fontSize: 16,
-    fontFamily: appFonts.UrbanistMedium,
+    fontFamily: appFonts.UrbanistBold,
     color: appColors.GreyScale[900],
   },
   radioButton: {
@@ -259,8 +339,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 2,
     borderColor: appColors.GreyScale[300],
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   radioButtonSelected: {
     borderColor: appColors.main.Primary,
@@ -272,7 +352,7 @@ const styles = StyleSheet.create({
     backgroundColor: appColors.main.Primary,
   },
   notificationList: {
-    marginTop: 10,
+    flex: 1,
   },
   sectionHeader: {
     fontSize: 18,
@@ -282,38 +362,8 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   notificationItem: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 20,
-  },
-  circleIconBlue: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: '#4F46E5',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 12,
-  },
-  circleIconDark: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: '#1F2937',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 12,
-  },
-  profileImage: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    marginRight: 12,
-  },
-  carImage: {
-    width: 48,
-    height: 48,
-    borderRadius: 8,
-    marginRight: 12,
   },
   notificationContent: {
     flex: 1,
@@ -331,14 +381,44 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   timeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   timeText: {
     fontSize: 12,
     fontFamily: appFonts.UrbanistRegular,
     color: appColors.GreyScale[500],
     marginLeft: 4,
+  },
+  circleIconBlue: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: "#4F46E5",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 12,
+  },
+  circleIconDark: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: "#1F2937",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 12,
+  },
+  profileImage: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    marginRight: 12,
+  },
+  carImage: {
+    width: 48,
+    height: 48,
+    borderRadius: 8,
+    marginRight: 12,
   },
 });
 
