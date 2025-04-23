@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { appColors } from '@/constants/Color';
+import appFonts from '@/constants/Font';
 
 interface DropDownProps {
   label: string;
@@ -50,7 +51,7 @@ const DropDownComponent: React.FC<DropDownProps> = ({ label, options, onSelect }
     <View style={styles.container}>
       <TouchableOpacity style={styles.header} onPress={toggleDropdown}>
         <Text style={styles.label}>
-          {selected ? selected : `Select ${label}`}
+          {selected ? selected : `${label}`}
         </Text>
         <AntDesign name={open ? 'up' : 'down'} size={18} color={appColors.GreyScale[900]} />
       </TouchableOpacity>
@@ -92,7 +93,8 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
-    color:appColors.GreyScale[900]
+    color:appColors.GreyScale[900],
+    fontFamily:appFonts.UrbanistBold
   },
   dropdown: {
     overflow: 'hidden'

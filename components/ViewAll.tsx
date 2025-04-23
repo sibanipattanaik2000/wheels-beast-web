@@ -38,7 +38,7 @@ const ViewAllButton = ({ onPress, showAll, title }: ViewAllButtonProps) => {
             fontFamily: appFonts.UrbanistBold,
           }}
         >
-          {showAll ? "Show Less" : "View All"}
+          {showAll ? "View All" : "Show Less"}
         </Text>
       </TouchableOpacity>
     </View>
