@@ -1,21 +1,24 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import EditProfileSidebar from '@/components/EditProfileSidebar';
-import { appColors } from '@/constants/Color';
-import CustomSafeArea from '@/components/CustomSafeArea';
-import appFonts from '@/constants/Font';
+import React from "react";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
+import EditProfileSidebar from "@/components/EditProfileSidebar";
+import { appColors } from "@/constants/Color";
+import CustomSafeArea from "@/components/CustomSafeArea";
+import appFonts from "@/constants/Font";
+import { FontAwesome5, Ionicons } from "@expo/vector-icons";
+import TextInput from "@/components/TextInput";
+import VoucherCard from "@/components/VoucherCard";
 
 const MyVoucher = () => {
   // Sample user data
   const userData = {
-    name: 'Saski Ropokova',
-    role: 'Buyer\'s Account',
-    image: require('@/assets/images/Profile/avtar.png'), // Make sure this image exists
+    name: "Saski Ropokova",
+    role: "Buyer's Account",
+    image: require("@/assets/images/Profile/avtar.png"), // Make sure this image exists
   };
 
   return (
     <CustomSafeArea>
-      <ScrollView showsVerticalScrollIndicator={false} style={{flex:1}}>
+      <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
         <View style={styles.container}>
           {/* Left sidebar */}
           <View>
@@ -28,16 +31,38 @@ const MyVoucher = () => {
 
           {/* Right content */}
           <View style={styles.contentContainer}>
-            <View style={styles.contentCard}>
-              <Text style={styles.title}>My Vouchers</Text>
-              <Text style={styles.subtitle}>View and redeem your vouchers</Text>
-              
-              {/* Placeholder content */}
-              <View style={styles.placeholderContent}>
-                <Text style={styles.placeholderText}>
-                  Your vouchers will be displayed here
-                </Text>
+            <View
+              style={{ paddingVertical: 47, gap: 36, paddingHorizontal: 24 }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text style={styles.title}>My Vouchers</Text>
+                <Ionicons
+                  name="help-circle-outline"
+                  size={20}
+                  color={appColors.GreyScale[500]}
+                />
               </View>
+              <TextInput
+                placeholder="Enter promo code"
+                value={""}
+                onChangeText={() => {}}
+                style={{ width: "40%" }}
+              />
+              {/* add voucher card */}
+              <VoucherCard
+                backgroundColor="#3A2CFF"
+                icon={<FontAwesome5 name="car" size={24} color="#fff" />}
+                hashtag="#summersale"
+                title="Save up to $3,000 on sale car"
+                couponCode="TOYTA25"
+                validUntil="July 15, 2025"
+                minTransaction="$10,000.00"
+              />
             </View>
           </View>
         </View>
@@ -49,7 +74,7 @@ const MyVoucher = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     backgroundColor: appColors.GreyScale[50],
     paddingHorizontal: 70,
     paddingVertical: 47,
@@ -57,12 +82,13 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     shadowColor: appColors.GreyScale[500],
-    shadowOffset: {width: 0, height: 2},
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
     borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
+    backgroundColor: appColors.AdditionalColor.white,
   },
   contentCard: {
     flex: 1,
@@ -86,8 +112,8 @@ const styles = StyleSheet.create({
   },
   placeholderContent: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: appColors.GreyScale[50],
     borderRadius: 8,
     padding: 24,
@@ -96,8 +122,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: appFonts.UrbanistMedium,
     color: appColors.GreyScale[500],
-    textAlign: 'center',
+    textAlign: "center",
   },
 });
 
-export default MyVoucher; 
+export default MyVoucher;

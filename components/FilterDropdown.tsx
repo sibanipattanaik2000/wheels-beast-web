@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 38,
     paddingVertical: 8,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: appColors.GreyScale[50],
     borderRadius: 12,
     gap: 4,
     borderWidth: 1,
