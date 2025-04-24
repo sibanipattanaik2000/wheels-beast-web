@@ -15,7 +15,7 @@ import Footer from "@/components/Footer";
 
 const carData = [
   {
-    image: require("@/assets/images/Signup/car.png"),
+    image: require("@/assets/images/brand/bluecar.png"),
     brand: "Ferrari 488 Spider",
     price: "$120,000",
     fuelType: "Automatic",
@@ -23,98 +23,63 @@ const carData = [
     
   },
   {
-    image: require("@/assets/images/Signup/car.png"),
+    image: require("@/assets/images/brand/bluecar.png"),
     brand: "Audi A8 Quattro",
     price: "$115,000",
     fuelType: "Manual",
     brandicon: require("@/assets/images/carlist/Audi.png"),
   },
   {
-    image: require("@/assets/images/Signup/car.png"),
+    image: require("@/assets/images/brand/bluecar.png"),
     brand: "Ferrari 488 Spider",
     price: "$130,000",
     fuelType: "Automatic",
     brandicon: require("@/assets/images/carlist/Ferrari.png"),
   },
   {
-    image: require("@/assets/images/Signup/car.png"),
+    image: require("@/assets/images/brand/bluecar.png"),
     brand: "Audi A8 Quattro",
     price: "$130,000",
     fuelType: "Automatic",
     brandicon: require("@/assets/images/carlist/Audi.png"),
   },
   {
-    image: require("@/assets/images/Signup/car.png"),
+    image: require("@/assets/images/brand/bluecar.png"),
     brand: "Audi A8 Quattro",
     price: "$130,000",
     fuelType: "Automatic",
     brandicon: require("@/assets/images/carlist/Audi.png"),
   },
   {
-    image: require("@/assets/images/Signup/car.png"),
+    image: require("@/assets/images/brand/bluecar.png"),
     brand: "Audi A8 Quattro",
     price: "$130,000",
     fuelType: "Automatic",
     brandicon: require("@/assets/images/carlist/Audi.png"),
   },
   {
-    image: require("@/assets/images/Signup/car.png"),
+    image: require("@/assets/images/brand/bluecar.png"),
     brand: "Audi A8 Quattro",
     price: "$130,000",
     fuelType: "Automatic",
     brandicon: require("@/assets/images/carlist/Audi.png"),
   },
   {
-    image: require("@/assets/images/Signup/car.png"),
+    image: require("@/assets/images/brand/bluecar.png"),
     brand: "Audi A8 Quattro",
     price: "$130,000",
     fuelType: "Automatic",
     brandicon: require("@/assets/images/carlist/Audi.png"),
   },
   {
-    image: require("@/assets/images/Signup/car.png"),
+    image: require("@/assets/images/brand/bluecar.png"),
     brand: "Audi A8 Quattro",
     price: "$130,000",
     fuelType: "Automatic",
     brandicon: require("@/assets/images/carlist/Audi.png"),
   },
   {
-    image: require("@/assets/images/Signup/car.png"),
-    brand: "Audi A8 Quattro",
-    price: "$130,000",
-    fuelType: "Automatic",
-    brandicon: require("@/assets/images/carlist/Audi.png"),
-  },
-  {
-    image: require("@/assets/images/Signup/car.png"),
-    brand: "Audi A8 Quattro",
-    price: "$130,000",
-    fuelType: "Automatic",
-    brandicon: require("@/assets/images/carlist/Audi.png"),
-  },
-  {
-    image: require("@/assets/images/Signup/car.png"),
-    brand: "Audi A8 Quattro",
-    price: "$130,000",
-    fuelType: "Automatic",
-    brandicon: require("@/assets/images/carlist/Audi.png"),
-  },
-  {
-    image: require("@/assets/images/Signup/car.png"),
-    brand: "Audi A8 Quattro",
-    price: "$130,000",
-    fuelType: "Automatic",
-    brandicon: require("@/assets/images/carlist/Audi.png"),
-  },
-  {
-    image: require("@/assets/images/Signup/car.png"),
-    brand: "Audi A8 Quattro",
-    price: "$130,000",
-    fuelType: "Automatic",
-    brandicon: require("@/assets/images/carlist/Audi.png"),
-  },
-  {
-    image: require("@/assets/images/Signup/car.png"),
+    image: require("@/assets/images/brand/bluecar.png"),
     brand: "Audi A8 Quattro",
     price: "$130,000",
     fuelType: "Automatic",
@@ -140,7 +105,7 @@ const CarListPage = () => {
         <View
           style={{
             paddingHorizontal: 16,
-            backgroundColor: appColors.GreyScale[200],
+            backgroundColor: appColors.GreyScale[100],
             flex: 1,
           }}
         >
@@ -167,21 +132,23 @@ const CarListPage = () => {
             contentContainerStyle={{
               flexWrap: "wrap",
               flexDirection: "row",
-              gap: 50,
+              justifyContent:'space-between',
               paddingHorizontal: 20,
+              gap: 50,
             }}
             showsHorizontalScrollIndicator={false}
           >
             {carData.map((car, index) => (
               <CarCard key={index} {...car} />
             ))}
-            <View style={{ width: "30%", marginTop: 60, marginBottom: 30 ,left:'30%'}}>
+            <View style={{ width: "100%", marginTop: 60, marginBottom: 30 ,alignSelf:'center'}}>
               <Button
                 title="Show More Car"
                 variant="filled"
                 fontWeight="UrbanistBold"
                 color={appColors.AdditionalColor.white}
-                style={{ backgroundColor: appColors.main.Primary }}
+                style={{ backgroundColor: appColors.main.Primary,alignSelf:'center' }}
+                width={'30%'}
               />
             </View>
           </ScrollView>

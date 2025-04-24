@@ -1,9 +1,10 @@
 import Button from "@/components/Button";
 import CustomSafeArea from "@/components/CustomSafeArea";
-import Header from "@/components/Header";
+import Dots from "@/components/Dots";
 import { appColors } from "@/constants/Color";
 import appFonts from "@/constants/Font";
 import { Image } from "expo-image";
+import { Href, router } from "expo-router";
 import React, { useRef, useState } from "react";
 import {
   View,
@@ -17,6 +18,7 @@ import {
 const OTPInput = () => {
   const [otp, setOtp] = useState(["", "", "", ""]);
   const inputs = useRef<Array<TextInput | null>>([]);
+  const [currentIndex, setCurrentIndex] = useState(0); // For slider
 
   const handleChange = (text: string, index: number) => {
     if (/^\d$/.test(text)) {
@@ -33,64 +35,97 @@ const OTPInput = () => {
     }
   };
 
+  // Handle index change from Dots component
+  const handleIndexChange = (index: number) => {
+    setCurrentIndex(index);
+  };
+
   return (
     <CustomSafeArea>
-      <Header type="default" />
-      <ScrollView style={{ flex: 1 }} showsHorizontalScrollIndicator={false}>
-        <View style={{ flex: 1,gap:32 }}>
-          <Image
-            source={require("@/assets/images/Signup/EmptyState.png")}
-            style={{ height: 96, width: 96, alignSelf: "center" }}
-          />
-          <View>
-            <Text
-              style={{
-                fontSize: 48,
-                fontFamily: appFonts.UrbanistBold,
-                color: appColors.GreyScale[900],
-                textAlign: "center",
-              }}
-            >
-              Almost there !
-            </Text>
-            <Text
-              style={{
-                fontSize: 24,
-                fontFamily: appFonts.UrbanistRegular,
-                color: appColors.GreyScale[500],
-                textAlign: "center",
-              }}
-            >
-              Check your email index and input the verification code to verify
-              your account
-            </Text>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={{ width: "100%", flexDirection: "row" }}>
+          {/* Left side with the slider */}
+          <View style={{ width: "50%" }}>
+            <Dots onIndexChange={handleIndexChange} />
           </View>
-          <View style={styles.container}>
-            {otp.map((value, index) => (
-              <TextInput
-                key={index}
-                ref={(ref) => (inputs.current[index] = ref)}
-                value={value}
-                onChangeText={(text) => handleChange(text, index)}
-                maxLength={1}
-                style={styles.input}
-                keyboardType="number-pad"
-                returnKeyType="next"
+          
+          {/* Right side with the form */}
+          <View style={{ width: "50%", paddingHorizontal: 64, paddingTop: 16 }}>
+            {/* Logo */}
+            <View style={{ flexDirection: "row", gap: 7, alignItems: "center", marginBottom: 40 }}>
+              <Image
+                source={require("@/assets/images/Signup/wheel.png")}
+                style={{ height: 40, width: 40 }}
               />
-            ))}
+              <Text
+                style={{
+                  fontSize: 24,
+                  color: appColors.main.SecondaryBase,
+                  fontFamily: appFonts.UrbanistBold,
+                }}
+              >
+                WheelsBeast
+              </Text>
+            </View>
+            
+            {/* Content */}
+            <View style={{ paddingVertical: 40, gap: 32 }}>
+              <Image
+                source={require("@/assets/images/Signup/EmptyState.png")}
+                style={{ height: 96, width: 96, alignSelf: "center" }}
+              />
+              <View>
+                <Text
+                  style={{
+                    fontSize: 48,
+                    fontFamily: appFonts.UrbanistBold,
+                    color: appColors.GreyScale[900],
+                    textAlign: "center",
+                  }}
+                >
+                  Almost there !
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 24,
+                    fontFamily: appFonts.UrbanistRegular,
+                    color: appColors.GreyScale[500],
+                    textAlign: "center",
+                  }}
+                >
+                  Check your email inbox and input the verification code to verify
+                  your account
+                </Text>
+              </View>
+              <View style={styles.container}>
+                {otp.map((value, index) => (
+                  <TextInput
+                    key={index}
+                    ref={(ref) => (inputs.current[index] = ref)}
+                    value={value}
+                    onChangeText={(text) => handleChange(text, index)}
+                    maxLength={1}
+                    style={styles.input}
+                    keyboardType="number-pad"
+                    returnKeyType="next"
+                  />
+                ))}
+              </View>
+              <Button
+                title="Continue"
+                variant="filled"
+                color={appColors.AdditionalColor.white}
+                style={{ backgroundColor: appColors.main.Primary }}
+                onPress={() => router.push("/home" as Href)}
+              />
+              <Button
+                title="Resend Code"
+                variant="outlined"
+                color={appColors.main.Primary}
+                borderColor={appColors.main.Primary}
+              />
+            </View>
           </View>
-          <Button
-            title="Continue"
-            variant="filled"
-            color={appColors.AdditionalColor.white}
-            style={{ backgroundColor: appColors.main.Primary }}
-          />
-          <Button
-            title="Resend Code"
-            variant="outlined"
-            color={appColors.main.Primary}
-            borderColor={appColors.main.Primary}
-          />
         </View>
       </ScrollView>
     </CustomSafeArea>

@@ -31,15 +31,14 @@ const CarCard = ({
 
   const styles = StyleSheet.create({
     card: {
-      width: 300,
+      width: 250,
       height: 270,
-      backgroundColor: "white",
       borderRadius: 20,
       padding: 20,
       gap: 8,
-      shadowColor: "#000",
-      shadowOpacity: 0.1,
-      shadowRadius: 5,
+      borderWidth:1,
+      borderColor:appColors.GreyScale[200],
+      backgroundColor:appColors.AdditionalColor.white
     },
   });
 
@@ -76,7 +75,7 @@ const CarCard = ({
         </TouchableOpacity>
       </View>
 
-      <Image source={image} style={{ height: "40%", width: "100%" }} />
+      <Image source={image} style={{ height: "40%", width: "100%" ,resizeMode:'contain'}} />
 
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <Text
@@ -163,7 +162,7 @@ const CarCard = ({
             style={{
               fontSize: 14,
               fontFamily: appFonts.UrbanistBold,
-              color: appColors.main.Primary,
+              color: appColors.GreyScale[900],
             }}
           >
             {price}
@@ -174,22 +173,23 @@ const CarCard = ({
          {type === "home" && (
           <TouchableOpacity
             style={{
-              paddingHorizontal: 10,
-              paddingVertical: 4,
+             justifyContent:'center',
+             alignItems:'center',
               borderColor: appColors.main.Primary,
-              borderRadius: 8,
-              borderWidth:1
+              borderRadius: 16,
+              borderWidth:1,
+              height:40,
             }}
           >
             <Text
               style={{
-                fontSize: 10,
+                fontSize: 16,
                 color: appColors.main.Primary,
                 fontFamily: appFonts.UrbanistBold,
                 textAlign:'center'
               }}
             >
-              Book Now
+              View April Offers 
             </Text>
           </TouchableOpacity>
         )} 

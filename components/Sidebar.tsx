@@ -23,7 +23,7 @@ const FilterSection = ({ title, options }: { title: string; options: string[] })
           value={selected.includes(option)}
           onValueChange={() => toggleOption(option)}
           style={[
-            selected.includes(option) && { backgroundColor: "#3563E9",borderRadius:10 },  
+            selected.includes(option) && { backgroundColor: appColors.main.Primary,borderRadius:10 },  
           ]}  
         />
         <Text>{option}</Text>

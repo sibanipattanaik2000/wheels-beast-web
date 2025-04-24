@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: appColors.GreyScale[200],
     width: "100%",
+    backgroundColor:appColors.AdditionalColor.white
   },
   imageContainer: {
     position: "relative",
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
   categoryText: {
     fontFamily: appFonts.UrbanistMedium,
     fontSize: 14,
-    color: appColors.main.Primary,
+    color: appColors.GreyScale[900],
   },
   contentContainer: {
     padding: 16,

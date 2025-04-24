@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import SettingsSidebar, { SettingsSection } from '@/components/SettingsSidebar'
-import AboutContent from '@/components/settings/AboutContent'
+import DarkModeContent from '@/components/settings/DarkModeContent'
 import SidebarContentLayout from '@/components/layout/SidebarContentLayout'
 import PageLayout from '@/components/layout/PageLayout'
-import { navigateToSettingPage } from '@/components/settings/SettingsNavHelper'
-import { ScrollView } from 'react-native'
 import CustomSafeArea from '@/components/CustomSafeArea'
+import { ScrollView } from 'react-native'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import { navigateToSettingPage } from '@/components/settings/SettingsNavHelper'
 
-export default function AboutPage() {
-  const [activeSetting, setActiveSetting] = useState<SettingsSection>('about')
+export default function DarkModePage() {
+  const [activeSetting, setActiveSetting] = useState<SettingsSection>('dark_mode')
 
   const handleSelectSetting = (setting: SettingsSection) => {
     setActiveSetting(setting) // Update local state first
@@ -18,7 +18,7 @@ export default function AboutPage() {
   }
 
   return (
-   <CustomSafeArea>
+  <CustomSafeArea>
     <Header type="home" />
     <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
     <SidebarContentLayout
@@ -28,11 +28,12 @@ export default function AboutPage() {
             onSelectSetting={handleSelectSetting} 
           />
         }
-        content={<AboutContent />}
+        content={<DarkModeContent />}
       />
       <Footer />
     </ScrollView>
-   </CustomSafeArea>
+  </CustomSafeArea>
       
+   
   )
 } 

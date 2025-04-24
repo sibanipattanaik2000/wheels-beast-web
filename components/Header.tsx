@@ -6,6 +6,7 @@ import appFonts from '@/constants/Font';
 import SearchBar from '@/components/Searchbar';
 import Button from './Button';
 import NotificationModal from './NotificationModal';
+import { Href, router } from 'expo-router';
 
 // Sample notification data
 const sampleNotifications = [
@@ -206,6 +207,7 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
           borderColor={appColors.main.Primary}
           width="20%"
           color={appColors.main.Primary}
+          onPress={()=> router.push('/Auth/SignIn' as Href)}
         />
       </View>
 
@@ -224,9 +226,18 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
             justifyContent: 'space-between',
           }}
         >
+          <TouchableOpacity onPress={()=> router.push('/home' as Href)}>
+
           <Text style={styles.text}>Home</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=> router.push('/favourites' as Href)}>
+
           <Text style={styles.text}>Favourite</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=> router.push('/favourites' as Href)}>
+
           <Text style={styles.text}>Favourite</Text>
+          </TouchableOpacity>
           
          
           

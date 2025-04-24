@@ -18,7 +18,7 @@ const carData = [
     price: "$120,000",
     fuelType: "Automatic",
     brandicon: require("@/assets/images/carlist/Ferrari.png"),
-    isLiked: false,
+    isLiked: true,
   },
   {
     image: require("@/assets/images/Signup/car.png"),
