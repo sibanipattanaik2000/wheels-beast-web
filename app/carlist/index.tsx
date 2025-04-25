@@ -12,6 +12,7 @@ import { AntDesign } from "@expo/vector-icons"; // for arrow icon
 import Search from "@/components/Searchbar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { Href, useRouter } from "expo-router";
 
 const carData = [
   {
@@ -89,7 +90,7 @@ const carData = [
 
 const CarListPage = () => {
   const [showPrivacy, setShowPrivacy] = useState(false);
-
+const router = useRouter()
   const togglePrivacy = () => {
     setShowPrivacy((prev) => !prev);
   };
@@ -149,6 +150,7 @@ const CarListPage = () => {
                 color={appColors.AdditionalColor.white}
                 style={{ backgroundColor: appColors.main.Primary,alignSelf:'center' }}
                 width={'30%'}
+                onPress={()=> router.push('/brand-car' as Href)}
               />
             </View>
           </ScrollView>

@@ -108,6 +108,7 @@ const NotificationModal: React.FC<NotificationModalProps> = ({
   const filteredNotifications = notifications.filter((notification) => {
     if (filterType === "all") return true;
     if (filterType === "unread") return !notification.isRead;
+    if (filterType === "offer") return notification.type === "discount";
     return notification.type === filterType;
   });
 
@@ -235,18 +236,22 @@ const NotificationModal: React.FC<NotificationModalProps> = ({
               {todayNotifications.length > 0 && (
                 <>
                   {renderSectionHeader("Today")}
-                  {todayNotifications.map((item) =>
-                    renderNotificationItem({ item })
-                  )}
+                  {todayNotifications.map((item) => (
+                    <React.Fragment key={item.id}>
+                      {renderNotificationItem({ item })}
+                    </React.Fragment>
+                  ))}
                 </>
               )}
 
               {weekNotifications.length > 0 && (
                 <>
                   {renderSectionHeader("This Week")}
-                  {weekNotifications.map((item) =>
-                    renderNotificationItem({ item })
-                  )}
+                  {weekNotifications.map((item) => (
+                    <React.Fragment key={item.id}>
+                      {renderNotificationItem({ item })}
+                    </React.Fragment>
+                  ))}
                 </>
               )}
             </ScrollView>

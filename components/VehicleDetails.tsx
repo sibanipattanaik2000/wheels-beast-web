@@ -14,6 +14,7 @@ import { Ionicons } from "@expo/vector-icons";
 import DropDownComponent from "@/components/Dropdown";
 import FeatureCard from "./FeatureCard";
 import ShareModal from "./ShareModal";
+import { Href, useRouter } from "expo-router";
 
 interface VehicleDetailsProps {
   vehicle: {
@@ -113,6 +114,7 @@ const notablefeatures = [
 ];
 
 const VehicleDetails = ({ vehicle }: VehicleDetailsProps) => {
+  const router = useRouter();
   const [activeImage, setActiveImage] = useState(0);
   const [expandedSection, setExpandedSection] = useState<string | null>(
     "vehicle-details"
@@ -254,6 +256,7 @@ const VehicleDetails = ({ vehicle }: VehicleDetailsProps) => {
             color={appColors.AdditionalColor.white}
             style={styles.testDriveButton}
             width="40%"
+            onPress={()=> router.push("/schedule_drive" as Href)}
           />
 
           {/* Price and Buy Section */}
@@ -519,7 +522,7 @@ const VehicleDetails = ({ vehicle }: VehicleDetailsProps) => {
               <Text style={styles.detailValue}>{vehicle.finance?.monthlyPayment || "$1,075"}</Text>
             </View>
             </View>
-            <Button title="Credit Simulation" variant="outlined" />
+            <Button title="Credit Simulation" variant="outlined"  onPress={()=> router.push("/detail-car" as Href)}/>
           </View>
         )}
       </View>

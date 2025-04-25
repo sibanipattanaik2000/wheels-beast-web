@@ -1,130 +1,189 @@
-import { View, Text, useWindowDimensions,Platform, ScrollView, } from "react-native";
-import React, { useRef, useState } from "react";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { View, Text, useWindowDimensions, StyleSheet } from "react-native";
+import React, { useState } from "react";
 import { appColors } from "@/constants/Color";
 import appFonts from "@/constants/Font";
-import TextInput from "./TextInput";
-import CustomSlider from "./CustomSlider";
+import Slider from "./slider";
 
-interface card{
+interface card {
   setScrollEnabled?: (enabled: boolean) => void;
-  onAmountChange?: (amount: string) => void; 
-  onSliderChange?: (value: number) => void;   
+  onAmountChange?: (amount: string) => void;
+  onDownPaymentChange?: (value: number) => void;
+  onTenorChange?: (value: number) => void;
   width?: number;
   label?: string;
   sliderColor?: string;
+  vehicle?: {
+    price: number;
+  };
 }
 
 const CommissionCard = ({
   setScrollEnabled,
   onAmountChange,
-  onSliderChange,
+  onDownPaymentChange,
+  onTenorChange,
   width,
-  label = "Commission",
-  sliderColor
-}:card) => {
+  label,
+  sliderColor,
+  vehicle = { price: 80000 },
+}: card) => {
   const { width: screenWidth } = useWindowDimensions();
   const cardWidth = width || screenWidth - 32;
-  const [rawAmount, setRawAmount] = useState("");
-  const [formattedAmount, setFormattedAmount] = useState("0");
-  // Function to format a string of digits with commas
-  const formatWithCommas = (value:string):string => {
-    if (!value) return ""; // Handle empty input
-    return value.replace(/\B(?=(\d{3})+(?!\d))/g, ",") ;
-  };
+  
+  // State for down payment slider
+  const [downPaymentPercent, setDownPaymentPercent] = useState(15);
+  const downPaymentAmount = Math.round((downPaymentPercent / 100) * vehicle.price);
+  
+  // State for loan tenor slider
+  const [tenorPercent, setTenorPercent] = useState(50);
+  const tenorYears = Math.ceil((tenorPercent / 100) * 10); // Max 10 years
 
-  // Handler for text input changes
-  const handleAmountChange = (text:string):void => {
-    // Remove all non-digit characters
+  // Handle down payment slider change
+  const handleDownPaymentChange = (value: number): void => {
+    setDownPaymentPercent(value);
     
-    const newRawAmount = text.replace(/[^0-9]/g, "");
-    // Limit to 15 digits
-    if (newRawAmount.length <= 15) {
-      setRawAmount(newRawAmount);
-      setFormattedAmount(formatWithCommas(newRawAmount));
+    if (onDownPaymentChange) {
+      onDownPaymentChange(value);
     }
-
-    if (onAmountChange) {
-      onAmountChange(newRawAmount);
-    }
-
   };
-
-  const [sliderValue,setSliderValue]=useState(0)
-
-
-  const handleSliderChange = (value: number): void => {
-    setSliderValue(value);
-
-    // Send sliderValue to parent
-    if (onSliderChange) {
-      onSliderChange(value);
+  
+  // Handle tenor slider change
+  const handleTenorChange = (value: number): void => {
+    setTenorPercent(value);
+    
+    if (onTenorChange) {
+      onTenorChange(value);
     }
   };
 
+  // Format currency with commas
+  const formatCurrency = (amount: number): string => {
+    return amount.toLocaleString('en-US', { 
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2 
+    });
+  };
 
 
-
+  const styles = StyleSheet.create({
+    text: {
+      fontSize: 14,
+      fontFamily: appFonts.UrbanistMedium,
+      color: appColors.GreyScale[900]
+    }
+  })
   return (
     <View
       style={{
-        width: cardWidth/3,
+        width: cardWidth/2.8,
         backgroundColor: appColors.AdditionalColor.white,
-        marginTop: 40,
         borderRadius: 15,
-        gap: 12,
         padding: 15,
         alignSelf: "center",
-        elevation:3,
-        shadowColor:"#000",
-        shadowOffset:{width:0, height:1},
-        shadowOpacity:0.2,
-        shadowRadius:2
+        elevation: 3,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.2,
+        shadowRadius: 2,
+        overflow: "hidden"
       }}
     >
-     
-
-      {/* Slider */}
-      <View style={{ marginBottom: 25 }}>
-        <CustomSlider 
-         onValueChange={handleSliderChange} 
-          label={label} 
-          sliderWidth={cardWidth/4}
-          knobColor={sliderColor}
-          progressColor={sliderColor}
+      {/* Down Payment Section */}
+      <View style={{ marginBottom: 20 }}>
+        <Text
+          style={{
+            fontSize: 16,
+            fontFamily: appFonts.UrbanistSemiBold,
+            color: appColors.GreyScale[900],
+            marginBottom: 15
+          }}
+        >
+          Down payment
+        </Text>
+        
+        <Slider 
+          onValueChange={handleDownPaymentChange} 
+          sliderbgColor={appColors.GreyScale[300]} 
+          fillColor={appColors.main.Primary}
         />
-      </View>
-
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <View>
+        
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginTop: 10
+          }}
+        >
+          <Text
+            style={styles.text}
+          >
+            {Math.round(downPaymentPercent)}%
+          </Text>
           <Text
             style={{
-              fontSize: 14,
-              fontFamily: appFonts.UrbanistMedium,
-              color:appColors.GreyScale[900]
+              fontSize: 16,
+              fontFamily: appFonts.UrbanistSemiBold,
+              color: appColors.GreyScale[900]
             }}
           >
-            {Math.round(sliderValue)}%
+            ${formatCurrency(downPaymentAmount)}
           </Text>
-          
         </View>
-        <View>
+      </View>
+      
+      {/* Divider */}
+      <View 
+        style={{ 
+          height: 1, 
+          backgroundColor: appColors.GreyScale[200],
+          marginVertical: 5
+        }} 
+      />
+      
+      {/* Loan Tenor Section */}
+      <View style={{ marginTop: 20 }}>
+        <Text
+          style={{
+            fontSize: 16,
+            fontFamily: appFonts.UrbanistSemiBold,
+            color: appColors.GreyScale[900],
+            marginBottom: 15
+          }}
+        >
+          Loan tenor
+        </Text>
+        
+        <Slider 
+          onValueChange={handleTenorChange} 
+          sliderbgColor={appColors.GreyScale[300]} 
+          fillColor={appColors.alert.Success}
+        />
+        
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginTop: 10
+          }}
+        >
           <Text
             style={{
               fontSize: 14,
               fontFamily: appFonts.UrbanistMedium,
-              color:appColors.GreyScale[900],
-              textAlign:"right"
+              color: appColors.GreyScale[900]
             }}
           >
-            {100 - Math.round(sliderValue)}%
+            Tenor
           </Text>
-       
+          <Text
+            style={{
+              fontSize: 16,
+              fontFamily: appFonts.UrbanistSemiBold,
+              color: appColors.GreyScale[900]
+            }}
+          >
+            {tenorYears} year{tenorYears !== 1 ? 's' : ''}
+          </Text>
         </View>
       </View>
     </View>

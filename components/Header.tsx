@@ -197,9 +197,9 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
           </View>
         </View>
 
-        <View style={{ width: '30%', justifyContent: 'center' }}>
+        <TouchableOpacity style={{ width: '30%', justifyContent: 'center' }} onPress={()=> router.push('/searchcar' as Href)}>
           <SearchBar />
-        </View>
+        </TouchableOpacity>
 
         <Button
           title="Login/ SignUp"
@@ -213,7 +213,7 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
 
       <View
         style={{
-          borderWidth: 2,
+          borderTopWidth: 2,
           borderColor: '#C3D4E966',
           padding: 24,
         }}
@@ -294,7 +294,6 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
            {/* Notification Bell */}
            <TouchableOpacity 
             onPress={toggleNotifications}
-            style={{ position: 'relative',alignSelf:'flex-end' }}
           >
             <Ionicons name="notifications-outline" size={24} color={appColors.GreyScale[900]} />
             {/* Notification Badge */}

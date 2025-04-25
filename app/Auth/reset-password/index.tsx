@@ -5,14 +5,14 @@ import appFonts from '@/constants/Font';
 import TextInput from '@/components/TextInput';
 import CustomSafeArea from '@/components/CustomSafeArea';
 import Button from '@/components/Button';
-import { router } from 'expo-router';
 import Dots from '@/components/Dots';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
 const ResetPassword = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  
+  const router = useRouter();
   // State for password validation
   const [hasMinChars, setHasMinChars] = useState(false);
   const [hasSymbolOrNumber, setHasSymbolOrNumber] = useState(false);

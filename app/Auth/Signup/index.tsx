@@ -15,8 +15,8 @@ import {
   import appFonts from "@/constants/Font";
   import Button from "@/components/Button";
   import Dots from "@/components/Dots";
-  import { router } from "expo-router";
 import Header from "@/components/Header";
+import { useRouter } from "expo-router";
   
   const Signup = () => {
     const { width, height } = useWindowDimensions();
@@ -24,7 +24,7 @@ import Header from "@/components/Header";
     const [password, setPassword] = useState("");
     const [userName, setuserName] = useState("");
     const [currentIndex, setCurrentIndex] = useState(0); // For slider
-  
+    const router = useRouter();
     const styles = StyleSheet.create({
       icon: {
         width: 24,
@@ -166,7 +166,7 @@ import Header from "@/components/Header";
                     fontWeight="UrbanistBold"
                     color={appColors.AdditionalColor.white}
                     style={{ backgroundColor: appColors.main.Primary }}
-                    onPress={() => router.push("/home" as any)}
+                    onPress={() => router.push("/Auth/otp" as any)}
                   />
                   <Button
                     title="Sign up with Google"

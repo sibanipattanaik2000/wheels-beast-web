@@ -4,7 +4,7 @@ import Dots from "@/components/Dots";
 import { appColors } from "@/constants/Color";
 import appFonts from "@/constants/Font";
 import { Image } from "expo-image";
-import { Href, router } from "expo-router";
+import { Href, useRouter } from "expo-router";
 import React, { useRef, useState } from "react";
 import {
   View,
@@ -19,7 +19,7 @@ const OTPInput = () => {
   const [otp, setOtp] = useState(["", "", "", ""]);
   const inputs = useRef<Array<TextInput | null>>([]);
   const [currentIndex, setCurrentIndex] = useState(0); // For slider
-
+  const router = useRouter();
   const handleChange = (text: string, index: number) => {
     if (/^\d$/.test(text)) {
       const newOtp = [...otp];

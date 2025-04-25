@@ -1,22 +1,50 @@
 import { View, Text, ScrollView } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CustomSafeArea from "@/components/CustomSafeArea";
 import Header from "@/components/Header";
 import appFonts from "@/constants/Font";
 import { appColors } from "@/constants/Color";
 import Button from "@/components/Button";
-import CustomSlider from "@/components/CustomSlider";
 import CommissionCard from "@/components/CommissionCard";
+import Footer from "@/components/Footer";
 
 const productDetails = [
   { label: "Product Type", value: "Audi Q7 50 Quattro" },
   { label: "Fuel Type", value: "Petrol" },
   { label: "Transmission", value: "Automatic" },
 ];
+
 const DetailCar = () => {
   const [scrollEnabled, setScrollEnabled] = useState(true);
-  const [amount, setAmount] = useState("");
-  const [percentage, setPercentage] = useState(0);
+  const [downPaymentPercent, setDownPaymentPercent] = useState(15);
+  const [tenorYears, setTenorYears] = useState(5);
+  const [monthlyPayment, setMonthlyPayment] = useState("970.00");
+  
+  // Vehicle price for calculation
+  const vehiclePrice = 80000;
+  
+  // Calculate monthly payment when down payment or tenor changes
+  useEffect(() => {
+    // Simple loan calculation
+    const downPayment = (downPaymentPercent / 100) * vehiclePrice;
+    const loanAmount = vehiclePrice - downPayment;
+    const interestRate = 0.05; // 5% annual interest
+    const monthlyRate = interestRate / 12;
+    const numPayments = tenorYears * 12;
+    
+    const payment = (loanAmount * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -numPayments));
+    
+    setMonthlyPayment(payment.toFixed(2));
+  }, [downPaymentPercent, tenorYears, vehiclePrice]);
+  
+  // Format currency with commas
+  const formatCurrency = (amount: string): string => {
+    return Number(amount).toLocaleString('en-US', { 
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2 
+    });
+  };
+
   return (
     <CustomSafeArea>
       <Header type="home" />
@@ -24,7 +52,8 @@ const DetailCar = () => {
         <View
           style={{
             flex: 1,
-            width: "40%",
+            width: "90%",
+            maxWidth: 600,
             alignSelf: "center",
             backgroundColor: "#F1F5F9",
             padding: 36,
@@ -41,17 +70,16 @@ const DetailCar = () => {
               alignSelf: "center",
             }}
           >
-            Credit Stimulation
+            Credit Simulation
           </Text>
 
-          {/* <View style={{backgroundColor:appColors.AdditionalColor.white,padding:20,borderRadius:10 ,width:"40%"}}> */}
           <CommissionCard
             setScrollEnabled={setScrollEnabled}
-            onAmountChange={(amount) => setAmount(amount)}
-            onSliderChange={(e) => setPercentage(e)}
-            label="Down Payment"
+            onDownPaymentChange={(value) => setDownPaymentPercent(value)}
+            onTenorChange={(value) => setTenorYears(Math.ceil((value / 100) * 10))}
+            vehicle={{ price: vehiclePrice }}
           />
-          {/* </View> */}
+          
           <View style={{ gap: 16 }}>
             {productDetails.map((item, index) => (
               <View
@@ -85,7 +113,7 @@ const DetailCar = () => {
               style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
-                paddingVertical: 50,
+                paddingVertical: 30,
               }}
             >
               <Text
@@ -104,7 +132,7 @@ const DetailCar = () => {
                   color: appColors.main.Primary,
                 }}
               >
-                $970.00
+                ${formatCurrency(monthlyPayment)}
               </Text>
             </View>
             <Button
@@ -115,6 +143,7 @@ const DetailCar = () => {
             />
           </View>
         </View>
+        <Footer/>
       </ScrollView>
     </CustomSafeArea>
   );

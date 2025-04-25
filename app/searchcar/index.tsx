@@ -10,6 +10,8 @@ import { Image } from "expo-image";
 import appFonts from "@/constants/Font";
 import CategoryButton from "@/components/CategoryButton";
 import AudiCarCard from "@/components/AudiCarCard";
+import Button from "@/components/Button";
+import { Href, useRouter } from "expo-router";
 
 const audiCars = [
   {
@@ -107,6 +109,7 @@ const brandOptions = [
 
 const Searchcar = () => {
   const [selected, setSelected] = useState("All");
+  const router = useRouter();
   return (
     <CustomSafeArea>
       <Header type="home" />
@@ -181,6 +184,17 @@ const Searchcar = () => {
                   rating={car.rating}
                 />
               ))}
+            </View>
+            <View
+              style={{ width: "40%", alignSelf: "center", marginVertical: 20 }}
+            >
+              <Button
+                title="Show More Car"
+                variant="filled"
+                style={{ backgroundColor: appColors.main.Primary }}
+                color={appColors.AdditionalColor.white}
+                onPress={() => router.push("/car-details" as Href)}
+              />
             </View>
           </View>
         </View>

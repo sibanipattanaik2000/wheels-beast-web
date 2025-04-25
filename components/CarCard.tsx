@@ -31,7 +31,7 @@ const CarCard = ({
 
   const styles = StyleSheet.create({
     card: {
-      width: 250,
+      width: 270,
       height: 270,
       borderRadius: 20,
       padding: 20,
@@ -136,27 +136,6 @@ const CarCard = ({
           </View>
         </View>
 
-        {/* {type === "home" && (
-          <TouchableOpacity
-            style={{
-              paddingHorizontal: 10,
-              paddingVertical: 4,
-              backgroundColor: appColors.main.Primary,
-              borderRadius: 8,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 10,
-                color: "white",
-                fontFamily: appFonts.UrbanistBold,
-              }}
-            >
-              Book Now
-            </Text>
-          </TouchableOpacity>
-        )} */}
-
        
           <Text
             style={{
@@ -178,7 +157,8 @@ const CarCard = ({
               borderColor: appColors.main.Primary,
               borderRadius: 16,
               borderWidth:1,
-              height:40,
+              height:30,
+              paddingVertical:10
             }}
           >
             <Text

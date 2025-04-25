@@ -64,21 +64,21 @@ const carData = [
 
 const blogData = [
   {
-    image: require("@/assets/images/brand/blackcar.png"),
+    image: require("@/assets/images/brand/blogcar.png"),
     category: "Sound",
     title: "The Future of Electric Vehicles: Trends to Watch",
     date: "May 15, 2023",
     author: "John Doe",
   },
   {
-    image: require("@/assets/images/brand/blackcar.png"),
+    image: require("@/assets/images/brand/blogcar.png"),
     category: "Accessories",
     title: "Essential Car Maintenance Tips for Every Driver",
     date: "June 2, 2023",
     author: "Jane Smith",
   },
   {
-    image: require("@/assets/images/brand/blackcar.png"),
+    image: require("@/assets/images/brand/blogcar.png"),
     category: "Exterior",
     title: "Top 10 Family SUVs of 2023: Comprehensive Guide",
     date: "July 10, 2023",
@@ -262,12 +262,12 @@ const [cardNumber,setCardNumber]=useState<string>("")
             style={{
               position: "absolute",
               backgroundColor: "#fff",
-              paddingHorizontal: 30,
-              paddingVertical: 54,
-              gap: 32,
+              paddingHorizontal: 20,
+              paddingVertical: 40,
+              gap: 25,
               margin: 70,
               borderRadius: 30,
-              width: "40%",
+              width: "35%",
             }}
           >
             <Text
@@ -275,7 +275,7 @@ const [cardNumber,setCardNumber]=useState<string>("")
                 fontSize: 48,
                 fontFamily: appFonts.UrbanistBold,
                 color: appColors.GreyScale[900],
-                width: "70%",
+                width: "100%",
                 alignSelf: "center",
                 textAlign: "center",
               }}
@@ -763,6 +763,7 @@ const [cardNumber,setCardNumber]=useState<string>("")
                     marginTop: 10,
                   }}
                   width="40%"
+                  onPress={()=> router.push('/sellcar' as Href)}
                 />
               </View>
             </View>
@@ -1113,6 +1114,7 @@ const [cardNumber,setCardNumber]=useState<string>("")
                 color={appColors.AdditionalColor.white}
                 style={{backgroundColor:appColors.main.Primary}}
                 width="30%"
+                onPress={() => router.push("/compare-car" as Href)}
               />
             </View>
           </View>

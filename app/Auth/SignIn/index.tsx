@@ -13,14 +13,14 @@ import TextInput from "@/components/TextInput";
 import appFonts from "@/constants/Font";
 import Button from "@/components/Button";
 import Dots from "@/components/Dots";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 
 const SignIn = () => {
   const { width, height } = useWindowDimensions();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0); // For slider
-
+  const router = useRouter();
   const styles = StyleSheet.create({
     icon: {
       width: 24,

@@ -4,6 +4,7 @@ import CustomSafeArea from '@/components/CustomSafeArea';
 import Header from '@/components/Header';
 import VehicleDetails from '@/components/VehicleDetails';
 import { SidebarComponent } from '@/components/Sidebar';
+import Footer from '@/components/Footer';
 
 const CarDetailsPage = () => {
   // Sample data for the Audi Q7 as shown in the image
@@ -95,6 +96,7 @@ const CarDetailsPage = () => {
             <VehicleDetails vehicle={audiQ7} />
             </View>
         </View>
+        <Footer/>
       </ScrollView>
     </CustomSafeArea>
   );
