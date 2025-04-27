@@ -98,14 +98,14 @@ const EditProfileSidebar: React.FC<EditProfileSidebarProps> = ({
           color={appColors.GreyScale[600]}
         />
       ),
-      route: "/profile/setting",
+      route: "/settings",
     },
   ];
 
   const signOut = () => {
     // Implement sign out logic here
     console.log("Signing out...");
-    router.navigate("/");
+    router.navigate("/home");
   };
 
   const isActive = (route: string) => {

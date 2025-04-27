@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Modal } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { appColors } from '@/constants/Color';
 import appFonts from '@/constants/Font';
+import SavedCard from '../SavedCard';
 
 interface PaymentMethodContentProps {
   // Any props can be added here if needed
@@ -16,11 +17,13 @@ interface CardData {
 }
 
 const PaymentMethodContent: React.FC<PaymentMethodContentProps> = () => {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [showAddCard, setShowAddCard] = useState(false);
   const [cardNumber, setCardNumber] = useState('');
   const [cardName, setCardName] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
   const [cvc, setCvc] = useState('');
+  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [activePaymentMethod, setActivePaymentMethod] = useState('card'); // 'card' or 'paypal'
   const [savedCards, setSavedCards] = useState<CardData[]>([
     {
       id: '1',
@@ -29,15 +32,139 @@ const PaymentMethodContent: React.FC<PaymentMethodContentProps> = () => {
       expiryDate: '06/25'
     }
   ]);
+  const [errors, setErrors] = useState({
+    cardNumber: '',
+    cardName: '',
+    expiryDate: '',
+    cvc: ''
+  });
+
+  // Animation for dropdown
+  const [dropdownHeight] = useState(new Animated.Value(0));
+
+  const toggleAddCardDropdown = () => {
+    if (showAddCard) {
+      // Close dropdown animation
+      Animated.timing(dropdownHeight, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: false
+      }).start(() => {
+        setShowAddCard(false);
+      });
+
+      // Reset form when closing
+      resetForm();
+    } else {
+      // Open dropdown animation
+      setShowAddCard(true);
+      Animated.timing(dropdownHeight, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: false
+      }).start();
+    }
+  };
+
+  const resetForm = () => {
+    setCardNumber('');
+    setCardName('');
+    setExpiryDate('');
+    setCvc('');
+    setAgreeTerms(false);
+    setErrors({
+      cardNumber: '',
+      cardName: '',
+      expiryDate: '',
+      cvc: ''
+    });
+  };
+
+  // Format card number with spaces for display
+  const formatCardNumber = (text: string) => {
+    // Remove all non-digits
+    const cleanText = text.replace(/\D/g, '');
+    // Add a space after every 4 digits
+    const formatted = cleanText.replace(/(\d{4})(?=\d)/g, '$1 ');
+    return formatted;
+  };
+
+  // Format expiry date (MM/YY)
+  const formatExpiryDate = (text: string) => {
+    // Remove all non-digits
+    const cleanText = text.replace(/\D/g, '');
+    // Add a slash after the month
+    if (cleanText.length > 2) {
+      return `${cleanText.slice(0, 2)}/${cleanText.slice(2, 4)}`;
+    }
+    return cleanText;
+  };
+
+  const handleCardNumberChange = (text: string) => {
+    const formatted = formatCardNumber(text);
+    setCardNumber(formatted);
+    
+    // Clear error when user types
+    if (errors.cardNumber) {
+      setErrors(prev => ({ ...prev, cardNumber: '' }));
+    }
+  };
+
+  const handleExpiryDateChange = (text: string) => {
+    const formatted = formatExpiryDate(text);
+    setExpiryDate(formatted);
+    
+    // Clear error when user types
+    if (errors.expiryDate) {
+      setErrors(prev => ({ ...prev, expiryDate: '' }));
+    }
+  };
 
   const handleAddCard = () => {
-    // Basic validation
-    if (!cardNumber || !cardName || !expiryDate || !cvc) {
+    // Validate fields
+    const newErrors = {
+      cardNumber: '',
+      cardName: '',
+      expiryDate: '',
+      cvc: ''
+    };
+    
+    let hasError = false;
+    
+    if (activePaymentMethod === 'card') {
+      if (!cardNumber || cardNumber.replace(/\s/g, '').length < 16) {
+        newErrors.cardNumber = 'Please enter a valid card number';
+        hasError = true;
+      }
+      
+      if (!cardName) {
+        newErrors.cardName = 'Please enter the card holder name';
+        hasError = true;
+      }
+      
+      if (!expiryDate || expiryDate.length < 5) {
+        newErrors.expiryDate = 'Please enter a valid expiry date (MM/YY)';
+        hasError = true;
+      }
+      
+      if (!cvc || cvc.length < 3) {
+        newErrors.cvc = 'Please enter a valid CVC';
+        hasError = true;
+      }
+    }
+    
+    if (!agreeTerms) {
+      // Could add a terms error here if needed
+      hasError = true;
+    }
+    
+    if (hasError) {
+      setErrors(newErrors);
       return;
     }
 
-    // Format the card number to show only last 4 digits
-    const last4Digits = cardNumber.slice(-4);
+    // Get last 4 digits for display
+    const last4Digits = cardNumber.replace(/\s/g, '').slice(-4);
 
     // Create a new card object
     const newCard: CardData = {
@@ -50,12 +177,13 @@ const PaymentMethodContent: React.FC<PaymentMethodContentProps> = () => {
     // Add the new card to saved cards
     setSavedCards([...savedCards, newCard]);
 
-    // Reset form and close modal
-    setCardNumber('');
-    setCardName('');
-    setExpiryDate('');
-    setCvc('');
-    setModalVisible(false);
+    // Reset form and close dropdown
+    resetForm();
+    toggleAddCardDropdown();
+  };
+
+  const handleDeleteCard = (id: string) => {
+    setSavedCards(savedCards.filter(card => card.id !== id));
   };
 
   return (
@@ -65,37 +193,199 @@ const PaymentMethodContent: React.FC<PaymentMethodContentProps> = () => {
       {/* Add new card section */}
       <View style={styles.section}>
         <TouchableOpacity 
-          style={styles.addCardButton}
-          onPress={() => setModalVisible(true)}
+          style={[
+            styles.addCardButton,
+            showAddCard && styles.addCardButtonActive
+          ]}
+          onPress={toggleAddCardDropdown}
         >
-          <Ionicons name="add-circle-outline" size={20} color={appColors.main.Primary} />
-          <Text style={styles.addCardText}>Add new card</Text>
+          <Ionicons 
+            name={showAddCard ? "remove-circle-outline" : "add-circle-outline"} 
+            size={20} 
+            color={showAddCard ? appColors.GreyScale[500] : appColors.main.Primary} 
+          />
+          <Text style={[
+            styles.addCardText,
+            showAddCard && { color: appColors.GreyScale[500] }
+          ]}>
+            {showAddCard ? "Add new card" : "Add new card"}
+          </Text>
+          <Ionicons 
+            name={showAddCard ? "chevron-up" : "chevron-down"} 
+            size={20} 
+            color={appColors.GreyScale[500]} 
+            style={styles.arrowIcon}
+          />
         </TouchableOpacity>
-      </View>
 
-      {/* Saved cards section */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Saved cards</Text>
-        
-        {savedCards.map((card) => (
-          <View key={card.id} style={styles.creditCard}>
-            <View style={styles.creditCardContent}>
-              <View style={styles.cardLogo}>
-                <Image 
-                  source={require('@/assets/images/brand/Car.png')} 
-                  style={styles.cardLogoImage}
-                  resizeMode="contain"
-                />
-              </View>
-              <Text style={styles.cardNumber}>**** **** **** {card.number}</Text>
-              <View style={styles.cardDetails}>
-                <Text style={styles.cardName}>{card.name}</Text>
-                <Text style={styles.expiryDate}>Expiry: {card.expiryDate}</Text>
-              </View>
+        {/* Add Card Dropdown */}
+        {showAddCard && (
+          <Animated.View 
+            style={[
+              styles.addCardDropdown,
+              { 
+                maxHeight: dropdownHeight.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, 500]
+                }),
+                opacity: dropdownHeight
+              }
+            ]}
+          >
+            {/* Payment Method Tabs */}
+            <View style={styles.paymentTabs}>
+              <TouchableOpacity 
+                style={[
+                  styles.paymentTab, 
+                  activePaymentMethod === 'paypal' && styles.activePaymentTab
+                ]}
+                onPress={() => setActivePaymentMethod('paypal')}
+              >
+                <View style={styles.paypalContainer}>
+                  <Text style={styles.paypalText}>Paypal</Text>
+                  <Text style={styles.onlinePayment}>Online payment</Text>
+                </View>
+                <Ionicons name="logo-paypal" size={24} color="#ffffff" />
+              </TouchableOpacity>
             </View>
-          </View>
-        ))}
+
+            {activePaymentMethod === 'card' ? (
+              <View style={styles.formContainer}>
+                {/* Card Number Input */}
+                <Text style={styles.inputLabel}>Card number</Text>
+                <View style={styles.inputContainer}>
+                  <TextInput
+                    style={[styles.input, errors.cardNumber ? styles.inputError : null]}
+                    placeholder="0000 0000 0000 0000"
+                    keyboardType="numeric"
+                    value={cardNumber}
+                    onChangeText={handleCardNumberChange}
+                    maxLength={19}
+                  />
+                  <Ionicons name="card-outline" size={20} color={appColors.GreyScale[400]} style={styles.inputIcon} />
+                </View>
+                {errors.cardNumber ? <Text style={styles.errorText}>{errors.cardNumber}</Text> : null}
+
+                {/* Expiry Date and CVC */}
+                <View style={styles.rowInputs}>
+                  <View style={styles.halfInputContainer}>
+                    <Text style={styles.inputLabel}>Expiry date</Text>
+                    <View style={styles.inputContainer}>
+                      <TextInput
+                        style={[styles.input, errors.expiryDate ? styles.inputError : null]}
+                        placeholder="MM/YY"
+                        keyboardType="numeric"
+                        value={expiryDate}
+                        onChangeText={handleExpiryDateChange}
+                        maxLength={5}
+                      />
+                      <Ionicons name="calendar-outline" size={18} color={appColors.GreyScale[400]} style={styles.inputIcon} />
+                    </View>
+                    {errors.expiryDate ? <Text style={styles.errorText}>{errors.expiryDate}</Text> : null}
+                  </View>
+
+                  <View style={styles.halfInputContainer}>
+                    <Text style={styles.inputLabel}>CVC</Text>
+                    <View style={styles.inputContainer}>
+                      <TextInput
+                        style={[styles.input, errors.cvc ? styles.inputError : null]}
+                        placeholder="000"
+                        keyboardType="numeric"
+                        value={cvc}
+                        onChangeText={(text) => {
+                          setCvc(text);
+                          if (errors.cvc) setErrors(prev => ({ ...prev, cvc: '' }));
+                        }}
+                        maxLength={3}
+                      />
+                      <Ionicons name="information-circle-outline" size={18} color={appColors.GreyScale[400]} style={styles.inputIcon} />
+                    </View>
+                    {errors.cvc ? <Text style={styles.errorText}>{errors.cvc}</Text> : null}
+                  </View>
+                </View>
+
+                {/* Card Holder Name */}
+                <Text style={styles.inputLabel}>Card holder</Text>
+                <View style={styles.inputContainer}>
+                  <TextInput
+                    style={[styles.input, errors.cardName ? styles.inputError : null]}
+                    placeholder="Full name"
+                    value={cardName}
+                    onChangeText={(text) => {
+                      setCardName(text);
+                      if (errors.cardName) setErrors(prev => ({ ...prev, cardName: '' }));
+                    }}
+                  />
+                  <Ionicons name="person-outline" size={18} color={appColors.GreyScale[400]} style={styles.inputIcon} />
+                </View>
+                {errors.cardName ? <Text style={styles.errorText}>{errors.cardName}</Text> : null}
+              </View>
+            ) : (
+              <View style={styles.paypalFormContainer}>
+                {/* PayPal form could go here if needed */}
+              </View>
+            )}
+
+            {/* Terms and Conditions - shown for both payment methods */}
+            <View style={styles.termsContainer}>
+              <TouchableOpacity 
+                style={styles.checkbox}
+                onPress={() => setAgreeTerms(!agreeTerms)}
+              >
+                {agreeTerms ? (
+                  <Ionicons name="checkbox" size={20} color={appColors.main.Primary} />
+                ) : (
+                  <Ionicons name="square-outline" size={20} color={appColors.GreyScale[400]} />
+                )}
+              </TouchableOpacity>
+              <Text style={styles.termsText}>
+                I agree with <Text style={styles.termsLink}>general terms and conditions</Text>
+              </Text>
+            </View>
+
+            {/* Connect Button - shown for both payment methods */}
+            <TouchableOpacity 
+              style={[
+                styles.connectButton,
+                (!agreeTerms || (activePaymentMethod === 'card' && (!cardNumber || !cardName || !expiryDate || !cvc))) && styles.disabledButton
+              ]}
+              onPress={handleAddCard}
+              disabled={!agreeTerms || (activePaymentMethod === 'card' && (!cardNumber || !cardName || !expiryDate || !cvc))}
+            >
+              <Text style={styles.connectButtonText}>Connect to Paypal</Text>
+            </TouchableOpacity>
+          </Animated.View>
+        )}
       </View>
+      
+      {/* Saved cards section */}
+      {savedCards.length > 0 && (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Your saved cards</Text>
+          <ScrollView 
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.savedCardsContainer}
+          >
+            {savedCards.map((card) => (
+              <View key={card.id} style={styles.cardWrapper}>
+                <SavedCard 
+                  cardNumber={card.number} 
+                  expiry={card.expiryDate} 
+                  cardHolder={card.name} 
+                  style={{ width: 300 }}
+                />
+                <TouchableOpacity 
+                  style={styles.deleteCardBtn}
+                  onPress={() => handleDeleteCard(card.id)}
+                >
+                  <Ionicons name="trash-outline" size={20} color={appColors.alert.Error} />
+                </TouchableOpacity>
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+      )}
 
       {/* Other payment methods section */}
       <View style={styles.section}>
@@ -110,8 +400,10 @@ const PaymentMethodContent: React.FC<PaymentMethodContentProps> = () => {
               </View>
               <Text style={styles.paymentName}>Apple Pay</Text>
             </View>
-            <Text style={styles.notConnected}>Not connected</Text>
-            <Ionicons name="chevron-forward" size={20} color={appColors.GreyScale[300]} />
+            <View style={{flexDirection:'row',gap:20}}>
+              <Text style={styles.notConnected}>Not connected</Text>
+              <Ionicons name="chevron-forward" size={20} color={appColors.GreyScale[300]} />
+            </View>
           </TouchableOpacity>
           
           {/* PayPal */}
@@ -143,81 +435,6 @@ const PaymentMethodContent: React.FC<PaymentMethodContentProps> = () => {
           </TouchableOpacity>
         </View>
       </View>
-
-      {/* Add Card Modal */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Add New Card</Text>
-              <TouchableOpacity onPress={() => setModalVisible(false)}>
-                <Ionicons name="close" size={24} color={appColors.GreyScale[500]} />
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.formContainer}>
-              {/* Card Number Input */}
-              <Text style={styles.inputLabel}>Card Number</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="0000 0000 0000 0000"
-                keyboardType="numeric"
-                value={cardNumber}
-                onChangeText={setCardNumber}
-                maxLength={19}
-              />
-
-              {/* Card Holder Name */}
-              <Text style={styles.inputLabel}>Card Holder Name</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Full Name"
-                value={cardName}
-                onChangeText={setCardName}
-              />
-
-              {/* Expiry Date and CVC */}
-              <View style={styles.rowInputs}>
-                <View style={styles.halfInputContainer}>
-                  <Text style={styles.inputLabel}>Expiry Date</Text>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="MM/YY"
-                    keyboardType="numeric"
-                    value={expiryDate}
-                    onChangeText={setExpiryDate}
-                    maxLength={5}
-                  />
-                </View>
-                <View style={styles.halfInputContainer}>
-                  <Text style={styles.inputLabel}>CVC</Text>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="000"
-                    keyboardType="numeric"
-                    value={cvc}
-                    onChangeText={setCvc}
-                    maxLength={3}
-                  />
-                </View>
-              </View>
-
-              {/* Add Card Button */}
-              <TouchableOpacity 
-                style={styles.addButton}
-                onPress={handleAddCard}
-              >
-                <Text style={styles.addButtonText}>Add Card</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
     </View>
   );
 };
@@ -237,10 +454,42 @@ const styles = StyleSheet.create({
   section: {
     marginBottom: 32,
   },
+  sectionTitle: {
+    fontSize: 16,
+    fontFamily: appFonts.UrbanistBold,
+    color: appColors.GreyScale[900],
+    marginBottom: 16,
+  },
+  savedCardsContainer: {
+    paddingBottom: 10,
+  },
+  cardWrapper: {
+    marginRight: 16,
+    position: 'relative',
+  },
+  deleteCardBtn: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    backgroundColor: 'rgba(255,255,255,0.8)',
+    borderRadius: 15,
+    padding: 5,
+  },
   addCardButton: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 8,
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: appColors.GreyScale[200],
+    backgroundColor: appColors.AdditionalColor.white,
+  },
+  addCardButtonActive: {
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    borderBottomWidth: 0,
   },
   addCardText: {
     fontSize: 14,
@@ -248,173 +497,171 @@ const styles = StyleSheet.create({
     color: appColors.main.Primary,
     marginLeft: 8,
   },
-  sectionTitle: {
-    fontSize: 16,
-    fontFamily: appFonts.UrbanistBold,
-    color: appColors.GreyScale[900],
-    marginBottom: 16,
+  arrowIcon: {
+    marginLeft: 'auto',
   },
-  creditCard: {
-    width: '100%',
-    height: 180,
-    borderRadius: 16,
+  addCardDropdown: {
+    backgroundColor: appColors.AdditionalColor.white,
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
+    borderWidth: 1,
+    borderTopWidth: 0,
+    borderColor: appColors.GreyScale[200],
+    padding: 16,
     overflow: 'hidden',
-    backgroundColor: appColors.main.Primary,
-    padding: 24,
+  },
+  paymentTabs: {
     marginBottom: 16,
   },
-  creditCardContent: {
-    flex: 1,
-    justifyContent: 'space-between',
-  },
-  cardLogo: {
-    alignItems: 'flex-end',
-  },
-  cardLogoImage: {
-    width: 50,
-    height: 30,
-  },
-  cardNumber: {
-    fontSize: 18,
-    fontFamily: appFonts.UrbanistMedium,
-    color: appColors.AdditionalColor.white,
-    letterSpacing: 2,
-  },
-  cardDetails: {
+  paymentTab: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: appColors.main.Primary,
+    padding: 16,
+    borderRadius: 8,
   },
-  cardName: {
+  activePaymentTab: {
+    backgroundColor: appColors.main.Primary,
+  },
+  paypalContainer: {
+    flexDirection: 'column',
+  },
+  paypalText: {
+    color: appColors.AdditionalColor.white,
     fontSize: 16,
     fontFamily: appFonts.UrbanistMedium,
-    color: appColors.AdditionalColor.white,
   },
-  expiryDate: {
-    fontSize: 14,
-    fontFamily: appFonts.UrbanistMedium,
+  onlinePayment: {
     color: appColors.AdditionalColor.white,
+    fontSize: 12,
+    fontFamily: appFonts.UrbanistRegular,
+    opacity: 0.8,
   },
   paymentMethodList: {
-    backgroundColor: appColors.AdditionalColor.white,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: appColors.GreyScale[100],
+    gap: 12,
   },
   paymentMethod: {
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 16,
-    paddingHorizontal: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: appColors.GreyScale[100],
+    alignItems: 'center',
+    padding: 12,
+    backgroundColor: appColors.GreyScale[50],
+    borderRadius: 8,
   },
   paymentMethodLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    flex: 1,
+    gap: 12,
   },
   paymentIcon: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: appColors.GreyScale[50],
+    width: 40,
+    height: 40,
+    borderRadius: 8,
+    backgroundColor: appColors.GreyScale[100],
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 12,
   },
   paymentName: {
     fontSize: 14,
-    fontFamily: appFonts.UrbanistBold,
+    fontFamily: appFonts.UrbanistMedium,
     color: appColors.GreyScale[900],
   },
   notConnected: {
     fontSize: 12,
     fontFamily: appFonts.UrbanistMedium,
-    color: appColors.GreyScale[500],
-    marginRight: 8,
+    color: appColors.GreyScale[400],
   },
   paypalLogo: {
-    color: 'white',
-    fontSize: 18,
-    fontFamily: appFonts.UrbanistBold,
-  },
-  googleLogo: {
-    width: 20,
-    height: 20,
-  },
-  // Modal styles
-  modalOverlay: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContent: {
-    width: '90%',
-    maxWidth: 500,
-    backgroundColor: 'white',
-    borderRadius: 16,
-    padding: 20,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  modalHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  modalTitle: {
     fontSize: 20,
     fontFamily: appFonts.UrbanistBold,
-    color: appColors.GreyScale[900],
+    color: '#FFF',
+  },
+  googleLogo: {
+    width: 24,
+    height: 24,
   },
   formContainer: {
-    width: '100%',
+    gap: 16,
+  },
+  paypalFormContainer: {
+    paddingTop: 20,
   },
   inputLabel: {
     fontSize: 14,
     fontFamily: appFonts.UrbanistMedium,
-    color: appColors.GreyScale[700],
+    color: appColors.GreyScale[600],
     marginBottom: 8,
   },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'relative',
+  },
   input: {
-    height: 50,
+    height: 48,
     borderWidth: 1,
     borderColor: appColors.GreyScale[200],
     borderRadius: 8,
     paddingHorizontal: 16,
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: appFonts.UrbanistMedium,
-    marginBottom: 16,
+    color: appColors.GreyScale[900],
+    backgroundColor: appColors.GreyScale[50],
+    flex: 1,
+  },
+  inputIcon: {
+    position: 'absolute',
+    right: 16,
+  },
+  inputError: {
+    borderColor: appColors.alert.Error,
+  },
+  errorText: {
+    fontSize: 12,
+    fontFamily: appFonts.UrbanistMedium,
+    color: appColors.alert.Error,
+    marginTop: 4,
   },
   rowInputs: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    gap: 16,
   },
   halfInputContainer: {
-    width: '48%',
+    flex: 1,
   },
-  addButton: {
-    backgroundColor: appColors.main.Primary,
-    borderRadius: 8,
-    height: 50,
-    justifyContent: 'center',
+  termsContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
     marginTop: 16,
   },
-  addButtonText: {
+  checkbox: {
+    marginRight: 8,
+  },
+  termsText: {
+    fontSize: 14,
+    fontFamily: appFonts.UrbanistRegular,
+    color: appColors.GreyScale[800],
+  },
+  termsLink: {
+    color: appColors.main.Primary,
+    fontFamily: appFonts.UrbanistMedium,
+  },
+  connectButton: {
+    height: 48,
+    backgroundColor: appColors.main.Primary,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 16,
+  },
+  disabledButton: {
+    backgroundColor: appColors.GreyScale[300],
+  },
+  connectButtonText: {
     fontSize: 16,
     fontFamily: appFonts.UrbanistBold,
-    color: 'white',
+    color: appColors.AdditionalColor.white,
   },
 });
 

@@ -1,22 +1,30 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import EditProfileSidebar from '@/components/EditProfileSidebar';
-import { appColors } from '@/constants/Color';
-import CustomSafeArea from '@/components/CustomSafeArea';
-import appFonts from '@/constants/Font';
+import React from "react";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
+import EditProfileSidebar from "@/components/EditProfileSidebar";
+import { appColors } from "@/constants/Color";
+import CustomSafeArea from "@/components/CustomSafeArea";
+import appFonts from "@/constants/Font";
 
 const Setting = () => {
   // Sample user data
   const userData = {
-    name: 'Saski Ropokova',
-    role: 'Buyer\'s Account',
-    image: require('@/assets/images/Profile/avtar.png'), // Make sure this image exists
+    name: "Saski Ropokova",
+    role: "Buyer's Account",
+    image: require("@/assets/images/Profile/avtar.png"), // Make sure this image exists
   };
 
   return (
     <CustomSafeArea>
-      <ScrollView showsVerticalScrollIndicator={false} style={{flex:1}}>
-        <View style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            backgroundColor: appColors.GreyScale[50],
+            paddingHorizontal: 70,
+            paddingVertical: 47,
+          }}
+        >
           {/* Left sidebar */}
           <View>
             <EditProfileSidebar
@@ -30,13 +38,8 @@ const Setting = () => {
           <View style={styles.contentContainer}>
             <View style={styles.contentCard}>
               <Text style={styles.title}>Settings</Text>
-              <Text style={styles.subtitle}>Manage your account preferences</Text>
-              
               {/* Placeholder content */}
               <View style={styles.placeholderContent}>
-                <Text style={styles.placeholderText}>
-                  Account settings and preferences will be displayed here
-                </Text>
               </View>
             </View>
           </View>
@@ -47,17 +50,11 @@ const Setting = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: appColors.GreyScale[50],
-    paddingHorizontal: 70,
-    paddingVertical: 47,
-  },
+  container: {},
   contentContainer: {
     flex: 1,
     shadowColor: appColors.GreyScale[500],
-    shadowOffset: {width: 0, height: 2},
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
@@ -86,8 +83,8 @@ const styles = StyleSheet.create({
   },
   placeholderContent: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: appColors.GreyScale[50],
     borderRadius: 8,
     padding: 24,
@@ -96,8 +93,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: appFonts.UrbanistMedium,
     color: appColors.GreyScale[500],
-    textAlign: 'center',
+    textAlign: "center",
   },
 });
 
-export default Setting; 
+export default Setting;

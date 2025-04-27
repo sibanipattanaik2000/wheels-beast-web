@@ -54,6 +54,7 @@ const MyVoucher = () => {
                 style={{ width: "40%" }}
               />
               {/* add voucher card */}
+              <View style={{flexDirection:"row",gap:36}}>
               <VoucherCard
                 backgroundColor="#3A2CFF"
                 icon={<FontAwesome5 name="car" size={24} color="#fff" />}
@@ -63,6 +64,15 @@ const MyVoucher = () => {
                 validUntil="July 15, 2025"
                 minTransaction="$10,000.00"
               />
+              <VoucherCard
+                backgroundColor="#000"
+                icon={<FontAwesome5 name="car" size={24} color="#fff" />}
+                hashtag="#summersale"
+                title="Save up to $3,000 on sale car"
+                couponCode="TOYTA25"
+                validUntil="July 15, 2025"
+                minTransaction="$10,000.00"
+              /></View>
             </View>
           </View>
         </View>

@@ -29,7 +29,7 @@ export default function LinkAccountPage() {
             onSelectSetting={handleSelectSetting} 
           />
         }
-        content={<LinkAccountContent />}
+        content={<LinkAccountContent userName={'Saski Ropokova'} userRole={'Saski Ropokova'} userImage={require('@/assets/images/Profile/avtar.png')} />}
       />
       <Footer />
     </ScrollView>

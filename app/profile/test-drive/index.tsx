@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import EditProfileSidebar from '@/components/EditProfileSidebar';
 import { appColors } from '@/constants/Color';
 import CustomSafeArea from '@/components/CustomSafeArea';
@@ -9,6 +9,8 @@ import Search from '@/components/Searchbar';
 import FilterDropdown from '@/components/FilterDropdown';
 import CalendarComponent from '@/components/CalendarComponent';
 import { Ionicons } from '@expo/vector-icons';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { Image } from 'expo-image';
 
 const TestDrive = () => {
   // Sample user data
@@ -50,6 +52,10 @@ const TestDrive = () => {
   const [selectedDate, setSelectedDate] = useState('All dates');
   const [selectedModel, setSelectedModel] = useState('All Models');
 
+  // Date picker states
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [currentDate, setCurrentDate] = useState(new Date());
+
   // Filter options
   const statusOptions = ['All status', 'Active', 'Completed', 'Cancelled'];
   const dateOptions = ['All dates', 'Today', 'This Week', 'This Month', 'This Year'];
@@ -62,6 +68,31 @@ const TestDrive = () => {
         drive.id === id ? { ...drive, date, time } : drive
       )
     );
+  };
+
+  // Handle calendar icon click
+  const handleCalendarClick = () => {
+    setShowDatePicker(true);
+  };
+
+  // Handle date change
+  const handleDateChange = (event: any, selectedDate?: Date) => {
+    const currentDate = selectedDate || new Date();
+    setShowDatePicker(false);
+    setCurrentDate(currentDate);
+    
+    // Format the date for display
+    const formattedDate = currentDate.toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    });
+    
+    // Update the first test drive with the new date
+    if (testDrives.length > 0) {
+      // Keep the time the same
+      handleUpdateDateTime(testDrives[0].id, formattedDate, testDrives[0].time);
+    }
   };
 
   return (
@@ -83,14 +114,25 @@ const TestDrive = () => {
               {/* Header with title and calendar */}
               <View style={styles.header}>
                 <Text style={styles.title}>Test drive</Text>
-                <CalendarComponent 
-                  onSelectDateTime={(date, time) => {
-                    // For demonstration purposes, we'll update the first test drive
-                    if (testDrives.length > 0) {
-                      handleUpdateDateTime(testDrives[0].id, date, time);
-                    }
-                  }}
-                />
+                
+                {/* Replace CalendarComponent with direct DateTimePicker implementation */}
+                <View>
+                  <TouchableOpacity 
+                 
+                    onPress={handleCalendarClick}
+                  >
+                   <Image style={{height:24,width:24}} source={require('@/assets/images/Profile/calendar.png')}/>
+                  </TouchableOpacity>
+                  
+                  {showDatePicker && (
+                    <DateTimePicker
+                      value={currentDate}
+                      mode="date"
+                      display="default"
+                      onChange={handleDateChange}
+                    />
+                  )}
+                </View>
               </View>
 
               {/* Search bar */}
@@ -102,7 +144,7 @@ const TestDrive = () => {
                 />
               </View>
 
-              {/* Filters row */}
+              {/* Filters row - needs higher z-index to appear above cards */}
               <View style={styles.filtersContainer}>
                 <View style={styles.filterItem}>
                   <Ionicons name="options-outline" size={24} color={appColors.GreyScale[500]} />
@@ -157,30 +199,31 @@ const TestDrive = () => {
                     setSelectedModel(option);
                     setShowModelsDropdown(false);
                   }}
-                  
                 />
               </View>
 
               {/* Test drive cards */}
-              <FlatList
-                data={testDrives}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-                  <TestDriveCard
-                    carName={item.carName}
-                    location={item.location}
-                    distance={item.distance}
-                    status={item.status}
-                    date={item.date}
-                    time={item.time}
-                    carImage={item.carImage}
-                  />
-                )}
-                numColumns={2}
-                columnWrapperStyle={styles.cardRow}
-                contentContainerStyle={styles.cardsList}
-                scrollEnabled={false}
-              />
+              <View style={styles.cardsContainer}>
+                <FlatList
+                  data={testDrives}
+                  keyExtractor={(item) => item.id}
+                  renderItem={({ item }) => (
+                    <TestDriveCard
+                      carName={item.carName}
+                      location={item.location}
+                      distance={item.distance}
+                      status={item.status}
+                      date={item.date}
+                      time={item.time}
+                      carImage={item.carImage}
+                    />
+                  )}
+                  numColumns={2}
+                  columnWrapperStyle={styles.cardRow}
+                  contentContainerStyle={styles.cardsList}
+                  scrollEnabled={false}
+                />
+              </View>
             </View>
           </View>
         </View>
@@ -225,13 +268,16 @@ const styles = StyleSheet.create({
     color: appColors.GreyScale[900],
   },
   searchContainer: {
-    width:'60%'
+    width:'60%',
+    zIndex: 10,
   },
   filtersContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap:10,
-    marginVertical:20,
+    gap: 10,
+    marginVertical: 20,
+    zIndex: 100, // High z-index to ensure filter dropdowns appear above cards
+    position: 'relative',
   },
   filterItem: {
     padding: 8,
@@ -243,14 +289,18 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 2,
   },
+  cardsContainer: {
+    zIndex: 1, // Lower z-index so cards appear below the filter dropdowns
+    marginTop: 10,
+  },
   cardRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 20,
   },
   cardsList: {
-    width: '100%',
-  },
+    paddingBottom: 20,
+  }
 });
 
 export default TestDrive; 

@@ -81,7 +81,7 @@ const FilterDropdown = ({
 const styles = StyleSheet.create({
   filterDropdown: {
     position: "relative",
-    zIndex: 1,
+    zIndex: 10,
   },
   filterButton: {
     flexDirection: "row",
@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
     gap: 4,
     borderWidth: 1,
     borderColor: "transparent",
+    zIndex: 10,
   },
   activeFilterButton: {
     borderColor: "#4F46E5",
@@ -118,7 +119,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 5,
-    zIndex: 1,
+    zIndex: 1000,
   },
   dropdownItem: {
     paddingVertical: 10,

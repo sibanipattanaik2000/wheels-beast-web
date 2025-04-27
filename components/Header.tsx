@@ -246,20 +246,21 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
               style={{ flexDirection: 'row', alignItems: 'center' }}
               onPress={togglePrivacy}
             >
-              <Text style={styles.text}>Privacy </Text>
+              <Text style={styles.text}>Profile </Text>
               <AntDesign name={showPrivacy ? 'up' : 'down'} size={16} />
             </TouchableOpacity>
 
             {showPrivacy && (
-              <View
+              <TouchableOpacity
                 style={{
                   padding: 8,
                   borderRadius: 8,
-                  width: '60%',
+                  width: '100%',
                   alignSelf: 'center',
                   alignItems: 'center',
                   gap: 5,
                 }}
+                onPress={()=> router.push('/profile' as Href)}
               >
                 <Text
                   style={{
@@ -268,27 +269,9 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
                     fontSize: 14,
                   }}
                 >
-                  Privacy Policy
+                Edit Profile 
                 </Text>
-                <Text
-                  style={{
-                    fontFamily: appFonts.UrbanistMedium,
-                    color: appColors.GreyScale[900],
-                    fontSize: 14,
-                  }}
-                >
-                  Terms & Conditions
-                </Text>
-                <Text
-                  style={{
-                    fontFamily: appFonts.UrbanistMedium,
-                    color: appColors.GreyScale[900],
-                    fontSize: 14,
-                  }}
-                >
-                  Data Sharing
-                </Text>
-              </View>
+              </TouchableOpacity>
             )}
           </View>
            {/* Notification Bell */}

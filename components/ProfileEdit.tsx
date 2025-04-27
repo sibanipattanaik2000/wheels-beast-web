@@ -53,6 +53,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({
                 value={fullName}
                 onChangeText={setFullName}
                 icon={<Ionicons name="person-outline" size={20} color={appColors.GreyScale[500]} />}
+                placeholder='Enter Your Name'
               />
             </View>
 
@@ -64,6 +65,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({
                 onChangeText={setPhoneNumber}
                 icon={<Ionicons name="call-outline" size={20} color={appColors.GreyScale[500]} />}
                 isVerified={true}
+                 placeholder='Enter Your Phone Number'
               />
             </View>
           </View>
@@ -78,7 +80,6 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({
                 placeholder="Enter your email"
                 icon={<Ionicons name="mail-outline" size={20} color={appColors.GreyScale[500]} />}
                 isUnverified={true}
-                onVerifyPress={() => console.log('Verify email')}
               />
             </View>
 
@@ -90,6 +91,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({
                 onChangeText={setPassword}
                 secureTextEntry={true}
                 icon={<Ionicons name="lock-closed-outline" size={20} color={appColors.GreyScale[500]} />}
+                 placeholder='Enter Your Password'
               />
             </View>
           </View>
