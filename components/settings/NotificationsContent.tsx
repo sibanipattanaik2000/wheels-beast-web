@@ -1,134 +1,62 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Switch, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { appColors } from '@/constants/Color';
 import appFonts from '@/constants/Font';
+import ToggleButton from '../ToggleButton';
+import { Image } from 'expo-image';
 
-interface NotificationsContentProps {
-  // Any props can be added here if needed
-}
+interface NotificationsContentProps {}
+
+const notificationOptions = [
+  {
+    icon: require('@/assets/images/notification/like.png'),
+    title: 'Recommendation',
+    description: 'Receive recommendations based on your activities',
+  },
+  {
+    icon: require('@/assets/images/notification/msg.png'),
+    title: 'Communication',
+    description: 'Receive updates, offers and more',
+  },
+  {
+    icon: require('@/assets/images/notification/receipt.png'),
+    title: 'Promotion',
+    description: 'Receive offers based on your activity',
+  },
+  {
+    icon: require('@/assets/images/notification/mail.png'),
+    title: 'Get alert in your email',
+    description: 'Get updates in your email inbox',
+  },
+  {
+    icon: require('@/assets/images/notification/news.png'),
+    title: 'Newsletter',
+    description: 'Receive email with cars recommendation',
+  },
+];
 
 const NotificationsContent: React.FC<NotificationsContentProps> = () => {
-  // State for notification settings
-  const [generalNotifications, setGeneralNotifications] = useState(true);
-  const [sound, setSound] = useState(true);
-  const [vibration, setVibration] = useState(true);
-  const [promotions, setPromotions] = useState(false);
-  const [updates, setUpdates] = useState(true);
-  
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Push notifications</Text>
-      <Text style={styles.subtitle}>Manage your notification preferences</Text>
-      
+
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>General</Text>
-        
         <View style={styles.optionsList}>
-          {/* General notifications */}
-          <View style={styles.optionItem}>
-            <View style={styles.optionLeft}>
-              <View style={styles.optionIcon}>
-                <Ionicons name="notifications-outline" size={24} color={appColors.GreyScale[900]} />
+          {notificationOptions.map((option, index) => (
+            <View key={index} style={styles.optionItem}>
+              <View style={styles.optionLeft}>
+                <View style={styles.optionIcon}>
+                  <Image source={option.icon} style={{height:24,width:24,resizeMode:'contain'}}/>
+                </View>
+                <View>
+                  <Text style={styles.optionTitle}>{option.title}</Text>
+                  <Text style={styles.optionDescription}>{option.description}</Text>
+                </View>
               </View>
-              <View>
-                <Text style={styles.optionTitle}>Push notifications</Text>
-                <Text style={styles.optionDescription}>Enable push notifications</Text>
-              </View>
+              <ToggleButton />
             </View>
-            <Switch
-              value={generalNotifications}
-              onValueChange={setGeneralNotifications}
-              trackColor={{ false: appColors.GreyScale[200], true: appColors.main.Primary }}
-              thumbColor={appColors.AdditionalColor.white}
-            />
-          </View>
-          
-          {/* Sound */}
-          <View style={styles.optionItem}>
-            <View style={styles.optionLeft}>
-              <View style={styles.optionIcon}>
-                <Ionicons name="volume-high-outline" size={24} color={appColors.GreyScale[900]} />
-              </View>
-              <View>
-                <Text style={styles.optionTitle}>Sound</Text>
-                <Text style={styles.optionDescription}>Enable notification sounds</Text>
-              </View>
-            </View>
-            <Switch
-              value={sound}
-              onValueChange={setSound}
-              trackColor={{ false: appColors.GreyScale[200], true: appColors.main.Primary }}
-              thumbColor={appColors.AdditionalColor.white}
-              disabled={!generalNotifications}
-            />
-          </View>
-          
-          {/* Vibration */}
-          <View style={styles.optionItem}>
-            <View style={styles.optionLeft}>
-              <View style={styles.optionIcon}>
-                <Ionicons name="phone-portrait-outline" size={24} color={appColors.GreyScale[900]} />
-              </View>
-              <View>
-                <Text style={styles.optionTitle}>Vibration</Text>
-                <Text style={styles.optionDescription}>Enable vibration for notifications</Text>
-              </View>
-            </View>
-            <Switch
-              value={vibration}
-              onValueChange={setVibration}
-              trackColor={{ false: appColors.GreyScale[200], true: appColors.main.Primary }}
-              thumbColor={appColors.AdditionalColor.white}
-              disabled={!generalNotifications}
-            />
-          </View>
-        </View>
-      </View>
-      
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Types</Text>
-        
-        <View style={styles.optionsList}>
-          {/* Promotions */}
-          <View style={styles.optionItem}>
-            <View style={styles.optionLeft}>
-              <View style={styles.optionIcon}>
-                <Ionicons name="pricetag-outline" size={24} color={appColors.GreyScale[900]} />
-              </View>
-              <View>
-                <Text style={styles.optionTitle}>Promotions</Text>
-                <Text style={styles.optionDescription}>Offers, discounts, and updates</Text>
-              </View>
-            </View>
-            <Switch
-              value={promotions}
-              onValueChange={setPromotions}
-              trackColor={{ false: appColors.GreyScale[200], true: appColors.main.Primary }}
-              thumbColor={appColors.AdditionalColor.white}
-              disabled={!generalNotifications}
-            />
-          </View>
-          
-          {/* App updates */}
-          <View style={styles.optionItem}>
-            <View style={styles.optionLeft}>
-              <View style={styles.optionIcon}>
-                <Ionicons name="refresh-outline" size={24} color={appColors.GreyScale[900]} />
-              </View>
-              <View>
-                <Text style={styles.optionTitle}>App updates</Text>
-                <Text style={styles.optionDescription}>New features and improvements</Text>
-              </View>
-            </View>
-            <Switch
-              value={updates}
-              onValueChange={setUpdates}
-              trackColor={{ false: appColors.GreyScale[200], true: appColors.main.Primary }}
-              thumbColor={appColors.AdditionalColor.white}
-              disabled={!generalNotifications}
-            />
-          </View>
+          ))}
         </View>
       </View>
     </View>
@@ -202,4 +130,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NotificationsContent; 
+export default NotificationsContent;

@@ -9,13 +9,17 @@ import { Ionicons } from '@expo/vector-icons'
 import { Image } from 'expo-image'
 import Button from '@/components/Button'
 import TextInput from '@/components/TextInput'
+import { Href, useRouter } from 'expo-router'
+import Footer from '@/components/Footer'
 
 const Payment = () => {
+  const router = useRouter();
   const [checked, setChecked] = useState(false)
   const [cardNumber, setCardNumber] = useState('')
   const [expiryDate, setExpiryDate] = useState('')
   const [cvc, setCVC] = useState('')
   const [cardHolder, setCardHolder] = useState('')
+
 
   return (
     <CustomSafeArea>
@@ -156,10 +160,12 @@ const Payment = () => {
                 variant="filled"
                 style={{ backgroundColor: appColors.main.Primary, marginTop: 20 }}
                 color={appColors.AdditionalColor.white}
+                onPress={()=>router.push("/select-payment" as Href)}
               />
             </View>
           </View>
         </View>
+        <Footer/>
       </ScrollView>
     </CustomSafeArea>
   )

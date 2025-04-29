@@ -1,20 +1,27 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
-import { appColors } from '@/constants/Color';
-import appFonts from '@/constants/Font';
+import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
+import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
+import { appColors } from "@/constants/Color";
+import appFonts from "@/constants/Font";
+import { Image } from "expo-image";
+import ToggleButton from "./ToggleButton";
 
-export type SettingsSection = 
-  | 'payment_method'
-  | 'link_account'
-  | 'dark_mode'
-  | 'language'
-  | 'push_notifications'
-  | 'dark_mode_app'
-  | 'about'
-  | 'get_help'
-  | 'privacy_policy'
-  | 'security';
+export type SettingsSection =
+  | "payment_method"
+  | "link_account"
+  | "dark_mode"
+  | "language"
+  | "push_notifications"
+  | "dark_mode_app"
+  | "about"
+  | "get_help"
+  | "privacy_policy";
 
 interface SettingsSidebarProps {
   activeSetting: SettingsSection;
@@ -32,211 +39,309 @@ const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
       {/* Account Settings */}
       <View style={styles.section}>
         <Text style={styles.sectionHeader}>Account Settings</Text>
-        
-        <TouchableOpacity 
+
+        <TouchableOpacity
           style={[
-            styles.menuItem, 
-            activeSetting === 'payment_method' && styles.activeMenuItem
+            styles.menuItem,
+            activeSetting === "payment_method" && styles.activeMenuItem,
           ]}
-          onPress={() => onSelectSetting('payment_method')}
+          onPress={() => onSelectSetting("payment_method")}
         >
-          <Ionicons 
-            name="card-outline" 
-            size={20} 
-            color={activeSetting === 'payment_method' ? appColors.main.Primary : appColors.GreyScale[500]} 
+          <Ionicons
+            name="card-outline"
+            size={20}
+            color={
+              activeSetting === "payment_method"
+                ? appColors.main.Primary
+                : appColors.GreyScale[500]
+            }
           />
-          <Text style={[
-            styles.menuText,
-            activeSetting === 'payment_method' && styles.activeMenuText
-          ]}>Payment method</Text>
-          <Ionicons name="chevron-forward" size={20} color={appColors.GreyScale[300]} style={styles.arrowIcon} />
+          <Text
+            style={[
+              styles.menuText,
+              activeSetting === "payment_method" && styles.activeMenuText,
+            ]}
+          >
+            Payment method
+          </Text>
+          <Ionicons
+            name="chevron-forward"
+            size={20}
+            color={appColors.GreyScale[300]}
+            style={styles.arrowIcon}
+          />
         </TouchableOpacity>
 
-        <TouchableOpacity 
+        <TouchableOpacity
           style={[
-            styles.menuItem, 
-            activeSetting === 'link_account' && styles.activeMenuItem
+            styles.menuItem,
+            activeSetting === "link_account" && styles.activeMenuItem,
           ]}
-          onPress={() => onSelectSetting('link_account')}
+          onPress={() => onSelectSetting("link_account")}
         >
-          <Ionicons 
-            name="link-outline" 
-            size={20} 
-            color={activeSetting === 'link_account' ? appColors.main.Primary : appColors.GreyScale[500]} 
+          <Ionicons
+            name="link-outline"
+            size={20}
+            color={
+              activeSetting === "link_account"
+                ? appColors.main.Primary
+                : appColors.GreyScale[500]
+            }
           />
-          <Text style={[
-            styles.menuText,
-            activeSetting === 'link_account' && styles.activeMenuText
-          ]}>Link Account</Text>
-          <Ionicons name="chevron-forward" size={20} color={appColors.GreyScale[300]} style={styles.arrowIcon} />
+          <Text
+            style={[
+              styles.menuText,
+              activeSetting === "link_account" && styles.activeMenuText,
+            ]}
+          >
+            Link Account
+          </Text>
+          <Ionicons
+            name="chevron-forward"
+            size={20}
+            color={appColors.GreyScale[300]}
+            style={styles.arrowIcon}
+          />
         </TouchableOpacity>
 
-        <TouchableOpacity 
+        <TouchableOpacity
           style={[
-            styles.menuItem, 
-            activeSetting === 'dark_mode' && styles.activeMenuItem
+            styles.menuItem,
+            activeSetting === "dark_mode" && styles.activeMenuItem,
           ]}
-          onPress={() => onSelectSetting('dark_mode')}
         >
-          <Ionicons 
-            name="moon-outline" 
-            size={20} 
-            color={activeSetting === 'dark_mode' ? appColors.main.Primary : appColors.GreyScale[500]} 
+          <Ionicons
+            name="moon-outline"
+            size={20}
+            color={
+              activeSetting === "dark_mode"
+                ? appColors.main.Primary
+                : appColors.GreyScale[500]
+            }
           />
-          <Text style={[
-            styles.menuText,
-            activeSetting === 'dark_mode' && styles.activeMenuText
-          ]}>Dark mode</Text>
-          <Ionicons name="chevron-forward" size={20} color={appColors.GreyScale[300]} style={styles.arrowIcon} />
-        </TouchableOpacity>
-
-        <TouchableOpacity 
-          style={[
-            styles.menuItem, 
-            activeSetting === 'security' && styles.activeMenuItem
-          ]}
-          onPress={() => onSelectSetting('security')}
-        >
-          <Ionicons 
-            name="shield-outline" 
-            size={20} 
-            color={activeSetting === 'security' ? appColors.main.Primary : appColors.GreyScale[500]} 
-          />
-          <Text style={[
-            styles.menuText,
-            activeSetting === 'security' && styles.activeMenuText
-          ]}>Security</Text>
-          <Ionicons name="chevron-forward" size={20} color={appColors.GreyScale[300]} style={styles.arrowIcon} />
+          <Text
+            style={[
+              styles.menuText,
+              activeSetting === "dark_mode" && styles.activeMenuText,
+            ]}
+          >
+            Dark mode
+          </Text>
+          <ToggleButton />
         </TouchableOpacity>
       </View>
 
       {/* App Settings */}
       <View style={styles.section}>
         <Text style={styles.sectionHeader}>App Settings</Text>
-        
-        <TouchableOpacity 
+
+        <TouchableOpacity
           style={[
-            styles.menuItem, 
-            activeSetting === 'language' && styles.activeMenuItem
+            styles.menuItem,
+            activeSetting === "language" && styles.activeMenuItem,
           ]}
-          onPress={() => onSelectSetting('language')}
+          onPress={() => onSelectSetting("language")}
         >
-          <Ionicons 
-            name="language-outline" 
-            size={20} 
-            color={activeSetting === 'language' ? appColors.main.Primary : appColors.GreyScale[500]} 
+          <Ionicons
+            name="globe-outline"
+            size={20}
+            color={
+              activeSetting === "language"
+                ? appColors.main.Primary
+                : appColors.GreyScale[500]
+            }
           />
-          <Text style={[
-            styles.menuText,
-            activeSetting === 'language' && styles.activeMenuText
-          ]}>Language</Text>
-          <Ionicons name="chevron-forward" size={20} color={appColors.GreyScale[300]} style={styles.arrowIcon} />
+          <Text
+            style={[
+              styles.menuText,
+              activeSetting === "language" && styles.activeMenuText,
+            ]}
+          >
+            Language
+          </Text>
+          <Ionicons
+            name="chevron-forward"
+            size={20}
+            color={appColors.GreyScale[300]}
+            style={styles.arrowIcon}
+          />
         </TouchableOpacity>
 
-        <TouchableOpacity 
+        <TouchableOpacity
           style={[
-            styles.menuItem, 
-            activeSetting === 'push_notifications' && styles.activeMenuItem
+            styles.menuItem,
+            activeSetting === "push_notifications" && styles.activeMenuItem,
           ]}
-          onPress={() => onSelectSetting('push_notifications')}
+          onPress={() => onSelectSetting("push_notifications")}
         >
-          <Ionicons 
-            name="notifications-outline" 
-            size={20} 
-            color={activeSetting === 'push_notifications' ? appColors.main.Primary : appColors.GreyScale[500]} 
+          <Ionicons
+            name="notifications-outline"
+            size={20}
+            color={
+              activeSetting === "push_notifications"
+                ? appColors.main.Primary
+                : appColors.GreyScale[500]
+            }
           />
-          <Text style={[
-            styles.menuText,
-            activeSetting === 'push_notifications' && styles.activeMenuText
-          ]}>Push notifications</Text>
-          <Ionicons name="chevron-forward" size={20} color={appColors.GreyScale[300]} style={styles.arrowIcon} />
+          <Text
+            style={[
+              styles.menuText,
+              activeSetting === "push_notifications" && styles.activeMenuText,
+            ]}
+          >
+            Push notifications
+          </Text>
+          <Ionicons
+            name="chevron-forward"
+            size={20}
+            color={appColors.GreyScale[300]}
+            style={styles.arrowIcon}
+          />
         </TouchableOpacity>
 
-        <TouchableOpacity 
+        <TouchableOpacity
           style={[
-            styles.menuItem, 
-            activeSetting === 'dark_mode_app' && styles.activeMenuItem
+            styles.menuItem,
+            activeSetting === "dark_mode_app" && styles.activeMenuItem,
           ]}
-          onPress={() => onSelectSetting('dark_mode_app')}
+         
         >
-          <Ionicons 
-            name="moon-outline" 
-            size={20} 
-            color={activeSetting === 'dark_mode_app' ? appColors.main.Primary : appColors.GreyScale[500]} 
+          <Ionicons
+            name="moon-outline"
+            size={20}
+            color={
+              activeSetting === "dark_mode_app"
+                ? appColors.main.Primary
+                : appColors.GreyScale[500]
+            }
           />
-          <Text style={[
-            styles.menuText,
-            activeSetting === 'dark_mode_app' && styles.activeMenuText
-          ]}>Dark mode</Text>
-          <Ionicons name="chevron-forward" size={20} color={appColors.GreyScale[300]} style={styles.arrowIcon} />
+          <Text
+            style={[
+              styles.menuText,
+              activeSetting === "dark_mode_app" && styles.activeMenuText,
+            ]}
+          >
+            Dark mode
+          </Text>
+          <ToggleButton />
         </TouchableOpacity>
       </View>
 
       {/* Support */}
       <View style={styles.section}>
         <Text style={styles.sectionHeader}>Support</Text>
-        
-        <TouchableOpacity 
+
+        <TouchableOpacity
           style={[
-            styles.menuItem, 
-            activeSetting === 'about' && styles.activeMenuItem
+            styles.menuItem,
+            activeSetting === "about" && styles.activeMenuItem,
           ]}
-          onPress={() => onSelectSetting('about')}
+          onPress={() => onSelectSetting("about")}
         >
-          <Ionicons 
-            name="information-circle-outline" 
-            size={20} 
-            color={activeSetting === 'about' ? appColors.main.Primary : appColors.GreyScale[500]} 
+          <Ionicons
+            name="information-circle-outline"
+            size={20}
+            color={
+              activeSetting === "about"
+                ? appColors.main.Primary
+                : appColors.GreyScale[500]
+            }
           />
-          <Text style={[
-            styles.menuText,
-            activeSetting === 'about' && styles.activeMenuText
-          ]}>About WheelBeast</Text>
-          <Ionicons name="chevron-forward" size={20} color={appColors.GreyScale[300]} style={styles.arrowIcon} />
+          <Text
+            style={[
+              styles.menuText,
+              activeSetting === "about" && styles.activeMenuText,
+            ]}
+          >
+            About WheelBeast
+          </Text>
+          <Ionicons
+            name="chevron-forward"
+            size={20}
+            color={appColors.GreyScale[300]}
+            style={styles.arrowIcon}
+          />
         </TouchableOpacity>
 
-        <TouchableOpacity 
+        <TouchableOpacity
           style={[
-            styles.menuItem, 
-            activeSetting === 'get_help' && styles.activeMenuItem
+            styles.menuItem,
+            activeSetting === "get_help" && styles.activeMenuItem,
           ]}
-          onPress={() => onSelectSetting('get_help')}
+          onPress={() => onSelectSetting("get_help")}
         >
-          <Ionicons 
-            name="help-circle-outline" 
-            size={20} 
-            color={activeSetting === 'get_help' ? appColors.main.Primary : appColors.GreyScale[500]} 
+          <Ionicons
+            name="help-circle-outline"
+            size={20}
+            color={
+              activeSetting === "get_help"
+                ? appColors.main.Primary
+                : appColors.GreyScale[500]
+            }
           />
-          <Text style={[
-            styles.menuText,
-            activeSetting === 'get_help' && styles.activeMenuText
-          ]}>Get help</Text>
-          <Ionicons name="chevron-forward" size={20} color={appColors.GreyScale[300]} style={styles.arrowIcon} />
+          <Text
+            style={[
+              styles.menuText,
+              activeSetting === "get_help" && styles.activeMenuText,
+            ]}
+          >
+            Get help
+          </Text>
+          <Ionicons
+            name="chevron-forward"
+            size={20}
+            color={appColors.GreyScale[300]}
+            style={styles.arrowIcon}
+          />
         </TouchableOpacity>
 
-        <TouchableOpacity 
+        <TouchableOpacity
           style={[
-            styles.menuItem, 
-            activeSetting === 'privacy_policy' && styles.activeMenuItem
+            styles.menuItem,
+            activeSetting === "privacy_policy" && styles.activeMenuItem,
           ]}
-          onPress={() => onSelectSetting('privacy_policy')}
+          onPress={() => onSelectSetting("privacy_policy")}
         >
-          <Ionicons 
-            name="document-text-outline" 
-            size={20} 
-            color={activeSetting === 'privacy_policy' ? appColors.main.Primary : appColors.GreyScale[500]} 
+          <Ionicons
+            name="lock-closed-outline"
+            size={20}
+            color={
+              activeSetting === "privacy_policy"
+                ? appColors.main.Primary
+                : appColors.GreyScale[500]
+            }
           />
-          <Text style={[
-            styles.menuText,
-            activeSetting === 'privacy_policy' && styles.activeMenuText
-          ]}>Privacy policy</Text>
-          <Ionicons name="chevron-forward" size={20} color={appColors.GreyScale[300]} style={styles.arrowIcon} />
+          <Text
+            style={[
+              styles.menuText,
+              activeSetting === "privacy_policy" && styles.activeMenuText,
+            ]}
+          >
+            Privacy policy
+          </Text>
+          <Ionicons
+            name="chevron-forward"
+            size={20}
+            color={appColors.GreyScale[300]}
+            style={styles.arrowIcon}
+          />
         </TouchableOpacity>
       </View>
 
       {/* Sign Out */}
       <TouchableOpacity style={styles.signOutButton}>
+        <Ionicons
+          name="log-out-outline"
+          size={20}
+          color={appColors.alert.Error}
+        />
         <Text style={styles.signOutText}>Sign out</Text>
+        <Ionicons
+          name="chevron-forward"
+          size={20}
+          color={appColors.GreyScale[300]}
+          style={styles.arrowIcon}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -245,35 +350,37 @@ const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: appColors.AdditionalColor.white,
-    borderRadius: 16,
     padding: 20,
     shadowColor: appColors.GreyScale[300],
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
-    borderWidth:2,
+    borderRightWidth: 1,
+    borderColor: appColors.GreyScale[200],
   },
   sectionTitle: {
     fontSize: 20,
     fontFamily: appFonts.UrbanistBold,
     color: appColors.GreyScale[900],
     marginBottom: 24,
+    textAlign: "center",
+    marginVertical: 20,
   },
   section: {
     marginBottom: 24,
   },
   sectionHeader: {
-    fontSize: 12,
-    fontFamily: appFonts.UrbanistMedium,
-    color: appColors.GreyScale[500],
+    fontSize: 14,
+    fontFamily: appFonts.UrbanistBold,
+    color: appColors.GreyScale[400],
     marginBottom: 12,
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
     letterSpacing: 0.5,
   },
   menuItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingVertical: 12,
     borderRadius: 8,
   },
@@ -282,7 +389,7 @@ const styles = StyleSheet.create({
   },
   menuText: {
     fontSize: 14,
-    fontFamily: appFonts.UrbanistMedium,
+    fontFamily: appFonts.UrbanistBold,
     color: appColors.GreyScale[900],
     marginLeft: 12,
     flex: 1,
@@ -292,18 +399,18 @@ const styles = StyleSheet.create({
     fontFamily: appFonts.UrbanistBold,
   },
   arrowIcon: {
-    marginLeft: 'auto',
+    marginLeft: "auto",
   },
   signOutButton: {
-    marginTop: 'auto',
-    paddingVertical: 12,
-    alignItems: 'center',
+    flexDirection: "row",
+    gap: 5,
   },
   signOutText: {
     fontSize: 14,
     fontFamily: appFonts.UrbanistBold,
     color: appColors.alert.Error,
+    textAlign: "center",
   },
 });
 
-export default SettingsSidebar; 
+export default SettingsSidebar;

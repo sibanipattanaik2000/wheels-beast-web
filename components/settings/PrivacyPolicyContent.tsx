@@ -1,143 +1,167 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { appColors } from '@/constants/Color';
-import appFonts from '@/constants/Font';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
+import React, { useState } from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { StatusBar } from 'expo-status-bar'
+import { Image } from 'expo-image'
+import { Ionicons } from '@expo/vector-icons'
+import { useRouter } from 'expo-router'
+import { appColors } from '@/constants/Color'
+import appFonts from '@/constants/Font'
 
-interface PrivacyPolicyContentProps {
-  // Any props can be added here if needed
+interface Section {
+  id: string;
+  title: string;
+  content: string;
 }
 
-const PrivacyPolicyContent: React.FC<PrivacyPolicyContentProps> = () => {
+const sections: Section[] = [
+  {
+    id: '1',
+    title: '1. What information do we collect?',
+    content: 'We obtain information about you through the means discussed below when we provide the Services. Please note that we need certain types of information to provide the Services to you. If you do not provide us with such information, or if you ask us to delete that information, you may no longer be able to access or use certain Services.'
+  },
+  {
+    id: '2',
+    title: '2. We Use Your Information For?',
+    content: 'Your information is used to provide better services and improve user experience. We analyze usage patterns to enhance our platform functionality and security.'
+  },
+  {
+    id: '3',
+    title: '3. How Do We Protect?',
+    content: 'We implement industry-standard security measures to protect your data from unauthorized access, disclosure, alteration, and destruction.'
+  },
+  {
+    id: '4',
+    title: '4. Online Analytics',
+    content: 'We use analytics tools to understand how users interact with our services and improve our offerings based on this data.'
+  },
+  {
+    id: '5',
+    title: '5. Children’s Privacy',
+    content: 'We use analytics tools to understand how users interact with our services and improve our offerings based on this data.'
+  },
+  
+];
+
+const PrivacyPolicy = () => {
+  const [expandedSection, setExpandedSection] = useState<string>('1');
+const router = useRouter();
+  const toggleSection = (sectionId: string) => {
+    if (expandedSection === sectionId) {
+      setExpandedSection('');
+    } else {
+      setExpandedSection(sectionId);
+    }
+  };
+
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.title}>Privacy Policy</Text>
-      <Text style={styles.subtitle}>Last updated: May 20, 2023</Text>
-      
-      <View style={styles.contentSection}>
-        <Text style={styles.sectionTitle}>Introduction</Text>
-        <Text style={styles.paragraph}>
-          WheelBeast ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how your personal information is collected, used, and disclosed by WheelBeast.
-        </Text>
-        <Text style={styles.paragraph}>
-          This Privacy Policy applies to our website, mobile application, and related services (collectively, our "Service"), and describes the types of information we may collect from you or that you may provide when you use our Service and our practices for collecting, using, maintaining, protecting, and disclosing that information.
-        </Text>
-      </View>
-      
-      <View style={styles.contentSection}>
-        <Text style={styles.sectionTitle}>Information We Collect</Text>
-        <Text style={styles.paragraph}>
-          We collect several types of information from and about users of our Service, including:
-        </Text>
-        <Text style={styles.bulletPoint}>• Personal information such as name, email address, phone number, and payment information.</Text>
-        <Text style={styles.bulletPoint}>• Information about your location when you use our Service.</Text>
-        <Text style={styles.bulletPoint}>• Information about your device and internet connection.</Text>
-        <Text style={styles.bulletPoint}>• Usage details and preferences.</Text>
-      </View>
-      
-      <View style={styles.contentSection}>
-        <Text style={styles.sectionTitle}>How We Use Your Information</Text>
-        <Text style={styles.paragraph}>
-          We use the information we collect about you or that you provide to us, including any personal information:
-        </Text>
-        <Text style={styles.bulletPoint}>• To provide, maintain, and improve our Service.</Text>
-        <Text style={styles.bulletPoint}>• To process transactions and send related information.</Text>
-        <Text style={styles.bulletPoint}>• To send notifications and updates related to our Service.</Text>
-        <Text style={styles.bulletPoint}>• To personalize your experience and deliver content and product offerings relevant to your interests.</Text>
-        <Text style={styles.bulletPoint}>• To respond to your comments, questions, and requests.</Text>
-      </View>
-      
-      <View style={styles.contentSection}>
-        <Text style={styles.sectionTitle}>Disclosure of Your Information</Text>
-        <Text style={styles.paragraph}>
-          We may disclose personal information that we collect or you provide as described in this Privacy Policy:
-        </Text>
-        <Text style={styles.bulletPoint}>• To contractors, service providers, and other third parties we use to support our business.</Text>
-        <Text style={styles.bulletPoint}>• To comply with any court order, law, or legal process.</Text>
-        <Text style={styles.bulletPoint}>• To enforce our terms of service and other agreements.</Text>
-        <Text style={styles.bulletPoint}>• If we believe disclosure is necessary to protect the rights, property, or safety of WheelBeast, our users, or others.</Text>
-      </View>
-      
-      <View style={styles.contentSection}>
-        <Text style={styles.sectionTitle}>Data Security</Text>
-        <Text style={styles.paragraph}>
-          We have implemented measures designed to secure your personal information from accidental loss and from unauthorized access, use, alteration, and disclosure.
-        </Text>
-        <Text style={styles.paragraph}>
-          Unfortunately, the transmission of information via the internet and mobile platforms is not completely secure. Although we do our best to protect your personal information, we cannot guarantee the security of your personal information transmitted through our Service.
-        </Text>
-      </View>
-      
-      <View style={styles.contentSection}>
-        <Text style={styles.sectionTitle}>Changes to Our Privacy Policy</Text>
-        <Text style={styles.paragraph}>
-          We may update our Privacy Policy from time to time. If we make material changes to how we treat our users' personal information, we will notify you through a notice on our website or mobile application.
-        </Text>
-        <Text style={styles.paragraph}>
-          The date the Privacy Policy was last revised is identified at the top of the page. You are responsible for periodically visiting our Service and this Privacy Policy to check for any changes.
-        </Text>
-      </View>
-      
-      <View style={styles.contentSection}>
-        <Text style={styles.sectionTitle}>Contact Information</Text>
-        <Text style={styles.paragraph}>
-          If you have any questions or comments about this Privacy Policy and our privacy practices, please contact us at:
-        </Text>
-        <Text style={styles.contact}>privacy@wheelbeast.com</Text>
-        <Text style={styles.contact}>123 WheelBeast Street, San Francisco, CA 94107</Text>
-        <Text style={styles.contact}>+1 (555) 123-4567</Text>
-      </View>
-    </ScrollView>
+    <View style={[styles.container, { backgroundColor: appColors.AdditionalColor.white }]}>
+      <SafeAreaView style={styles.safeArea}>
+       
+
+        <View style={styles.header}>
+          <Text style={{fontSize:24,fontFamily:appFonts.UrbanistBold,color:"#EAB308"}}>Terms & Privacy Policy</Text>
+          <Text style={styles.title}>WheelsBeast privacy policy</Text>
+          <Text style={styles.lastUpdated}>Last updated: Apr 01, 2022</Text>
+        </View>
+
+        <ScrollView 
+          style={[styles.contentContainer, { backgroundColor:appColors.AdditionalColor.white }]} 
+          showsVerticalScrollIndicator={false}
+        >
+          {sections.map((section) => (
+            <View key={section.id} style={styles.section}>
+              <TouchableOpacity
+                style={styles.sectionHeader}
+                onPress={() => toggleSection(section.id)}
+              >
+                <Text style={[styles.sectionTitle, {color:appColors.GreyScale[900]}]}>{section.title}</Text>
+                <Ionicons
+                  name={expandedSection === section.id ? 'remove' : 'add'}
+                  size={24}
+                  color="#666"
+                />
+              </TouchableOpacity>
+              
+              {expandedSection === section.id && (
+                <View style={styles.sectionContent}>
+                  <Text style={styles.sectionText}>{section.content}</Text>
+                  {section.id === '1' && (
+                    <TouchableOpacity style={styles.showMoreButton}>
+                      <Text style={styles.showMoreText}>Show more</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
+              )}
+            </View>
+          ))}
+        </ScrollView>
+      </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: appColors.AdditionalColor.white,
-    padding: 24,
+  },
+  safeArea: {
+    flex: 1,
+  },
+  header: {
+    paddingHorizontal: 20,
+    paddingBottom: 30,
   },
   title: {
-    fontSize: 24,
+    fontSize: 32,
     fontFamily: appFonts.UrbanistBold,
     color: appColors.GreyScale[900],
-    marginBottom: 8,
+    marginVertical: 16
   },
-  subtitle: {
-    fontSize: 14,
+  lastUpdated: {
+    fontSize: 16,
     fontFamily: appFonts.UrbanistMedium,
-    color: appColors.GreyScale[500],
-    marginBottom: 24,
+    color:appColors.GreyScale[500]
   },
-  contentSection: {
-    marginBottom: 24,
+  contentContainer: {
+    flex: 1,
+    backgroundColor: '#000',
+  
+    paddingTop: 20,
+  },
+  section: {
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 20,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: appFonts.UrbanistBold,
-    color: appColors.GreyScale[900],
-    marginBottom: 12,
+    flex: 1,
   },
-  paragraph: {
-    fontSize: 14,
+  sectionContent: {
+    padding: 20,
+    paddingTop: 0,
+  },
+  sectionText: {
+    fontSize: 16,
     fontFamily: appFonts.UrbanistRegular,
-    color: appColors.GreyScale[700],
-    lineHeight: 22,
-    marginBottom: 12,
+    color: appColors.GreyScale[400],
+    lineHeight: 24,
   },
-  bulletPoint: {
-    fontSize: 14,
-    fontFamily: appFonts.UrbanistRegular,
-    color: appColors.GreyScale[700],
-    lineHeight: 22,
-    marginBottom: 8,
-    paddingLeft: 12,
+  showMoreButton: {
+    marginTop: 16,
   },
-  contact: {
-    fontSize: 14,
+  showMoreText: {
+    fontSize: 16,
     fontFamily: appFonts.UrbanistMedium,
-    color: appColors.GreyScale[700],
-    marginBottom: 4,
+    color: '#4318FF',
   },
 });
 
-export default PrivacyPolicyContent; 
+export default PrivacyPolicy;

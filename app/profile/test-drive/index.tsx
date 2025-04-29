@@ -11,6 +11,8 @@ import CalendarComponent from '@/components/CalendarComponent';
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Image } from 'expo-image';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 const TestDrive = () => {
   // Sample user data
@@ -97,6 +99,7 @@ const TestDrive = () => {
 
   return (
     <CustomSafeArea>
+      <Header type='home'/>
       <ScrollView showsVerticalScrollIndicator={false} style={{flex:1}}>
         <View style={styles.container}>
           {/* Left sidebar */}
@@ -227,6 +230,7 @@ const TestDrive = () => {
             </View>
           </View>
         </View>
+        <Footer/>
       </ScrollView>
     </CustomSafeArea>
   );

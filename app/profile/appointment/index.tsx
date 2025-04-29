@@ -7,6 +7,8 @@ import appFonts from '@/constants/Font';
 import AppointmentCard from '@/components/AppointmentCard';
 import CalendarComponent from '@/components/CalendarComponent';
 import Search from '@/components/Searchbar';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 const Appointment = () => {
   // Sample user data
@@ -63,6 +65,7 @@ const Appointment = () => {
 
   return (
     <CustomSafeArea>
+      <Header type='home'/>
       <ScrollView showsVerticalScrollIndicator={false} style={{flex:1}}>
         <View style={styles.container}>
           {/* Left sidebar */}
@@ -115,6 +118,7 @@ const Appointment = () => {
             </View>
           </View>
         </View>
+      <Footer/>
       </ScrollView>
     </CustomSafeArea>
   );
@@ -122,7 +126,6 @@ const Appointment = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: 'row',
     backgroundColor: appColors.GreyScale[50],
     paddingHorizontal: 70,

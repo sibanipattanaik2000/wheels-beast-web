@@ -28,9 +28,6 @@ export const navigateToSettingPage = (setting: SettingsSection, currentSetting: 
         case 'push_notifications':
           router.replace('/settings/push-notifications' as Href);
           break;
-        case 'security':
-          router.replace('/settings/security' as Href);
-          break;
         case 'about':
           router.replace('/settings/about' as Href);
           break;

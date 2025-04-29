@@ -7,6 +7,7 @@ import { appColors } from "@/constants/Color";
 import { Image } from "expo-image";
 import appFonts from "@/constants/Font";
 import { Ionicons } from "@expo/vector-icons";
+import Footer from "@/components/Footer";
 
 const TrackLocation = () => {
     const styles = StyleSheet.create({
@@ -103,6 +104,7 @@ const TrackLocation = () => {
             </View>
           </View>
         </View>
+        <Footer/>
       </ScrollView>
     </CustomSafeArea>
   );

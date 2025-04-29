@@ -31,18 +31,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: appColors.GreyScale[50],
+    alignItems: 'stretch', // ✨ this ensures left and right have same height
+    overflow: 'hidden',
+    
   },
   sidebarContainer: {
-    width:'20%',
-    // No explicit width since the sidebar component should have its own width
+    width: '20%',
+    backgroundColor: appColors.AdditionalColor.white,
+    borderTopLeftRadius:16,
+    borderBottomLeftRadius:16,
+    overflow: 'hidden',
   },
   contentContainer: {
     flex: 1,
     backgroundColor: appColors.AdditionalColor.white,
-    borderRadius: 16,
+    borderTopRightRadius: 16,
+    borderBottomRightRadius:16,
     overflow: 'hidden',
+    paddingVertical:20
   },
 });
 
-export default SidebarContentLayout; 
+export default SidebarContentLayout;

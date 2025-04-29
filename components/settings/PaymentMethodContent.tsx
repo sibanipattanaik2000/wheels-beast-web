@@ -375,12 +375,12 @@ const PaymentMethodContent: React.FC<PaymentMethodContentProps> = () => {
                   cardHolder={card.name} 
                   style={{ width: 300 }}
                 />
-                <TouchableOpacity 
+                {/* <TouchableOpacity 
                   style={styles.deleteCardBtn}
                   onPress={() => handleDeleteCard(card.id)}
                 >
                   <Ionicons name="trash-outline" size={20} color={appColors.alert.Error} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
             ))}
           </ScrollView>
@@ -395,9 +395,7 @@ const PaymentMethodContent: React.FC<PaymentMethodContentProps> = () => {
           {/* Apple Pay */}
           <TouchableOpacity style={styles.paymentMethod}>
             <View style={styles.paymentMethodLeft}>
-              <View style={styles.paymentIcon}>
-                <Ionicons name="logo-apple" size={24} color="#000" />
-              </View>
+              <Image source={require('@/assets/images/link/apple.png')} style={{height:48,width:48}}/>
               <Text style={styles.paymentName}>Apple Pay</Text>
             </View>
             <View style={{flexDirection:'row',gap:20}}>
@@ -409,29 +407,27 @@ const PaymentMethodContent: React.FC<PaymentMethodContentProps> = () => {
           {/* PayPal */}
           <TouchableOpacity style={styles.paymentMethod}>
             <View style={styles.paymentMethodLeft}>
-              <View style={[styles.paymentIcon, { backgroundColor: '#0070BA' }]}>
-                <Text style={styles.paypalLogo}>P</Text>
-              </View>
+              <View style={{backgroundColor:appColors.main.Primary,justifyContent:"center",alignItems:'center',height:48,width:48,borderRadius:10}}>
+            <Ionicons name="logo-paypal" size={24} color="#ffffff" />
+            </View>
               <Text style={styles.paymentName}>Paypal</Text>
             </View>
-            <Text style={styles.notConnected}>Not connected</Text>
-            <Ionicons name="chevron-forward" size={20} color={appColors.GreyScale[300]} />
+            <View style={{flexDirection:'row',gap:20}}>
+              <Text style={styles.notConnected}>Not connected</Text>
+              <Ionicons name="chevron-forward" size={20} color={appColors.GreyScale[300]} />
+            </View>
           </TouchableOpacity>
           
           {/* Google Pay */}
           <TouchableOpacity style={styles.paymentMethod}>
             <View style={styles.paymentMethodLeft}>
-              <View style={styles.paymentIcon}>
-                <Image 
-                  source={require('@/assets/images/brand/Car.png')} 
-                  style={styles.googleLogo}
-                  resizeMode="contain"
-                />
-              </View>
+            <Image source={require('@/assets/images/link/google.png')} style={{height:48,width:48}}/>
               <Text style={styles.paymentName}>Google Pay</Text>
             </View>
-            <Text style={styles.notConnected}>Not connected</Text>
-            <Ionicons name="chevron-forward" size={20} color={appColors.GreyScale[300]} />
+            <View style={{flexDirection:'row',gap:20}}>
+              <Text style={styles.notConnected}>Not connected</Text>
+              <Ionicons name="chevron-forward" size={20} color={appColors.GreyScale[300]} />
+            </View>
           </TouchableOpacity>
         </View>
       </View>

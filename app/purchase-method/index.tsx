@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import React from "react";
 import { StatusBar } from "expo-status-bar";
 import Button from "@/components/Button";
@@ -22,7 +22,7 @@ const PurchaseMethod = () => {
 
   const handleContinue = () => {
     // Handle continue logic here
-    router.push("/delivery" as Href);
+    router.push("/inspection" as Href);
   };
 
   const handleCardSelect = (title: string) => {
@@ -106,6 +106,7 @@ const PurchaseMethod = () => {
             variant="filled"
             color={appColors.AdditionalColor.white}
             style={styles.continueButton}
+            
           />
         </View>
         </View>

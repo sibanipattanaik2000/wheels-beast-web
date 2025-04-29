@@ -8,6 +8,8 @@ import appFonts from '@/constants/Font'
 import SavedCard from '@/components/SavedCard'
 import PaymentMethodOption from '@/components/PaymentMethodOption'
 import Button from '@/components/Button'
+import { Href, useRouter } from 'expo-router'
+import Footer from '@/components/Footer'
 
 // Define available payment methods
 const paymentMethods = [
@@ -35,7 +37,7 @@ const paymentMethods = [
 
 const SelectPayment = () => {
   const [selectedMethod, setSelectedMethod] = useState('card');
-
+   const router = useRouter();
   const handleConfirm = () => {
     // For demo purposes, just show an alert instead of navigation
     Alert.alert(
@@ -45,6 +47,7 @@ const SelectPayment = () => {
         { text: "OK" }
       ]
     );
+   
   };
 
   return (
@@ -101,10 +104,12 @@ const SelectPayment = () => {
                 variant="filled"
                 style={styles.confirmButton}
                 color={appColors.AdditionalColor.white}
+                onPress={()=> router.push("/payment-receipt" as Href)}
               />
             </View>
           </View>
         </View>
+        <Footer/>
       </ScrollView>
     </CustomSafeArea>
   )

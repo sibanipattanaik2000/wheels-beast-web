@@ -1,206 +1,230 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { appColors } from '@/constants/Color';
-import appFonts from '@/constants/Font';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
+import React from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
+import { Image } from "expo-image";
+import { Ionicons } from "@expo/vector-icons";
+import { Href, useRouter } from "expo-router";
+import appFonts from "@/constants/Font";
+import { appColors } from "@/constants/Color";
 
-interface AboutContentProps {
-  // Any props can be added here if needed
+interface Feature {
+  id: string;
+  title: string;
+  description: string;
+  icon: any;
 }
 
-const AboutContent: React.FC<AboutContentProps> = () => {
+const features: Feature[] = [
+  {
+    id: "1",
+    title: "Financing Made Simple",
+    description:
+      "Get personalized loan terms and monthly payment in minutes without impacting your credit score.",
+    icon: require("@/assets/images/Profile/avtar.png"),
+  },
+  {
+    id: "2",
+    title: "Secure Transactions",
+    description:
+      "Every transaction is protected with bank-level security and encryption.",
+    icon: require("@/assets/images/Profile/avtar.png"),
+  },
+  {
+    id: "3",
+    title: "Expert Support",
+    description:
+      "24/7 customer support to help you with any questions or concerns.",
+    icon: require("@/assets/images/Profile/avtar.png"),
+  },
+];
+
+const About = () => {
+  const router = useRouter();
+
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.title}>About WheelBeast</Text>
-      <Text style={styles.subtitle}>Learn more about our app</Text>
-      
-      <View style={styles.logoContainer}>
-        <Image 
-          source={require('@/assets/images/brand/Car.png')} 
-          style={styles.logo}
-          resizeMode="contain"
-        />
-        <Text style={styles.appName}>WheelBeast</Text>
-        <Text style={styles.version}>Version 1.0.0</Text>
-      </View>
-      
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>App Information</Text>
-        
-        <View style={styles.infoList}>
-          <TouchableOpacity style={styles.infoItem}>
-            <View style={styles.infoLeft}>
-              <View style={styles.infoIcon}>
-                <Ionicons name="newspaper-outline" size={24} color={appColors.GreyScale[900]} />
+    <View style={[styles.container, { backgroundColor: "#fff" }]}>
+      <SafeAreaView style={styles.safeArea}>
+        {/* Header with Menu and Profile */}
+
+        <ScrollView
+          style={styles.scrollView}
+          showsVerticalScrollIndicator={false}
+        >
+          {/* Mission Section */}
+          <View style={styles.missionSection}>
+            <Text style={styles.missionLabel}>OUR MISSION</Text>
+            <Text style={styles.missionTitle}>
+              Make car purchase and ownership simple.
+            </Text>
+            <Text style={styles.missionDescription}>
+              We bring you new markets, new customers and new opportunities for
+              the purchase and sale of used cars. Now you can buy and sell a
+              used car safely and comfortably online, with only a few easy
+              clicks.
+            </Text>
+          </View>
+
+          {/* Why Choose Us Section */}
+          <View
+            style={[
+              styles.whyUsSection,
+              { backgroundColor: appColors.AdditionalColor.white },
+            ]}
+          >
+            <Text
+              style={[styles.whyUsTitle, { color: appColors.GreyScale[900] }]}
+            >
+              Why choose us?
+            </Text>
+            <Text
+              style={[
+                styles.whyUsSubtitle,
+                { color: appColors.GreyScale[500] },
+              ]}
+            >
+              Used cars are an incredible value. But the process needed a
+              makeover.
+            </Text>
+
+            {/* Feature Cards */}
+            {features.map((feature) => (
+              <View
+                key={feature.id}
+                style={[
+                  styles.featureCard,
+                  {
+                    backgroundColor: "#F8FAFC",
+                  },
+                ]}
+              >
+                <View style={styles.featureIconContainer}>
+                  <Image
+                    source={feature.icon}
+                    style={styles.featureIcon}
+                    contentFit="contain"
+                  />
+                </View>
+                <Text
+                  style={[
+                    styles.featureTitle,
+                    { color: appColors.GreyScale[900] },
+                  ]}
+                >
+                  {feature.title}
+                </Text>
+                <Text
+                  style={[
+                    styles.featureDescription,
+                    { color: appColors.GreyScale[500] },
+                  ]}
+                >
+                  {feature.description}
+                </Text>
               </View>
-              <Text style={styles.infoText}>Terms & Conditions</Text>
-            </View>
-            <Ionicons name="chevron-forward" size={24} color={appColors.GreyScale[700]} />
-          </TouchableOpacity>
-          
-          <TouchableOpacity style={styles.infoItem}>
-            <View style={styles.infoLeft}>
-              <View style={styles.infoIcon}>
-                <Ionicons name="document-text-outline" size={24} color={appColors.GreyScale[900]} />
-              </View>
-              <Text style={styles.infoText}>Privacy Policy</Text>
-            </View>
-            <Ionicons name="chevron-forward" size={24} color={appColors.GreyScale[700]} />
-          </TouchableOpacity>
-          
-          <TouchableOpacity style={styles.infoItem}>
-            <View style={styles.infoLeft}>
-              <View style={styles.infoIcon}>
-                <Ionicons name="star-outline" size={24} color={appColors.GreyScale[900]} />
-              </View>
-              <Text style={styles.infoText}>Rate the App</Text>
-            </View>
-            <Ionicons name="chevron-forward" size={24} color={appColors.GreyScale[700]} />
-          </TouchableOpacity>
-          
-          <TouchableOpacity style={styles.infoItem}>
-            <View style={styles.infoLeft}>
-              <View style={styles.infoIcon}>
-                <Ionicons name="share-social-outline" size={24} color={appColors.GreyScale[900]} />
-              </View>
-              <Text style={styles.infoText}>Share the App</Text>
-            </View>
-            <Ionicons name="chevron-forward" size={24} color={appColors.GreyScale[700]} />
-          </TouchableOpacity>
-        </View>
-      </View>
-      
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Connect With Us</Text>
-        
-        <View style={styles.socialList}>
-          <TouchableOpacity style={styles.socialItem}>
-            <View style={[styles.socialIcon, { backgroundColor: '#3b5998' }]}>
-              <Ionicons name="logo-facebook" size={24} color="#fff" />
-            </View>
-            <Text style={styles.socialText}>Facebook</Text>
-          </TouchableOpacity>
-          
-          <TouchableOpacity style={styles.socialItem}>
-            <View style={[styles.socialIcon, { backgroundColor: '#00acee' }]}>
-              <Ionicons name="logo-twitter" size={24} color="#fff" />
-            </View>
-            <Text style={styles.socialText}>Twitter</Text>
-          </TouchableOpacity>
-          
-          <TouchableOpacity style={styles.socialItem}>
-            <View style={[styles.socialIcon, { backgroundColor: '#E1306C' }]}>
-              <Ionicons name="logo-instagram" size={24} color="#fff" />
-            </View>
-            <Text style={styles.socialText}>Instagram</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </ScrollView>
+            ))}
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: appColors.AdditionalColor.white,
-    padding: 24,
   },
-  title: {
-    fontSize: 24,
-    fontFamily: appFonts.UrbanistBold,
-    color: appColors.GreyScale[900],
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 14,
-    fontFamily: appFonts.UrbanistMedium,
-    color: appColors.GreyScale[500],
-    marginBottom: 24,
-  },
-  logoContainer: {
-    alignItems: 'center',
-    marginVertical: 32,
+  safeArea: {
+    flex: 1,
   },
   logo: {
-    width: 100,
-    height: 100,
-    marginBottom: 16,
+    width: 30,
+    height: 30,
   },
-  appName: {
+  profileButton: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+  },
+  profileImage: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 15,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  missionSection: {
+    padding: 20,
+    paddingTop: 40,
+  },
+  missionLabel: {
     fontSize: 24,
     fontFamily: appFonts.UrbanistBold,
-    color: appColors.GreyScale[900],
-    marginBottom: 8,
+    color: "#FFD700",
   },
-  version: {
-    fontSize: 14,
-    fontFamily: appFonts.UrbanistMedium,
-    color: appColors.GreyScale[500],
-  },
-  section: {
-    marginBottom: 24,
-  },
-  sectionTitle: {
-    fontSize: 16,
+  missionTitle: {
+    fontSize: 32,
     fontFamily: appFonts.UrbanistBold,
     color: appColors.GreyScale[900],
+    marginVertical: 10,
+  },
+  missionDescription: {
+    fontSize: 16,
+    fontFamily: appFonts.UrbanistRegular,
+    color: appColors.GreyScale[500],
+    lineHeight: 24,
+  },
+  whyUsSection: {
+    flex: 1,
+
+    padding: 20,
+  },
+  whyUsTitle: {
+    fontSize: 28,
+    fontFamily: appFonts.UrbanistBold,
+    marginBottom: 12,
+  },
+  whyUsSubtitle: {
+    fontSize: 16,
+    fontFamily: appFonts.UrbanistRegular,
+    marginBottom: 24,
+    lineHeight: 24,
+  },
+  featureCard: {
+    padding: 20,
+    borderRadius: 16,
     marginBottom: 16,
   },
-  infoList: {
-    backgroundColor: appColors.AdditionalColor.white,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: appColors.GreyScale[100],
-    overflow: 'hidden',
-  },
-  infoItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: appColors.GreyScale[100],
-  },
-  infoLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  infoIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 8,
-    backgroundColor: appColors.GreyScale[50],
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 16,
-  },
-  infoText: {
-    fontSize: 16,
-    fontFamily: appFonts.UrbanistBold,
-    color: appColors.GreyScale[900],
-  },
-  socialList: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  socialItem: {
-    alignItems: 'center',
-    width: '30%',
-  },
-  socialIcon: {
+  featureIconContainer: {
     width: 48,
     height: 48,
-    borderRadius: 24,
-    alignItems: 'center',
-    justifyContent: 'center',
+    borderRadius: 12,
+    backgroundColor: "#4318FF",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 16,
+  },
+  featureIcon: {
+    width: 24,
+    height: 24,
+  },
+  featureTitle: {
+    fontSize: 20,
+    fontFamily: appFonts.UrbanistBold,
     marginBottom: 8,
   },
-  socialText: {
+  featureDescription: {
     fontSize: 14,
-    fontFamily: appFonts.UrbanistMedium,
-    color: appColors.GreyScale[900],
+    fontFamily: appFonts.UrbanistRegular,
+    lineHeight: 20,
   },
 });
 
-export default AboutContent; 
+export default About;

@@ -4,6 +4,8 @@ import EditProfileSidebar from "@/components/EditProfileSidebar";
 import { appColors } from "@/constants/Color";
 import CustomSafeArea from "@/components/CustomSafeArea";
 import appFonts from "@/constants/Font";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const Setting = () => {
   // Sample user data
@@ -15,6 +17,7 @@ const Setting = () => {
 
   return (
     <CustomSafeArea>
+      <Header type="home" />
       <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
         <View
           style={{
@@ -39,11 +42,11 @@ const Setting = () => {
             <View style={styles.contentCard}>
               <Text style={styles.title}>Settings</Text>
               {/* Placeholder content */}
-              <View style={styles.placeholderContent}>
-              </View>
+              <View style={styles.placeholderContent}></View>
             </View>
           </View>
         </View>
+        <Footer />
       </ScrollView>
     </CustomSafeArea>
   );

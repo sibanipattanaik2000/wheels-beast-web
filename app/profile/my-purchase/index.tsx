@@ -4,6 +4,8 @@ import EditProfileSidebar from '@/components/EditProfileSidebar';
 import { appColors } from '@/constants/Color';
 import CustomSafeArea from '@/components/CustomSafeArea';
 import MyPurchases from '@/components/MyPurchases';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 const MyPurchase = () => {
   // Sample user data
@@ -15,6 +17,7 @@ const MyPurchase = () => {
 
   return (
     <CustomSafeArea>
+      <Header type='home'/>
       <ScrollView showsVerticalScrollIndicator={false} style={{flex:1}}>
         <View style={styles.container}>
           {/* Left sidebar */}
@@ -31,6 +34,7 @@ const MyPurchase = () => {
             {/* <MyPurchases /> */}
           </View>
         </View>
+        <Footer/>
       </ScrollView>
     </CustomSafeArea>
   );

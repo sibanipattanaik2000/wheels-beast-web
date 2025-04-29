@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, StyleSheet, Animated } from "react-native";
+import { View, Text, ScrollView, StyleSheet, Animated, TouchableOpacity } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
 import CustomSafeArea from "@/components/CustomSafeArea";
 import Header from "@/components/Header";
@@ -8,6 +8,8 @@ import appFonts from "@/constants/Font";
 import Button from "@/components/Button";
 import { Image } from "expo-image";
 import { Ionicons } from "@expo/vector-icons";
+import { Href, useRouter } from "expo-router";
+import Footer from "@/components/Footer";
 
 // Define step type
 interface Step {
@@ -21,6 +23,7 @@ interface Step {
 }
 
 const TrackingProcess = () => {
+  const router = useRouter();
   // Animation values for timeline and steps
   const lineHeightAnim = useRef(new Animated.Value(0)).current;
   const step1Anim = useRef(new Animated.Value(0)).current;
@@ -171,11 +174,14 @@ const TrackingProcess = () => {
                     <Text style={styles.trackingLabel}>Order Progress</Text>
                   </View>
                 </View>
+                <TouchableOpacity onPress={()=>router.push("/track-location" as Href)}>
                 <Ionicons
                   name="chevron-forward-outline"
                   size={20}
                   color={appColors.GreyScale[500]}
                 />
+                </TouchableOpacity>
+               
               </View>
 
               {/* Estimated delivery and shipping info */}
@@ -306,6 +312,7 @@ const TrackingProcess = () => {
             </View>
           </View>
         </View>
+        <Footer/>
       </ScrollView>
     </CustomSafeArea>
   );

@@ -8,6 +8,8 @@ import { Ionicons } from '@expo/vector-icons'
 import appFonts from '@/constants/Font'
 import { Image } from 'expo-image'
 import Button from '@/components/Button'
+import { Href, useRouter } from 'expo-router'
+import Footer from '@/components/Footer'
 
 // Sample address data
 const addresses = [
@@ -33,7 +35,7 @@ const addresses = [
 
 const SelectAddress = () => {
   const [selectedAddress, setSelectedAddress] = useState('1')
-
+   const router = useRouter();
   const handleConfirmAddress = () => {
     // For now just show an alert that would navigate in real app
     Alert.alert(
@@ -41,6 +43,7 @@ const SelectAddress = () => {
       "You would now be redirected to the inspection page.",
       [{ text: "OK" }]
     )
+    router.push("/payment" as Href)
   }
 
   return (
@@ -120,6 +123,7 @@ const SelectAddress = () => {
             </View>
           </View>
         </View>
+        <Footer/>
       </ScrollView>
     </CustomSafeArea>
   )

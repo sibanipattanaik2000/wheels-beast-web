@@ -4,9 +4,10 @@ import CustomSafeArea from '@/components/CustomSafeArea'
 import Header from '@/components/Header'
 import CarPurchase from '@/components/CarPurchase'
 import { appColors } from '@/constants/Color'
-import { router } from 'expo-router'
+import { Href, router } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
 import appFonts from '@/constants/Font'
+import Footer from '@/components/Footer'
 
 const Inspection = () => {
   return (
@@ -108,13 +109,14 @@ const Inspection = () => {
 
               <TouchableOpacity 
                 style={styles.continueButton}
-                onPress={() => router.push('/home')}
+                onPress={() => router.push('/select-address' as Href)}
               >
                 <Text style={styles.continueButtonText}>Continue</Text>
               </TouchableOpacity>
             </View>
           </View>
         </View>
+        <Footer/>
       </ScrollView>
     </CustomSafeArea>
   )

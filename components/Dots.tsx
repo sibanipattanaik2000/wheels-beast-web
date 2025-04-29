@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { View, Text, ImageBackground, TouchableOpacity } from "react-native";
 import appFonts from "@/constants/Font";
 import { appColors } from "@/constants/Color";
@@ -27,11 +27,48 @@ interface DotsProps {
 
 const Dots: React.FC<DotsProps> = ({ onIndexChange }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Auto-slide every 5 seconds
+  useEffect(() => {
+    const startTimer = () => {
+      timerRef.current = setInterval(() => {
+        setCurrentIndex((prevIndex) => {
+          const nextIndex = prevIndex === slides.length - 1 ? 0 : prevIndex + 1;
+          return nextIndex;
+        });
+      }, 3000); // 5 seconds
+    };
+
+    startTimer();
+
+    // Cleanup interval on unmount
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+    };
+  }, []);
 
   // Notify parent when index changes
   useEffect(() => {
     if (onIndexChange) onIndexChange(currentIndex);
   }, [currentIndex, onIndexChange]);
+
+  // Handle manual dot click and reset timer
+  const handleDotPress = (index: number) => {
+    setCurrentIndex(index);
+    if (timerRef.current) {
+      clearInterval(timerRef.current); // Clear existing timer
+    }
+    // Restart timer
+    timerRef.current = setInterval(() => {
+      setCurrentIndex((prevIndex) => {
+        const nextIndex = prevIndex === slides.length - 1 ? 0 : prevIndex + 1;
+        return nextIndex;
+      });
+    }, 5000);
+  };
 
   const currentSlide = slides[currentIndex];
 
@@ -81,7 +118,7 @@ const Dots: React.FC<DotsProps> = ({ onIndexChange }) => {
             return (
               <TouchableOpacity
                 key={index}
-                onPress={() => setCurrentIndex(index)}
+                onPress={() => handleDotPress(index)}
                 style={{
                   width: isActive ? 24 : 10,
                   height: 10,

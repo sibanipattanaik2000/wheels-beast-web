@@ -7,8 +7,11 @@ import { appColors } from '@/constants/Color'
 import appFonts from '@/constants/Font'
 import Button from '@/components/Button'
 import { Image } from 'expo-image'
+import { Href, useRouter } from 'expo-router'
+import Footer from '@/components/Footer'
 
 const PaymentReceipt = () => {
+  const router = useRouter();
   return (
     <CustomSafeArea>
       <Header type="home" />
@@ -116,11 +119,13 @@ const PaymentReceipt = () => {
                   variant="outlined"
                   style={styles.downloadButton}
                   color={appColors.main.Primary}
+                  onPress={()=> router.push("/tracking-process" as Href)}
                 />
               </View>
             </View>
           </View>
         </View>
+        <Footer/>
       </ScrollView>
     </CustomSafeArea>
   )

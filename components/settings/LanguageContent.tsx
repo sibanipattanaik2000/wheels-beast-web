@@ -1,59 +1,97 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { appColors } from '@/constants/Color';
 import appFonts from '@/constants/Font';
+import { useTranslation } from 'react-i18next';
 
 interface LanguageContentProps {
   // Any props can be added here if needed
 }
 
 const LanguageContent: React.FC<LanguageContentProps> = () => {
-  // Sample language options
+ // const { t, i18n } = useTranslation();
+
+  // Sample language options with flag images
   const languages = [
-    { id: 'en', name: 'English', flag: '🇺🇸' },
-    { id: 'es', name: 'Spanish', flag: '🇪🇸' },
-    { id: 'fr', name: 'French', flag: '🇫🇷' },
-    { id: 'de', name: 'German', flag: '🇩🇪' },
-    { id: 'it', name: 'Italian', flag: '🇮🇹' },
-    { id: 'pt', name: 'Portuguese', flag: '🇵🇹' },
-    { id: 'ru', name: 'Russian', flag: '🇷🇺' },
-    { id: 'zh', name: 'Chinese', flag: '🇨🇳' },
-    { id: 'ja', name: 'Japanese', flag: '🇯🇵' },
-    { id: 'ko', name: 'Korean', flag: '🇰🇷' },
+    { id: 'en', name: 'English (US)', flag: require('@/assets/images/flags/us.png') },
+    { id: 'eng', name: 'English (ENG)', flag: require('@/assets/images/flags/en.png') },
+    { id: 'in', name: 'Indonesian', flag: require('@/assets/images/flags/in.png') },
+    { id: 'ru', name: 'Russia', flag: require('@/assets/images/flags/ru.png') },
+    { id: 'fr', name: 'French', flag: require('@/assets/images/flags/fr.png') }, 
+    { id: 'ch', name: 'Chinese', flag: require('@/assets/images/flags/ch.png') }, 
+    { id: 'ja', name: 'Japanese', flag: require('@/assets/images/flags/ja.png') }, 
+    { id: 'ge', name: 'Germany', flag: require('@/assets/images/flags/ge.png') }, 
+    { id: 'nl', name: 'Netherland', flag: require('@/assets/images/flags/nl.png') }, 
   ];
-  
+
   // State for selected language
   const [selectedLanguage, setSelectedLanguage] = useState('en');
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+
+  // Handle language selection and update i18next language
+  const handleLanguageSelect = (languageId: string) => {
+    setSelectedLanguage(languageId);
+   // i18n.changeLanguage(languageId); // Update app language
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Language</Text>
-      <Text style={styles.subtitle}>Select your preferred language</Text>
-      
+      {/* Translated Title */}
+      {/* <Text style={styles.title}>{t('welcome')}</Text> */}
+
+      {/* Search Container */}
+      <View
+        style={[
+          styles.searchContainer,
+          {
+            backgroundColor: appColors.GreyScale[50],
+            borderWidth: isSearchFocused ? 1 : 0,
+            borderColor: isSearchFocused ? appColors.main.Primary : 'transparent',
+            width: '40%',
+          },
+        ]}
+      >
+        <TextInput
+          placeholder="Search message"
+          placeholderTextColor={appColors.GreyScale[400]}
+          style={[styles.searchInput, { color: appColors.GreyScale[900] }]}
+          onFocus={() => setIsSearchFocused(true)}
+          onBlur={() => setIsSearchFocused(false)}
+        />
+        <Ionicons name="search" size={20} color={appColors.GreyScale[400]} />
+      </View>
+
+      {/* Translated Language Selection Message */}
+      <Text style={styles.languageSelectionText}>
+        {/* {t('language_selected', { language: languages.find(lang => lang.id === selectedLanguage)?.name })} */}
+      </Text>
+
       <ScrollView style={styles.languageList}>
         {languages.map(language => (
-          <TouchableOpacity 
+          <TouchableOpacity
             key={language.id}
             style={[
               styles.languageItem,
-              selectedLanguage === language.id && styles.selectedLanguageItem
+              selectedLanguage === language.id && styles.selectedLanguageItem,
             ]}
-            onPress={() => setSelectedLanguage(language.id)}
+            onPress={() => handleLanguageSelect(language.id)}
           >
-            <View style={styles.flagContainer}>
-              <Text style={styles.flag}>{language.flag}</Text>
+            <View >
+              <Image source={language.flag} style={styles.flag} />
             </View>
-            <Text style={[
-              styles.languageName,
-              selectedLanguage === language.id && styles.selectedLanguageName
-            ]}>
+            <Text
+              style={[
+                styles.languageName,
+                selectedLanguage === language.id && styles.selectedLanguageName,
+              ]}
+            >
               {language.name}
             </Text>
             {selectedLanguage === language.id && (
-              <Ionicons 
-                name="checkmark-circle" 
-                size={20} 
+              <Ionicons
+                name="checkmark-circle"
+                size={20}
                 color={appColors.main.Primary}
                 style={styles.checkIcon}
               />
@@ -61,10 +99,6 @@ const LanguageContent: React.FC<LanguageContentProps> = () => {
           </TouchableOpacity>
         ))}
       </ScrollView>
-      
-      <TouchableOpacity style={styles.applyButton}>
-        <Text style={styles.applyButtonText}>Apply</Text>
-      </TouchableOpacity>
     </View>
   );
 };
@@ -81,47 +115,49 @@ const styles = StyleSheet.create({
     color: appColors.GreyScale[900],
     marginBottom: 8,
   },
-  subtitle: {
-    fontSize: 14,
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    height: 56,
+    borderRadius: 16,
+    marginVertical: 20,
+  },
+  searchInput: {
+    flex: 1,
+    height: 50,
     fontFamily: appFonts.UrbanistMedium,
-    color: appColors.GreyScale[500],
-    marginBottom: 24,
+    fontSize: 14,
+  },
+  languageSelectionText: {
+    fontSize: 16,
+    fontFamily: appFonts.UrbanistMedium,
+    color: appColors.GreyScale[900],
+    marginBottom: 16,
   },
   languageList: {
     flex: 1,
     backgroundColor: appColors.AdditionalColor.white,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: appColors.GreyScale[100],
-    marginBottom: 24,
   },
   languageItem: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 16,
     paddingHorizontal: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: appColors.GreyScale[100],
   },
   selectedLanguageItem: {
     backgroundColor: appColors.GreyScale[50],
   },
-  flagContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: appColors.GreyScale[100],
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 16,
-  },
   flag: {
-    fontSize: 22,
+    width: 30,
+    height: 30,
+    resizeMode:'contain'
   },
   languageName: {
     fontSize: 16,
-    fontFamily: appFonts.UrbanistMedium,
+    fontFamily: appFonts.UrbanistBold,
     color: appColors.GreyScale[900],
+    marginLeft:10,
   },
   selectedLanguageName: {
     fontFamily: appFonts.UrbanistBold,
@@ -130,17 +166,6 @@ const styles = StyleSheet.create({
   checkIcon: {
     marginLeft: 'auto',
   },
-  applyButton: {
-    backgroundColor: appColors.main.Primary,
-    borderRadius: 12,
-    paddingVertical: 16,
-    alignItems: 'center',
-  },
-  applyButtonText: {
-    fontSize: 16,
-    fontFamily: appFonts.UrbanistBold,
-    color: appColors.AdditionalColor.white,
-  },
 });
 
-export default LanguageContent; 
+export default LanguageContent;

@@ -15,6 +15,9 @@ import DropDownComponent from "@/components/Dropdown";
 import FeatureCard from "./FeatureCard";
 import ShareModal from "./ShareModal";
 import { Href, useRouter } from "expo-router";
+import CarViewer from "./CarViewer";
+import CarPriceGraph from "./CarPriceGraph";
+import Car360Modal from "./Car360Modal";
 
 interface VehicleDetailsProps {
   vehicle: {
@@ -57,6 +60,87 @@ interface VehicleDetailsProps {
   };
 }
 
+const tabContent = {
+  // details: {
+  //   data: [
+  //     { label: "Year", value: "2023" },
+  //     { label: "Make", value: "Audi" },
+  //     { label: "Model", value: "Q7 50 Quattro" },
+  //     { label: "Engine", value: "3.0L V6 Turbo" },
+  //     { label: "Transmission", value: "Automatic" },
+  //     { label: "Drivetrain", value: "All-wheel Drive" },
+  //     { label: "Exterior Color", value: "Carrara White" },
+  //     { label: "Interior Color", value: "Black" },
+  //     { label: "Fuel Economy", value: "19 City / 25 Hwy" },
+  //   ],
+  // },
+  // features: {
+  //   specifications: [
+  //     {
+  //       icon: require("@/assets/images/icons/transmission.png"),
+  //       label: "Transmission type",
+  //       value: "Automatic",
+  //     },
+  //     {
+  //       icon: require("@/assets/images/icons/engine.png"),
+  //       label: "Engine displacement",
+  //       value: "2998 cc",
+  //     },
+  //     {
+  //       icon: require("@/assets/images/icons/seat.png"),
+  //       label: "Seating capacity",
+  //       value: "7 Seats",
+  //     },
+  //    ],
+  //   // performance: [
+  //   //   {
+  //   //     src: require("@/assets/images/Features/Speed.png"),
+  //   //     line1: "Top Speed",
+  //   //     line2: "250 kmph",
+  //   //   },
+  //   //   {
+  //   //     src: require("@/assets/images/Features/torque.png"),
+  //   //     line1: "Torque",
+  //   //     line2: "369 lb - ft",
+  //   //   },
+  //   //   {
+  //   //     src: require("@/assets/images/Features/Fuel.png"),
+  //   //     line1: "Fuel type",
+  //   //     line2: "Petrol",
+  //   //   },
+  //   // ],
+  //   // features: [
+  //   //   {
+  //   //     icon: require("@/assets/images/icons/bluetooth.png"),
+  //   //     label: "Bluetooth connectivity",
+  //   //     value: true,
+  //   //   },
+  //   //   {
+  //   //     icon: require("@/assets/images/icons/climate.png"),
+  //   //     label: "Automatic climate control",
+  //   //     value: true,
+  //   //   },
+  //   //   {
+  //   //     icon: require("@/assets/images/icons/climate.png"),
+  //   //     label: "GPS Navigation",
+  //   //     value: true,
+  //   //   },
+  //   // ],
+  // },
+  design: {},
+  price_map: {
+    data: [
+      { item: "Base Price", price: 68000 },
+      { item: "Premium Plus Package", price: 5500 },
+      { item: "Technology Package", price: 3000 },
+      { item: "Towing Package", price: 1500 },
+      { item: "Destination Fee", price: 1195 },
+      { item: "Dealer Discount", price: -2500 },
+      { item: "Total", price: 76695 },
+    ],
+  },
+};
+
 const featureItems = [
   {
     src: require("@/assets/images/Features/automatic.png"),
@@ -96,32 +180,30 @@ const notablefeatures = [
     src: require("@/assets/images/Features/bt.png"),
     line1: "Bluetooth Connectivity",
     line2: "Yes",
-    line2Color:appColors.alert.Success
+    line2Color: appColors.alert.Success,
   },
   {
     src: require("@/assets/images/Features/snow.png"),
     line1: "Automatic Climate",
     line2: "Yes",
-    line2Color:appColors.alert.Success
-
+    line2Color: appColors.alert.Success,
   },
   {
     src: require("@/assets/images/Features/ac.png"),
     line1: "Air Conditioner",
     line2: "Yes",
-    line2Color:appColors.alert.Success
+    line2Color: appColors.alert.Success,
   },
 ];
 
 const VehicleDetails = ({ vehicle }: VehicleDetailsProps) => {
   const router = useRouter();
   const [activeImage, setActiveImage] = useState(0);
-  const [expandedSection, setExpandedSection] = useState<string | null>(
-    "vehicle-details"
-  );
+  const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const [expandedFeature, setExpandedFeature] = useState<number | null>(null);
   const [isLiked, setIsLiked] = useState(false);
   const [shareModalVisible, setShareModalVisible] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const toggleSection = (section: string) => {
     if (expandedSection === section) {
@@ -143,14 +225,11 @@ const VehicleDetails = ({ vehicle }: VehicleDetailsProps) => {
     setIsLiked(!isLiked);
   };
 
-  const toggleShareModal = () => {
-    setShareModalVisible(!shareModalVisible);
-  };
 
   return (
     <ScrollView
       style={{
-        backgroundColor: appColors.GreyScale[200],
+        backgroundColor: appColors.GreyScale[50],
         width: "100%",
         alignSelf: "flex-end",
       }}
@@ -211,11 +290,18 @@ const VehicleDetails = ({ vehicle }: VehicleDetailsProps) => {
                 <Ionicons
                   name={isLiked ? "heart" : "heart-outline"}
                   size={24}
-                  color={isLiked ? "#FF3B30" : "#000"}
+                  color={isLiked ? "red" : "#000"}
                 />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.iconButton} onPress={toggleShareModal}>
-                <Image source={require("@/assets/images/Features/share.png")} style={{width:24,height:24}} />
+              <TouchableOpacity
+                style={styles.iconButton}
+                //onPress={toggleShareModal}
+                onPress={() => setShowModal(true)}
+              >
+                <Image
+                  source={require("@/assets/images/Features/share.png")}
+                  style={{ width: 24, height: 24 }}
+                />
               </TouchableOpacity>
             </View>
           </View>
@@ -241,7 +327,7 @@ const VehicleDetails = ({ vehicle }: VehicleDetailsProps) => {
             <View style={styles.specItem}>
               <Ionicons name="timer-outline" size={24} color="#000" />
               <Text style={styles.specValue}>
-                {vehicle.specs.acceleration}{" "}
+                {vehicle.specs.acceleration}
                 <Text style={styles.specUnit}>sec</Text>
               </Text>
               <Text style={styles.specLabel}>0-60 mph</Text>
@@ -256,7 +342,7 @@ const VehicleDetails = ({ vehicle }: VehicleDetailsProps) => {
             color={appColors.AdditionalColor.white}
             style={styles.testDriveButton}
             width="40%"
-            onPress={()=> router.push("/schedule_drive" as Href)}
+            onPress={() => router.push("/schedule_drive" as Href)}
           />
 
           {/* Price and Buy Section */}
@@ -361,41 +447,43 @@ const VehicleDetails = ({ vehicle }: VehicleDetailsProps) => {
 
         {/* Features Section */}
         <TouchableOpacity
-  style={styles.sectionHeader}
-  onPress={() => toggleSection("features")}
->
-  <Text style={styles.sectionTitle}>Features</Text>
-  <Ionicons
-    name={
-      expandedSection === "features" ? "chevron-up" : "chevron-down"
-    }
-    size={24}
-    color="#4F46E5"
-  />
-</TouchableOpacity>
+          style={styles.sectionHeader}
+          onPress={() => toggleSection("features")}
+        >
+          <Text style={styles.sectionTitle}>Features</Text>
+          <Ionicons
+            name={
+              expandedSection === "features" ? "chevron-up" : "chevron-down"
+            }
+            size={24}
+            color="#4F46E5"
+          />
+        </TouchableOpacity>
 
-{expandedSection === "features" && (
-  <>
-    <View style={styles.sectionContent}>
-      <View style={styles.featureCardsContainer}>
-        <FeatureCard title="Key specs of Audi Q7" items={featureItems} />
-      </View>
-    </View>
+        {expandedSection === "features" && (
+          <>
+            <View style={styles.sectionContent}>
+              <View style={styles.featureCardsContainer}>
+                <FeatureCard
+                  title="Key specs of Audi Q7"
+                  items={featureItems}
+                />
+              </View>
+            </View>
 
-    <View style={styles.sectionContent}>
-      <View style={styles.featureCardsContainer}>
-        <FeatureCard title="Performance" items={performance} />
-      </View>
-    </View>
+            <View style={styles.sectionContent}>
+              <View style={styles.featureCardsContainer}>
+                <FeatureCard title="Performance" items={performance} />
+              </View>
+            </View>
 
-    <View style={styles.sectionContent}>
-      <View style={styles.featureCardsContainer}>
-        <FeatureCard title="Notable Features" items={notablefeatures} />
-      </View>
-    </View>
-  </>
-)}
-
+            <View style={styles.sectionContent}>
+              <View style={styles.featureCardsContainer}>
+                <FeatureCard title="Notable Features" items={notablefeatures} />
+              </View>
+            </View>
+          </>
+        )}
 
         {/* Design Section */}
         <TouchableOpacity
@@ -413,7 +501,7 @@ const VehicleDetails = ({ vehicle }: VehicleDetailsProps) => {
         {expandedSection === "design" && (
           <View style={styles.sectionContent}>
             <View style={styles.designContainer}>
-              <View style={{gap:10}}>
+              <View style={{ gap: 10 }}>
                 <Text
                   style={{
                     fontSize: 20,
@@ -464,6 +552,10 @@ const VehicleDetails = ({ vehicle }: VehicleDetailsProps) => {
           />
         </TouchableOpacity>
 
+        {expandedSection === "price-map" && (
+          <CarPriceGraph priceItems={tabContent.price_map.data} />
+        )}
+
         {/* Financing Section */}
         <TouchableOpacity
           style={styles.sectionHeader}
@@ -478,17 +570,21 @@ const VehicleDetails = ({ vehicle }: VehicleDetailsProps) => {
             color="#4F46E5"
           />
         </TouchableOpacity>
-        
+
         {expandedSection === "financing" && (
           <View style={styles.sectionContent}>
             <View style={styles.detailRow}>
               <Text style={styles.detailLabel}>Car Audit</Text>
-              <Text style={styles.detailValue}>{vehicle.finance?.audit || "$79"}</Text>
+              <Text style={styles.detailValue}>
+                {vehicle.finance?.audit || "$79"}
+              </Text>
             </View>
 
             <View style={styles.detailRow}>
               <Text style={styles.detailLabel}>Import MOT</Text>
-              <Text style={styles.detailValue}>{vehicle.finance?.importMOT || "$175"}</Text>
+              <Text style={styles.detailValue}>
+                {vehicle.finance?.importMOT || "$175"}
+              </Text>
             </View>
 
             <View style={styles.detailRow}>
@@ -509,33 +605,50 @@ const VehicleDetails = ({ vehicle }: VehicleDetailsProps) => {
 
             <View style={styles.detailRow}>
               <Text style={styles.detailLabel}>Sales Tax</Text>
-              <Text style={styles.detailValue}>{vehicle.finance?.salesTax || "$5,876"}</Text>
+              <Text style={styles.detailValue}>
+                {vehicle.finance?.salesTax || "$5,876"}
+              </Text>
             </View>
-            <View style={{backgroundColor:appColors.GreyScale[50],padding:16,gap:8,borderRadius:12}}>
-            <View style={styles.detailRow}>
-              <Text style={styles.detailLabel}>Total Price</Text>
-              <Text style={{fontSize:18,fontFamily:appFonts.UrbanistBold,color:appColors.main.Primary}}>{vehicle.finance?.totalPrice || "$80063"}</Text>
-            </View>
+            <View
+              style={{
+                backgroundColor: appColors.GreyScale[50],
+                padding: 16,
+                gap: 8,
+                borderRadius: 12,
+              }}
+            >
+              <View style={styles.detailRow}>
+                <Text style={styles.detailLabel}>Total Price</Text>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    fontFamily: appFonts.UrbanistBold,
+                    color: appColors.main.Primary,
+                  }}
+                >
+                  {vehicle.finance?.totalPrice || "$80063"}
+                </Text>
+              </View>
 
-            <View style={styles.detailRow}>
-              <Text style={styles.detailLabel}>Est. Monthly payment</Text>
-              <Text style={styles.detailValue}>{vehicle.finance?.monthlyPayment || "$1,075"}</Text>
+              <View style={styles.detailRow}>
+                <Text style={styles.detailLabel}>Est. Monthly payment</Text>
+                <Text style={styles.detailValue}>
+                  {vehicle.finance?.monthlyPayment || "$1,075"}
+                </Text>
+              </View>
             </View>
-            </View>
-            <Button title="Credit Simulation" variant="outlined"  onPress={()=> router.push("/detail-car" as Href)}/>
+            <Button
+              title="Credit Simulation"
+              variant="outlined"
+              onPress={() => router.push("/detail-car" as Href)}
+            />
           </View>
         )}
       </View>
 
       {/* Share Modal Component */}
-      <ShareModal 
-        isVisible={shareModalVisible}
-        onClose={() => setShareModalVisible(false)}
-        title="Share Car"
-        shareMessage={`Check out this ${vehicle.name}: ${vehicle.description}`}
-        shareTitle={vehicle.name}
-        shareUrl={`https://wheelbeast.com/vehicle/${vehicle.id}`}
-      />
+      <Car360Modal visible={showModal} onClose={() => setShowModal(false)} 
+      vehicle={vehicle} />
     </ScrollView>
   );
 };
@@ -545,7 +658,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 16,
     gap: 16,
-    backgroundColor: appColors.GreyScale[200],
+    backgroundColor: appColors.GreyScale[100],
     borderRadius: 16,
     paddingHorizontal: 30,
     paddingVertical: 40,
@@ -624,7 +737,7 @@ const styles = StyleSheet.create({
   },
   detailsSection: {
     width: "55%",
-    padding: 8,
+    padding: 20,
     backgroundColor: appColors.AdditionalColor.white,
     borderRadius: 10,
   },
@@ -668,7 +781,7 @@ const styles = StyleSheet.create({
   specItem: {
     alignItems: "center",
     padding: 12,
-    backgroundColor: appColors.GreyScale[50],
+    backgroundColor: appColors.GreyScale[100],
     borderRadius: 12,
     width: "30%",
   },

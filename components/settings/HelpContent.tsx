@@ -1,229 +1,303 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { appColors } from '@/constants/Color';
-import appFonts from '@/constants/Font';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+  ScrollView,
+} from "react-native";
+import React, { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
+import { Image } from "expo-image";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { appColors } from "@/constants/Color";
+import appFonts from "@/constants/Font";
 
-interface HelpContentProps {
-  // Any props can be added here if needed
+interface Category {
+  id: string;
+  title: string;
 }
 
-const HelpContent: React.FC<HelpContentProps> = () => {
-  // State for the search input
-  const [searchQuery, setSearchQuery] = useState('');
-  
-  // Common FAQs
-  const faqs = [
-    {
-      id: '1',
-      question: 'How do I reset my password?',
-      answer: 'To reset your password, go to the login screen and tap on "Forgot Password". Follow the instructions sent to your email to create a new password.'
-    },
-    {
-      id: '2',
-      question: 'How do I update payment information?',
-      answer: 'Go to Settings > Payment Method and tap on the card you want to update or "Add new card" to add a new payment method.'
-    },
-    {
-      id: '3',
-      question: 'How do I enable push notifications?',
-      answer: 'Go to Settings > Push Notifications and toggle the switch for "Push Notifications" to enable them.'
-    },
-    {
-      id: '4',
-      question: 'How do I contact customer support?',
-      answer: 'You can reach our customer support team by filling out the contact form below, or by emailing support@wheelbeast.com.'
-    }
-  ];
-  
+interface Question {
+  id: string;
+  title: string;
+  likes: number;
+  comments: number;
+  category: string;
+}
+
+const categories: Category[] = [
+  { id: "general", title: "General" },
+  { id: "buy", title: "Buy Car" },
+  { id: "sell", title: "Sell Car" },
+  { id: "finance", title: "Financing" },
+];
+
+const questions: Question[] = [
+  {
+    id: "1",
+    title: "What is Carline?",
+    likes: 56,
+    comments: 120,
+    category: "general",
+  },
+  {
+    id: "2",
+    title: "How do I get in contact with Carline?",
+    likes: 23,
+    comments: 14,
+    category: "general",
+  },
+  {
+    id: "3",
+    title: "Do you offer referral bonusess?",
+    likes: 0,
+    comments: 100,
+    category: "general",
+  },
+  {
+    id: "4",
+    title: "Is Carline hiring?",
+    likes: 23,
+    comments: 14,
+    category: "general",
+  },
+];
+
+const Faq = () => {
+  const router = useRouter();
+  const [selectedCategory, setSelectedCategory] = useState("general");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredQuestions = questions.filter(
+    (q) =>
+      q.category === selectedCategory &&
+      (searchQuery === "" ||
+        q.title.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
+
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.title}>Get Help</Text>
-      <Text style={styles.subtitle}>We're here to help you</Text>
-      
-      {/* Search */}
-      <View style={styles.searchContainer}>
-        <Ionicons name="search-outline" size={20} color={appColors.GreyScale[500]} style={styles.searchIcon} />
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search for help"
-          placeholderTextColor={appColors.GreyScale[500]}
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-        />
-      </View>
-      
-      {/* FAQs */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Frequently Asked Questions</Text>
-        
-        <View style={styles.faqList}>
-          {faqs.map(faq => (
-            <View key={faq.id} style={styles.faqItem}>
-              <Text style={styles.faqQuestion}>{faq.question}</Text>
-              <Text style={styles.faqAnswer}>{faq.answer}</Text>
-            </View>
+    <View
+      style={[styles.container, { backgroundColor: appColors.AdditionalColor.white}]}
+    >
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.header}>
+          <Text style={{fontSize:24,fontFamily:appFonts.UrbanistBold,color:"#EAB308"}}>FAQ</Text>
+          <Text style={styles.title}>How can we help you today?</Text>
+        </View>
+
+        {/* Search Bar */}
+        <View style={styles.searchContainer}>
+          <TextInput
+            style={[styles.searchInput, { color: appColors.GreyScale[900] }]}
+            placeholder="Search question"
+            placeholderTextColor={ appColors.GreyScale[500]}
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            
+          />
+          <Ionicons
+            name="search"
+            size={24}
+            color={ appColors.GreyScale[900] }
+            style={styles.searchIcon}
+          />
+        </View>
+
+        {/* Questions List */}
+        <ScrollView
+          style={[
+            styles.questionsContainer,
+            { backgroundColor: appColors.AdditionalColor.white },
+          ]}
+          showsVerticalScrollIndicator={false}
+        >
+          {/* Categories */}
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.categoriesContainer}
+          >
+            {categories.map((category) => (
+              <TouchableOpacity
+                key={category.id}
+                style={[
+                  styles.categoryButton,
+                  selectedCategory === category.id && {
+                    backgroundColor: appColors.GreyScale[900],
+                  },
+                ]}
+                onPress={() => setSelectedCategory(category.id)}
+              >
+                <Text
+                  style={[
+                    { color: appColors.GreyScale[900] },
+                    selectedCategory === category.id && {
+                      color: appColors.AdditionalColor.white,
+                    },
+                  ]}
+                >
+                  {category.title}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+          {filteredQuestions.map((question) => (
+            <TouchableOpacity
+              key={question.id}
+              style={[styles.questionCard, { backgroundColor: "#F8FAFC" }]}
+              onPress={() => {
+                /* Handle question press */
+              }}
+            >
+              <Text
+                style={[
+                  styles.questionTitle,
+                  { color: appColors.GreyScale[900] },
+                ]}
+              >
+                {question.title}
+              </Text>
+              <View style={styles.questionStats}>
+                <View style={styles.stat}>
+                  <MaterialCommunityIcons
+                    name="thumb-up-outline"
+                    size={20}
+                    color="#8E8E93"
+                  />
+                  <Text style={styles.statText}>{question.likes}</Text>
+                </View>
+                <View style={styles.stat}>
+                  <MaterialCommunityIcons
+                    name="comment-outline"
+                    size={20}
+                    color="#8E8E93"
+                  />
+                  <Text style={styles.statText}>{question.comments}</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
           ))}
-        </View>
-      </View>
-      
-      {/* Contact Form */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Contact Us</Text>
-        
-        <View style={styles.formContainer}>
-          <View style={styles.formGroup}>
-            <Text style={styles.formLabel}>Name</Text>
-            <TextInput
-              style={styles.formInput}
-              placeholder="Enter your name"
-              placeholderTextColor={appColors.GreyScale[500]}
-            />
-          </View>
-          
-          <View style={styles.formGroup}>
-            <Text style={styles.formLabel}>Email</Text>
-            <TextInput
-              style={styles.formInput}
-              placeholder="Enter your email"
-              placeholderTextColor={appColors.GreyScale[500]}
-              keyboardType="email-address"
-            />
-          </View>
-          
-          <View style={styles.formGroup}>
-            <Text style={styles.formLabel}>Message</Text>
-            <TextInput
-              style={[styles.formInput, styles.formTextarea]}
-              placeholder="Describe your issue"
-              placeholderTextColor={appColors.GreyScale[500]}
-              multiline
-              numberOfLines={4}
-              textAlignVertical="top"
-            />
-          </View>
-          
-          <TouchableOpacity style={styles.submitButton}>
-            <Text style={styles.submitButtonText}>Submit</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </ScrollView>
+        </ScrollView>
+      </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: appColors.AdditionalColor.white,
-    padding: 24,
+  },
+  safeArea: {
+    flex: 1,
+  },
+  header: {
+    paddingHorizontal: 20,
+    paddingBottom: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 32,
     fontFamily: appFonts.UrbanistBold,
     color: appColors.GreyScale[900],
     marginBottom: 8,
   },
-  subtitle: {
-    fontSize: 14,
-    fontFamily: appFonts.UrbanistMedium,
-    color: appColors.GreyScale[500],
-    marginBottom: 24,
+  profileButton: {
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    width: 30,
+    height: 30,
+  },
+  profileImage: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 50,
   },
   searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: appColors.GreyScale[200],
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    marginBottom: 24,
-  },
-  searchIcon: {
-    marginRight: 8,
+    marginHorizontal: 20,
+    marginBottom: 20,
+    position: "relative",
+     width:'40%'
   },
   searchInput: {
-    flex: 1,
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    borderRadius: 25,
+    paddingHorizontal: 20,
     paddingVertical: 12,
-    fontSize: 14,
-    fontFamily: appFonts.UrbanistMedium,
-    color: appColors.GreyScale[900],
-  },
-  section: {
-    marginBottom: 24,
-  },
-  sectionTitle: {
     fontSize: 16,
-    fontFamily: appFonts.UrbanistBold,
-    color: appColors.GreyScale[900],
+    fontFamily: appFonts.UrbanistMedium,
+    paddingRight: 50,
+   
+  },
+  searchIcon: {
+    position: "absolute",
+    right: 20,
+    top: "20%",
+   // transform: [{ translateY: -12 }],
+  },
+  categoriesContainer: {
+    width: "100%",
+
+    marginBottom: 18,
+  },
+  categoryButton: {
+    paddingHorizontal: 20,
+
+    borderWidth: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    height: 40,
+    borderRadius: 12,
+    marginRight: 10,
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+  },
+  categoryButtonActive: {
+    backgroundColor: "#fff",
+  },
+  categoryText: {
+    color: "#fff",
+    fontSize: 16,
+    fontFamily: appFonts.UrbanistMedium,
+  },
+  categoryTextActive: {
+    color: "#4318FF",
+  },
+  questionsContainer: {
+    flex: 1,
+
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    paddingTop: 20,
+    paddingHorizontal: 20,
+  },
+  questionCard: {
+    borderRadius: 16,
+    padding: 20,
     marginBottom: 16,
   },
-  faqList: {
-    backgroundColor: appColors.AdditionalColor.white,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: appColors.GreyScale[100],
-    overflow: 'hidden',
-  },
-  faqItem: {
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: appColors.GreyScale[100],
-  },
-  faqQuestion: {
-    fontSize: 16,
+  questionTitle: {
+    fontSize: 18,
     fontFamily: appFonts.UrbanistBold,
-    color: appColors.GreyScale[900],
-    marginBottom: 8,
+    color: "#fff",
+    marginBottom: 12,
   },
-  faqAnswer: {
-    fontSize: 14,
-    fontFamily: appFonts.UrbanistRegular,
-    color: appColors.GreyScale[700],
-    lineHeight: 20,
+  questionStats: {
+    flexDirection: "row",
+    alignItems: "center",
   },
-  formContainer: {
-    backgroundColor: appColors.AdditionalColor.white,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: appColors.GreyScale[100],
-    padding: 16,
+  stat: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 20,
   },
-  formGroup: {
-    marginBottom: 16,
-  },
-  formLabel: {
-    fontSize: 14,
-    fontFamily: appFonts.UrbanistBold,
-    color: appColors.GreyScale[900],
-    marginBottom: 8,
-  },
-  formInput: {
-    borderWidth: 1,
-    borderColor: appColors.GreyScale[200],
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
+  statText: {
+    color: "#8E8E93",
+    marginLeft: 8,
     fontSize: 14,
     fontFamily: appFonts.UrbanistMedium,
-    color: appColors.GreyScale[900],
-  },
-  formTextarea: {
-    minHeight: 100,
-    paddingTop: 12,
-  },
-  submitButton: {
-    backgroundColor: appColors.main.Primary,
-    borderRadius: 12,
-    paddingVertical: 16,
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  submitButtonText: {
-    fontSize: 16,
-    fontFamily: appFonts.UrbanistBold,
-    color: appColors.AdditionalColor.white,
   },
 });
 
-export default HelpContent; 
+export default Faq;

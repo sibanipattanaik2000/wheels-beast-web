@@ -26,7 +26,7 @@ const ExploreBrand = ({ title }: ExploreBrandProps) => {
     { name: "Toyota", icon: require("@/assets/images/brand/Toyota.png") },
   ];
 
-  const brandsToShow = showAll ? allBrands : allBrands.slice(0, 4);
+  const brandsToShow = showAll ? allBrands : allBrands.slice(0, 8);
 
   return (
     <View
