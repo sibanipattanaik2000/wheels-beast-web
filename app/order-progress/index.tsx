@@ -143,11 +143,11 @@ const OrderProgress = () => {
 
   return (
    <CustomSafeArea>
-    <ScrollView style={{flex:1,backgroundColor:appColors.GreyScale[200]}}>
-      <View style={{paddingHorizontal:70,paddingVertical:47,gap:24}}>
+    <ScrollView style={{flex:1,backgroundColor:appColors.GreyScale[200]}} showsVerticalScrollIndicator={false}>
+      <View style={{gap:24}}>
         <MyPurchases/>
-    <View>
-        <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 20 }}>
+         <View>
+        <View style={{ flexDirection: "row", justifyContent: "space-between",paddingHorizontal:70,paddingBottom:20 }}>
           <ViewAllButton 
             title="Car recomendation" 
             onPress={handleViewAll} 
@@ -160,6 +160,7 @@ const OrderProgress = () => {
             flexWrap: "wrap",
             justifyContent: "space-between",
             gap: 20,
+            paddingHorizontal:70,
           }}
         >
           {displayedCars.map((car, index) => (

@@ -7,6 +7,7 @@ import { appColors } from "@/constants/Color";
 import Button from "@/components/Button";
 import CommissionCard from "@/components/CommissionCard";
 import Footer from "@/components/Footer";
+import { Href, useRouter } from "expo-router";
 
 const productDetails = [
   { label: "Product Type", value: "Audi Q7 50 Quattro" },
@@ -15,6 +16,7 @@ const productDetails = [
 ];
 
 const DetailCar = () => {
+  const router = useRouter();
   const [scrollEnabled, setScrollEnabled] = useState(true);
   const [downPaymentPercent, setDownPaymentPercent] = useState(15);
   const [tenorYears, setTenorYears] = useState(5);
@@ -140,6 +142,7 @@ const DetailCar = () => {
               variant="filled"
               style={{ backgroundColor: appColors.main.Primary }}
               color={appColors.AdditionalColor.white}
+              onPress={() => router.push("/schedule_drive" as Href)}
             />
           </View>
         </View>

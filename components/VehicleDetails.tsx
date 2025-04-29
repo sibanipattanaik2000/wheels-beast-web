@@ -360,6 +360,7 @@ const VehicleDetails = ({ vehicle }: VehicleDetailsProps) => {
               color={appColors.AdditionalColor.white}
               style={styles.buyButton}
               width="30%"
+              onPress={() => router.push("/purchase-method" as Href)}
             />
           </View>
         </View>

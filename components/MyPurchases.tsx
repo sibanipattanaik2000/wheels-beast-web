@@ -12,6 +12,7 @@ import appFonts from "@/constants/Font";
 import { appColors } from "@/constants/Color";
 import ProgressCard from "./ProgressCard";
 import FilterDropdown from "./FilterDropdown";
+import { Href, useRouter } from "expo-router";
 
 // Define interface for purchase data
 interface Purchase {
@@ -70,7 +71,7 @@ const purchaseData: Purchase[] = [
 ];
 
 const MyPurchases = () => {
-  // State for progress filter dropdown
+const router= useRouter();
   const [progressFilter, setProgressFilter] = useState<string>("On progress");
   const [showProgressDropdown, setShowProgressDropdown] =
     useState<boolean>(false);
@@ -213,7 +214,7 @@ const MyPurchases = () => {
         </View>
 
         {/* Car Audit Button */}
-        <TouchableOpacity style={styles.auditButton}>
+        <TouchableOpacity style={styles.auditButton} onPress={() => {router.push("/chat" as Href)}}>
           <View style={{ flexDirection: "row", gap: 8, alignItems: "center" }}>
             <View
               style={{

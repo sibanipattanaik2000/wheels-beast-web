@@ -7,6 +7,7 @@ import CalendarSelect from './CalendarSelect';
 import TimeSlotDropdown from './TimeSlotDropdown';
 import LocationSelect from './LocationSelect';
 import Button from './Button';
+import { Href, useRouter } from 'expo-router';
 
 interface TestDriveSchedulerProps {
   onSchedule: (scheduleData: {
@@ -23,6 +24,7 @@ const TestDriveScheduler = ({
   defaultLocation = 'Filbert street, San Francisco',
   primaryColor = appColors.main.Primary
 }: TestDriveSchedulerProps) => {
+  const router = useRouter();
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>('');
   const [location, setLocation] = useState<string>(defaultLocation);
@@ -33,6 +35,7 @@ const TestDriveScheduler = ({
       timeSlot: selectedTimeSlot,
       location: location
     });
+    router.push('/car-details' as Href); // Example navigation
   };
 
   return (

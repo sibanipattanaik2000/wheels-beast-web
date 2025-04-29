@@ -37,7 +37,7 @@ const EditProfileSidebar: React.FC<EditProfileSidebarProps> = ({
           color={appColors.GreyScale[600]}
         />
       ),
-      route: "/profile/my-purchase",
+      route: "/order-progress",
       notification: 1,
     },
     {

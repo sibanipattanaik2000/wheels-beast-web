@@ -31,7 +31,7 @@ const MyPurchase = () => {
 
           {/* Right content */}
           <View style={styles.contentContainer}>
-            {/* <MyPurchases /> */}
+          {/* <MyPurchase/> */}
           </View>
         </View>
         <Footer/>

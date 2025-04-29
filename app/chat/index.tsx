@@ -7,6 +7,7 @@ import { appColors } from '@/constants/Color';
 import CustomSafeArea from '@/components/CustomSafeArea';
 import Header from '@/components/Header';
 import MessageScreen from '@/components/MessageScreen';
+import Footer from '@/components/Footer';
  
 type MessageType = {
   id: string;
@@ -324,6 +325,7 @@ const Chat = () => {
       </View>
     </ScrollView>
     </View>
+   
     </CustomSafeArea>
   );
 };
