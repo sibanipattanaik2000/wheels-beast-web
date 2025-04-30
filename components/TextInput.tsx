@@ -1,4 +1,4 @@
-import { View, TextInput as RNTextInput, StyleSheet, Text, TouchableOpacity, Image, Animated } from 'react-native'
+import { View, TextInput as RNTextInput, StyleSheet, Text, TouchableOpacity, Image, Animated, Platform } from 'react-native'
 import React, { useState, useEffect, useRef } from 'react'
 import { appColors } from '@/constants/Color'
  
@@ -186,8 +186,12 @@ const styles = StyleSheet.create({
     flex: 1,
     height: '100%',
     paddingLeft: 8,
-   // fontFamily: appFonts.UrbanistSemiBold,
     fontSize: 16,
+    ...Platform.select({
+            web:{
+              outlineStyle: "none",
+            }
+          })
   },
   iconLeft: {
     width: 20,

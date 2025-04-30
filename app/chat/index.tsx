@@ -159,7 +159,7 @@ const Chat = () => {
         styles.messageContainer,
         isUser ?
           [styles.userMessage, { backgroundColor: appColors.main.Primary }] :
-          [styles.otherMessage, { backgroundColor: appColors.AdditionalColor.white }]
+          [styles.otherMessage, { backgroundColor: appColors.GreyScale[100] }]
       ]}>
         {item.isAudio ? (
           <View style={styles.audioContainer}>
@@ -230,7 +230,7 @@ const Chat = () => {
     <CustomSafeArea>
         <Header type='home'/>
         <View style={{flexDirection:'row',backgroundColor:appColors.GreyScale[50],paddingHorizontal:70,paddingVertical:40,flex:1}}>
-    <View style={{width:'30%',borderRightWidth:1,borderColor:appColors.GreyScale[300],height:'100%'}}>
+    <View style={{width:'30%',borderRightWidth:1,borderColor:appColors.GreyScale[300],height:'100%',borderTopLeftRadius:16,borderBottomLeftRadius:16,overflow:'hidden'}}>
         <MessageScreen/>
     </View>
        
@@ -297,7 +297,6 @@ const Chat = () => {
             placeholderTextColor={appColors.GreyScale[500]}
             value={message}
             onChangeText={setMessage}
-            multiline
           />
          
           <TouchableOpacity style={styles.iconButton}>
@@ -325,7 +324,7 @@ const Chat = () => {
       </View>
     </ScrollView>
     </View>
-   
+   {/* <Footer/> */}
     </CustomSafeArea>
   );
 };
@@ -333,6 +332,7 @@ const Chat = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    borderTopLeftRadius:16,borderBottomLeftRadius:16,overflow:'hidden'
   },
   header: {
     flexDirection: 'row',
@@ -403,6 +403,7 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 16,
     marginBottom: 10,
+ 
   },
   userMessage: {
     alignSelf: 'flex-end',
