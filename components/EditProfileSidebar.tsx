@@ -125,7 +125,7 @@ const EditProfileSidebar: React.FC<EditProfileSidebarProps> = ({
         <Text style={styles.userRole}>{userRole}</Text>
       </View>
 
-      <View style={styles.divider} />
+      {/* <View style={styles.divider} /> */}
 
       {/* Navigation items */}
       <View style={styles.navigationSection}>
@@ -163,7 +163,7 @@ const EditProfileSidebar: React.FC<EditProfileSidebarProps> = ({
         ))}
       </View>
 
-      <View style={styles.divider} />
+      {/* <View style={styles.divider} /> */}
 
       {/* Sign out button */}
       <TouchableOpacity style={styles.signOutButton} onPress={signOut}>

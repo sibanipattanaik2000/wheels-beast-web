@@ -33,7 +33,7 @@ const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
   onSelectSetting,
 }) => {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
       <Text style={styles.sectionTitle}>Settings</Text>
 
       {/* Account Settings */}
@@ -104,7 +104,7 @@ const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
           />
         </TouchableOpacity>
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={[
             styles.menuItem,
             activeSetting === "dark_mode" && styles.activeMenuItem,
@@ -128,14 +128,14 @@ const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
             Dark mode
           </Text>
           <ToggleButton />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
       {/* App Settings */}
       <View style={styles.section}>
         <Text style={styles.sectionHeader}>App Settings</Text>
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={[
             styles.menuItem,
             activeSetting === "language" && styles.activeMenuItem,
@@ -165,7 +165,7 @@ const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
             color={appColors.GreyScale[300]}
             style={styles.arrowIcon}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <TouchableOpacity
           style={[
@@ -199,7 +199,7 @@ const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
           />
         </TouchableOpacity>
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={[
             styles.menuItem,
             activeSetting === "dark_mode_app" && styles.activeMenuItem,
@@ -224,7 +224,7 @@ const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
             Dark mode
           </Text>
           <ToggleButton />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
       {/* Support */}
@@ -343,7 +343,7 @@ const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
           style={styles.arrowIcon}
         />
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 };
 

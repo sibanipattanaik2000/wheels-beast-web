@@ -79,8 +79,7 @@ const styles = StyleSheet.create({
     borderRadius:16,
     borderWidth: 1,
     borderColor: appColors.GreyScale[200],
-    padding:16,
-    backgroundColor:'#fff'
+    backgroundColor:'#fff',
 
   },
   header: {
@@ -88,7 +87,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-   // padding:10,
+   padding:16,
     color:appColors.GreyScale[900]
   },
   label: {
@@ -97,7 +96,9 @@ const styles = StyleSheet.create({
     fontFamily:appFonts.UrbanistBold
   },
   dropdown: {
-    overflow: 'hidden'
+    overflow: 'hidden',
+    paddingHorizontal:16,
+    bottom:10
   },
   item: {
     paddingVertical: 10,

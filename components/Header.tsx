@@ -6,7 +6,7 @@ import appFonts from '@/constants/Font';
 import SearchBar from '@/components/Searchbar';
 import Button from './Button';
 import NotificationModal from './NotificationModal';
-import { Href, router } from 'expo-router';
+import { Href, router, useRouter } from 'expo-router';
 
 // Sample notification data
 const sampleNotifications = [
@@ -60,6 +60,7 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ type }) => {
+  const router = useRouter();
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [notificationCount, setNotificationCount] = useState(0);
@@ -92,13 +93,14 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
 
   if (type === 'default') {
     return (
-      <View
+      <TouchableOpacity
         style={{
           flexDirection: 'row',
           alignItems: 'center',
           padding: 20,
           gap: 7,
         }}
+        onPress={() => router.push('/home' as Href)}
       >
         <Image
           source={require('@/assets/images/Signup/wheel.png')}
@@ -113,7 +115,7 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
         >
           WheelsBeast
         </Text>
-      </View>
+      </TouchableOpacity>
     );
   }
 
@@ -128,12 +130,13 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
           padding: 20,
         }}
       >
-        <View
+        <TouchableOpacity
           style={{
             flexDirection: 'row',
             gap: 7,
             alignItems: 'center',
           }}
+          onPress={() => router.push('/home' as Href)}
         >
           <Image
             source={require('@/assets/images/Signup/wheel.png')}
@@ -148,7 +151,7 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
           >
             WheelsBeast
           </Text>
-        </View>
+        </TouchableOpacity>
 
         <View
           style={{
@@ -158,7 +161,7 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
             alignItems: 'center',
           }}
         >
-          <View
+          <TouchableOpacity
             style={{
               height: 44,
               width: 44,
@@ -174,7 +177,7 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
               style={{ height: 24, width: 24 }}
               resizeMode="contain"
             />
-          </View>
+          </TouchableOpacity>
           <View>
             <Text
               style={{
@@ -197,7 +200,9 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
           </View>
         </View>
 
-        <TouchableOpacity style={{ width: '30%', justifyContent: 'center' }} onPress={()=> router.push('/searchcar' as Href)}>
+        <TouchableOpacity style={{ width: '30%', justifyContent: 'center' }} 
+        //onPress={()=> router.push('/searchcar' as Href)}
+          >
           <SearchBar />
         </TouchableOpacity>
 
@@ -234,9 +239,9 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
 
           <Text style={styles.text}>Favourite</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={()=> router.push('/favourites' as Href)}>
+          <TouchableOpacity onPress={()=> router.push('/chat' as Href)}>
 
-          <Text style={styles.text}>Favourite</Text>
+          <Text style={styles.text}>Message</Text>
           </TouchableOpacity>
           
          

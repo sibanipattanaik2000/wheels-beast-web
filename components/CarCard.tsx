@@ -1,6 +1,7 @@
 import { appColors } from "@/constants/Color";
 import appFonts from "@/constants/Font";
 import { Ionicons } from "@expo/vector-icons";
+import { Href, useRouter } from "expo-router";
 import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 
@@ -28,10 +29,10 @@ const CarCard = ({
   isLiked
 }: CarCardProps) => {
   const [liked, setLiked] = useState(isLiked || false);
-
+  const router = useRouter();
   const styles = StyleSheet.create({
     card: {
-      width: 270,
+      width: 300,
       height: 270,
       borderRadius: 20,
       padding: 20,
@@ -43,7 +44,7 @@ const CarCard = ({
   });
 
   return (
-    <View style={styles.card}>
+    <TouchableOpacity style={styles.card} onPress={() => router.push("/car-details" as Href)}>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         {type === "home" ? (
           <Text
@@ -174,7 +175,7 @@ const CarCard = ({
           </TouchableOpacity>
         )} 
    
-    </View>
+    </TouchableOpacity>
   );
 };
 

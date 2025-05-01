@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, Animated } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, Animated, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { appColors } from '@/constants/Color';
 import appFonts from '@/constants/Font';
@@ -21,7 +21,7 @@ const PaymentMethodContent: React.FC<PaymentMethodContentProps> = () => {
   const [cardNumber, setCardNumber] = useState('');
   const [cardName, setCardName] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
-  const [cvc, setCvc] = useState('');
+  const [cvv, setCvv] = useState('');
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [activePaymentMethod, setActivePaymentMethod] = useState('card'); // 'card' or 'paypal'
   const [savedCards, setSavedCards] = useState<CardData[]>([
@@ -36,7 +36,7 @@ const PaymentMethodContent: React.FC<PaymentMethodContentProps> = () => {
     cardNumber: '',
     cardName: '',
     expiryDate: '',
-    cvc: ''
+    cvv: ''
   });
 
   // Animation for dropdown
@@ -70,13 +70,13 @@ const PaymentMethodContent: React.FC<PaymentMethodContentProps> = () => {
     setCardNumber('');
     setCardName('');
     setExpiryDate('');
-    setCvc('');
+    setCvv('');
     setAgreeTerms(false);
     setErrors({
       cardNumber: '',
       cardName: '',
       expiryDate: '',
-      cvc: ''
+      cvv: ''
     });
   };
 
@@ -126,7 +126,7 @@ const PaymentMethodContent: React.FC<PaymentMethodContentProps> = () => {
       cardNumber: '',
       cardName: '',
       expiryDate: '',
-      cvc: ''
+      cvv: ''
     };
     
     let hasError = false;
@@ -147,8 +147,8 @@ const PaymentMethodContent: React.FC<PaymentMethodContentProps> = () => {
         hasError = true;
       }
       
-      if (!cvc || cvc.length < 3) {
-        newErrors.cvc = 'Please enter a valid CVC';
+      if (!cvv || cvv.length < 3) {
+        newErrors.cvv = 'Please enter a valid CVV';
         hasError = true;
       }
     }
@@ -254,6 +254,7 @@ const PaymentMethodContent: React.FC<PaymentMethodContentProps> = () => {
                 {/* Card Number Input */}
                 <Text style={styles.inputLabel}>Card number</Text>
                 <View style={styles.inputContainer}>
+                {/* <Ionicons name="card-outline" size={20} color={appColors.GreyScale[400]} style={styles.inputIcon} /> */}
                   <TextInput
                     style={[styles.input, errors.cardNumber ? styles.inputError : null]}
                     placeholder="0000 0000 0000 0000"
@@ -262,14 +263,16 @@ const PaymentMethodContent: React.FC<PaymentMethodContentProps> = () => {
                     onChangeText={handleCardNumberChange}
                     maxLength={19}
                   />
-                  <Ionicons name="card-outline" size={20} color={appColors.GreyScale[400]} style={styles.inputIcon} />
                 </View>
                 {errors.cardNumber ? <Text style={styles.errorText}>{errors.cardNumber}</Text> : null}
 
                 {/* Expiry Date and CVC */}
                 <View style={styles.rowInputs}>
                   <View style={styles.halfInputContainer}>
+                    <View style={{flexDirection: 'row', alignItems: 'center', gap: 4,marginBottom:8}}>
                     <Text style={styles.inputLabel}>Expiry date</Text>
+                    <Ionicons name="help-circle-outline" size={16} color={appColors.GreyScale[400]} />
+                    </View>
                     <View style={styles.inputContainer}>
                       <TextInput
                         style={[styles.input, errors.expiryDate ? styles.inputError : null]}
@@ -279,28 +282,30 @@ const PaymentMethodContent: React.FC<PaymentMethodContentProps> = () => {
                         onChangeText={handleExpiryDateChange}
                         maxLength={5}
                       />
-                      <Ionicons name="calendar-outline" size={18} color={appColors.GreyScale[400]} style={styles.inputIcon} />
+                     
                     </View>
                     {errors.expiryDate ? <Text style={styles.errorText}>{errors.expiryDate}</Text> : null}
                   </View>
 
                   <View style={styles.halfInputContainer}>
-                    <Text style={styles.inputLabel}>CVC</Text>
+                    <View style={{flexDirection: 'row', alignItems: 'center', gap: 4,marginBottom:8}}> 
+                    <Text style={styles.inputLabel}>CVV</Text>
+                    <Ionicons name="help-circle-outline" size={16} color={appColors.GreyScale[400]} style={{justifyContent:'center'}} />
+                    </View>
                     <View style={styles.inputContainer}>
                       <TextInput
-                        style={[styles.input, errors.cvc ? styles.inputError : null]}
+                        style={[styles.input, errors.cvv ? styles.inputError : null]}
                         placeholder="000"
                         keyboardType="numeric"
-                        value={cvc}
+                        value={cvv}
                         onChangeText={(text) => {
-                          setCvc(text);
-                          if (errors.cvc) setErrors(prev => ({ ...prev, cvc: '' }));
+                          setCvv(text);
+                          if (errors.cvv) setErrors(prev => ({ ...prev, cvv: '' }));
                         }}
                         maxLength={3}
                       />
-                      <Ionicons name="information-circle-outline" size={18} color={appColors.GreyScale[400]} style={styles.inputIcon} />
                     </View>
-                    {errors.cvc ? <Text style={styles.errorText}>{errors.cvc}</Text> : null}
+                    {errors.cvv ? <Text style={styles.errorText}>{errors.cvv}</Text> : null}
                   </View>
                 </View>
 
@@ -316,8 +321,7 @@ const PaymentMethodContent: React.FC<PaymentMethodContentProps> = () => {
                       if (errors.cardName) setErrors(prev => ({ ...prev, cardName: '' }));
                     }}
                   />
-                  <Ionicons name="person-outline" size={18} color={appColors.GreyScale[400]} style={styles.inputIcon} />
-                </View>
+               </View>
                 {errors.cardName ? <Text style={styles.errorText}>{errors.cardName}</Text> : null}
               </View>
             ) : (
@@ -347,10 +351,10 @@ const PaymentMethodContent: React.FC<PaymentMethodContentProps> = () => {
             <TouchableOpacity 
               style={[
                 styles.connectButton,
-                (!agreeTerms || (activePaymentMethod === 'card' && (!cardNumber || !cardName || !expiryDate || !cvc))) && styles.disabledButton
+                (!agreeTerms || (activePaymentMethod === 'card' && (!cardNumber || !cardName || !expiryDate || !cvv))) && styles.disabledButton
               ]}
               onPress={handleAddCard}
-              disabled={!agreeTerms || (activePaymentMethod === 'card' && (!cardNumber || !cardName || !expiryDate || !cvc))}
+              disabled={!agreeTerms || (activePaymentMethod === 'card' && (!cardNumber || !cardName || !expiryDate || !cvv))}
             >
               <Text style={styles.connectButtonText}>Connect to Paypal</Text>
             </TouchableOpacity>
@@ -585,14 +589,14 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     fontSize: 14,
-    fontFamily: appFonts.UrbanistMedium,
-    color: appColors.GreyScale[600],
-    marginBottom: 8,
+    fontFamily: appFonts.UrbanistBold,
+    color: appColors.GreyScale[900],
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     position: 'relative',
+    justifyContent: 'flex-start',
   },
   input: {
     height: 48,
@@ -602,13 +606,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     fontSize: 14,
     fontFamily: appFonts.UrbanistMedium,
-    color: appColors.GreyScale[900],
+    color: appColors.GreyScale[500],
     backgroundColor: appColors.GreyScale[50],
     flex: 1,
+    ...Platform.select({
+      web: {
+        outlineStyle: 'none',
+      },
+
+    }),
   },
   inputIcon: {
     position: 'absolute',
-    right: 16,
+    resizeMode: 'contain',
+    paddingHorizontal: 12,
   },
   inputError: {
     borderColor: appColors.alert.Error,
@@ -652,7 +663,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   disabledButton: {
-    backgroundColor: appColors.GreyScale[300],
+    backgroundColor: appColors.main.Primary
   },
   connectButtonText: {
     fontSize: 16,

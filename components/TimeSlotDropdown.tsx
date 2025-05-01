@@ -1,17 +1,18 @@
-import React, { useState, useRef } from 'react';
-import { 
-  View, 
-  Text, 
-  TouchableOpacity, 
-  StyleSheet, 
-  Modal, 
+import React, { useState, useRef } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Modal,
   FlatList,
   TextInput,
-  TouchableWithoutFeedback
-} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import appFonts from '@/constants/Font';
-import { appColors } from '@/constants/Color';
+  TouchableWithoutFeedback,
+  Platform,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import appFonts from "@/constants/Font";
+import { appColors } from "@/constants/Color";
 
 interface TimeSlotDropdownProps {
   onTimeSelect: (time: string) => void;
@@ -23,15 +24,23 @@ interface TimeSlotDropdownProps {
 
 const TimeSlotDropdown = ({
   onTimeSelect,
-  availableSlots = ['10:00 AM - 11:00 AM', '11:00 AM - 12:00 PM', '12:00 PM - 1:00 PM', '1:00 PM - 2:00 PM', '2:00 PM - 3:00 PM', '3:00 PM - 4:00 PM', '4:00 PM - 5:00 PM'],
+  availableSlots = [
+    "10:00 AM - 11:00 AM",
+    "11:00 AM - 12:00 PM",
+    "12:00 PM - 1:00 PM",
+    "1:00 PM - 2:00 PM",
+    "2:00 PM - 3:00 PM",
+    "3:00 PM - 4:00 PM",
+    "4:00 PM - 5:00 PM",
+  ],
   primaryColor = appColors.main.Primary,
-  label = 'Select a time',
-  placeholder = 'Click to select time'
+  label = "Select a time",
+  placeholder = "Click to select time",
 }: TimeSlotDropdownProps) => {
-  const [selectedTime, setSelectedTime] = useState<string>('');
+  const [selectedTime, setSelectedTime] = useState<string>("");
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [inputFocused, setInputFocused] = useState(false);
-  
+
   const toggleDropdown = () => {
     setIsDropdownVisible(!isDropdownVisible);
   };
@@ -45,27 +54,26 @@ const TimeSlotDropdown = ({
   return (
     <View style={styles.container}>
       <Text style={styles.header}>{label}</Text>
-      
-      <View style={[
-        styles.inputContainer,
-        inputFocused && { borderColor: primaryColor }
-      ]}>
+
+      <View
+        style={[
+          styles.inputContainer,
+          inputFocused && { borderColor: primaryColor },
+        ]}
+      >
         <TextInput
           style={styles.input}
           value={selectedTime}
           placeholder={placeholder}
-          editable={false}
-          onPressIn={toggleDropdown}
+          onFocus={() => setInputFocused(true)}
+          onBlur={() => setInputFocused(false)}
+          onChangeText={(text) => {
+            setSelectedTime(text);
+            onTimeSelect(text);
+          }}
         />
-        <TouchableOpacity 
-          style={styles.iconContainer} 
-          onPress={toggleDropdown}
-        >
-          <Ionicons 
-            name="time-outline" 
-            size={24} 
-            color={primaryColor} 
-          />
+        <TouchableOpacity style={styles.iconContainer} onPress={toggleDropdown}>
+          <Ionicons name="time-outline" size={24} color={primaryColor} />
         </TouchableOpacity>
       </View>
 
@@ -87,22 +95,31 @@ const TimeSlotDropdown = ({
                     <TouchableOpacity
                       style={[
                         styles.timeSlotItem,
-                        selectedTime === item && { 
-                          backgroundColor: 'rgba(79, 70, 229, 0.05)',
+                        selectedTime === item && {
+                          backgroundColor: "rgba(79, 70, 229, 0.05)",
                           borderLeftWidth: 3,
-                          borderLeftColor: primaryColor
-                        }
+                          borderLeftColor: primaryColor,
+                        },
                       ]}
                       onPress={() => handleTimeSelect(item)}
                     >
-                      <Text style={[
-                        styles.timeSlotText,
-                        selectedTime === item && { color: primaryColor, fontFamily: appFonts.UrbanistBold }
-                      ]}>
+                      <Text
+                        style={[
+                          styles.timeSlotText,
+                          selectedTime === item && {
+                            color: primaryColor,
+                            fontFamily: appFonts.UrbanistBold,
+                          },
+                        ]}
+                      >
                         {item}
                       </Text>
                       {selectedTime === item && (
-                        <Ionicons name="checkmark" size={20} color={primaryColor} />
+                        <Ionicons
+                          name="checkmark"
+                          size={20}
+                          color={primaryColor}
+                        />
                       )}
                     </TouchableOpacity>
                   )}
@@ -119,7 +136,7 @@ const TimeSlotDropdown = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
+    width: "100%",
     marginTop: 20,
   },
   header: {
@@ -129,8 +146,8 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingHorizontal: 16,
     borderWidth: 1,
     borderColor: appColors.GreyScale[200],
@@ -143,24 +160,29 @@ const styles = StyleSheet.create({
     fontFamily: appFonts.UrbanistMedium,
     fontSize: 16,
     color: appColors.GreyScale[800],
-    height: '100%',
+    height: "100%",
+    ...Platform.select({
+      web: {
+        outlineStyle: "none",
+      },
+    }),
   },
   iconContainer: {
     padding: 8,
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
     padding: 20,
   },
   dropdownContainer: {
-    width: '90%',
+    width: "90%",
     backgroundColor: appColors.AdditionalColor.white,
     borderRadius: 12,
     maxHeight: 400,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   dropdownHeader: {
     fontFamily: appFonts.UrbanistBold,
@@ -174,9 +196,9 @@ const styles = StyleSheet.create({
     maxHeight: 350,
   },
   timeSlotItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingVertical: 16,
     paddingHorizontal: 20,
     borderBottomWidth: 1,
@@ -186,7 +208,7 @@ const styles = StyleSheet.create({
     fontFamily: appFonts.UrbanistMedium,
     fontSize: 16,
     color: appColors.GreyScale[800],
-  }
+  },
 });
 
-export default TimeSlotDropdown; 
+export default TimeSlotDropdown;

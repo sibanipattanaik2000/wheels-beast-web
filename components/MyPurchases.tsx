@@ -32,7 +32,7 @@ const purchaseData: Purchase[] = [
     id: "1",
     date: "June 10, 2025",
     carName: "Audi Q7 Quattro",
-    carImage: require("@/assets/images/brand/Car.png"),
+    carImage: require("@/assets/images/carlist/bluecar.png"),
     seller: "Seller's",
     country: "USA",
     price: "$80,063.00",
@@ -42,7 +42,7 @@ const purchaseData: Purchase[] = [
     id: "2",
     date: "June 05, 2025",
     carName: "Ford Mustang GT",
-    carImage: require("@/assets/images/brand/Car.png"),
+    carImage: require("@/assets/images/carlist/redcar.png"),
     seller: "Seller's",
     country: "USA",
     price: "$176,037.11",
@@ -52,7 +52,7 @@ const purchaseData: Purchase[] = [
     id: "3",
     date: "May 25, 2025",
     carName: "BMW X5 xDrive",
-    carImage: require("@/assets/images/brand/Car.png"),
+    carImage: require("@/assets/images/carlist/bluecar.png"),
     seller: "Seller's",
     country: "Germany",
     price: "$95,250.00",
@@ -62,7 +62,7 @@ const purchaseData: Purchase[] = [
     id: "4",
     date: "April 18, 2025",
     carName: "Tesla Model S",
-    carImage: require("@/assets/images/brand/Car.png"),
+    carImage: require("@/assets/images/carlist/redcar.png"),
     seller: "Seller's",
     country: "USA",
     price: "$112,490.00",
@@ -214,7 +214,7 @@ const router= useRouter();
         </View>
 
         {/* Car Audit Button */}
-        <TouchableOpacity style={styles.auditButton} onPress={() => {router.push("/chat" as Href)}}>
+        <TouchableOpacity style={styles.auditButton} >
           <View style={{ flexDirection: "row", gap: 8, alignItems: "center" }}>
             <View
               style={{
@@ -270,7 +270,7 @@ const router= useRouter();
             <View key={index} style={styles.purchaseItemContainer}>
               {/* Date with calendar icon - outside of the card */}
               <View style={styles.dateContainer}>
-                <Ionicons name="calendar-outline" size={44} color={appColors.GreyScale[500]} />
+                <Image source={require('@/assets/images/Profile/calendar.png')} style={{height:30,width:30,tintColor:appColors.GreyScale[600]}}/>
                 <Text style={styles.dateText}>{purchase.date}</Text>
               </View>
 
@@ -296,7 +296,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 70,
     paddingVertical: 47,
-    gap: 36,
   },
   title: {
     fontSize: 32,
@@ -308,6 +307,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     zIndex: 1,
+    marginTop: 20,
   },
   filterButtons: {
     flexDirection: "row",
@@ -342,20 +342,19 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-between",
     gap: 20,
-    zIndex: 1,
   },
   purchaseItemContainer: {
-    width: "40%",
+    width: "48%",
     marginBottom: 20,
   },
   dateContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 16,
-    gap: 8,
+    paddingVertical:30,
+    gap: 16,
   },
   dateText: {
-    fontSize: 32,
+    fontSize: 30,
     fontFamily: appFonts.UrbanistBold,
     color: appColors.GreyScale[500],
   },

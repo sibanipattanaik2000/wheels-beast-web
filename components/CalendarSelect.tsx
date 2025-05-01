@@ -1,118 +1,145 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { FlatList, Image, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import appFonts from '@/constants/Font';
 import { appColors } from '@/constants/Color';
+import appFonts from '@/constants/Font';
 
-interface CalendarSelectProps {
+type CalendarSelectProps = {
   onDateSelect: (date: Date) => void;
   initialDate?: Date;
   primaryColor?: string;
-}
+};
 
-const CalendarSelect = ({ 
-  onDateSelect, 
-  initialDate = new Date(), 
-  primaryColor = appColors.main.Primary 
+const CalendarSelect = ({
+  onDateSelect,
+  initialDate = new Date(),
+  primaryColor = appColors.main.Primary,
 }: CalendarSelectProps) => {
-  // Get current date/month
-  const [currentMonth, setCurrentMonth] = useState(new Date(initialDate));
   const [selectedDate, setSelectedDate] = useState(initialDate);
-  
-  // Get month name and year
-  const monthYearDisplay = currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' });
-  
-  // Generate dates for the current month (only next 7 days shown)
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const [startDate, setStartDate] = useState(today);
+
+  const monthYearDisplay = startDate.toLocaleString('default', {
+    month: 'long',
+    year: 'numeric',
+  });
+
   const getDaysArray = () => {
     const days = [];
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    
-    // Show 7 days starting from today
     for (let i = 0; i < 7; i++) {
-      const date = new Date(today);
-      date.setDate(date.getDate() + i);
+      const date = new Date(startDate);
+      date.setDate(startDate.getDate() + i);
+
+      // Prevent showing days from the next month
+      if (date.getMonth() !== today.getMonth()) break;
+
       days.push(date);
     }
     return days;
   };
 
-  // Handle month navigation
-  const goToPreviousMonth = () => {
-    const newMonth = new Date(currentMonth);
-    newMonth.setMonth(newMonth.getMonth() - 1);
-    setCurrentMonth(newMonth);
+  const handleNextWeek = () => {
+    const nextStart = new Date(startDate);
+    nextStart.setDate(startDate.getDate() + 7);
+
+    const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    if (nextStart <= endOfMonth) {
+      setStartDate(nextStart);
+    }
   };
 
-  const goToNextMonth = () => {
-    const newMonth = new Date(currentMonth);
-    newMonth.setMonth(newMonth.getMonth() + 1);
-    setCurrentMonth(newMonth);
+  const handlePrevWeek = () => {
+    const prevStart = new Date(startDate);
+    prevStart.setDate(startDate.getDate() - 7);
+
+    if (prevStart >= today) {
+      setStartDate(prevStart);
+    }
   };
 
-  // Handle date selection
   const handleDateSelect = (date: Date) => {
     setSelectedDate(date);
     onDateSelect(date);
   };
 
-  // Day names mapping
   const getDayName = (date: Date) => {
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     return days[date.getDay()];
   };
 
-  // Render day item
   const renderDayItem = ({ item }: { item: Date }) => {
-    const isSelected = selectedDate.getDate() === item.getDate() && 
-                      selectedDate.getMonth() === item.getMonth() &&
-                      selectedDate.getFullYear() === item.getFullYear();
-    
+    const isToday =
+      item.getDate() === today.getDate() &&
+      item.getMonth() === today.getMonth() &&
+      item.getFullYear() === today.getFullYear();
+
+    const isSelected =
+      selectedDate.getDate() === item.getDate() &&
+      selectedDate.getMonth() === item.getMonth() &&
+      selectedDate.getFullYear() === item.getFullYear();
+
+    const isDisabled = item < today;
+
+    const containerStyle = [
+      styles.dayItem,
+      isSelected && { backgroundColor: primaryColor, borderColor: primaryColor },
+      isToday && !isSelected && { borderColor: primaryColor },
+    ];
+
     return (
-      <TouchableOpacity
-        style={[
-          styles.dayItem,
-          isSelected && { 
-            backgroundColor: primaryColor,
-            borderColor: primaryColor
-          }
-        ]}
-        onPress={() => handleDateSelect(item)}
-      >
-        <Text style={[
-          styles.dayNumber,
-          isSelected && styles.selectedText
-        ]}>
-          {item.getDate()}
-        </Text>
-        <Text style={[
-          styles.dayName,
-          isSelected && styles.selectedText
-        ]}>
+      <View>
+        <TouchableOpacity
+          style={containerStyle}
+          onPress={() => !isDisabled && handleDateSelect(item)}
+          disabled={isDisabled}
+        >
+          <Text
+            style={[
+              styles.dayNumber,
+              isSelected && styles.selectedText,
+              isDisabled && styles.disabledText,
+            ]}
+          >
+            {item.getDate()}
+          </Text>
+        </TouchableOpacity>
+        <Text
+          style={[
+            styles.dayName,
+            isSelected && styles.selectedTexts,
+            isDisabled && styles.disabledText,
+          ]}
+        >
           {getDayName(item)}
         </Text>
-      </TouchableOpacity>
+      </View>
     );
   };
 
   return (
     <View style={styles.container}>
-        <View style={{flexDirection:"row",justifyContent:"space-between"}}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={goToPreviousMonth} style={styles.navButton}>
-          <Ionicons name="chevron-back" size={24} color={appColors.GreyScale[700]} />
-        </TouchableOpacity>
-        
-        <Text style={styles.monthYear}>{monthYearDisplay}</Text>
-        
-        <TouchableOpacity onPress={goToNextMonth} style={styles.navButton}>
-          <Ionicons name="chevron-forward" size={24} color={appColors.GreyScale[700]} />
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={handlePrevWeek}>
+            <Ionicons name="chevron-back" size={20} color={appColors.GreyScale[300]} />
+          </TouchableOpacity>
+          <Text style={styles.monthYear}>{monthYearDisplay}</Text>
+          <TouchableOpacity onPress={handleNextWeek}>
+            <Ionicons name="chevron-forward" size={20} color={appColors.GreyScale[300]} />
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity style={styles.navButton}>
+          <Image
+            source={require('@/assets/images/Profile/calendar.png')}
+            style={{ height: 24, width: 24, tintColor: appColors.GreyScale[400] }}
+            resizeMode="contain"
+          />
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.navButton}>
-          <Ionicons name="calendar-outline" size={24} color={appColors.GreyScale[700]} />
-        </TouchableOpacity>
-      </View>
+
       <FlatList
         data={getDaysArray()}
         renderItem={renderDayItem}
@@ -127,52 +154,67 @@ const CalendarSelect = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: appColors.AdditionalColor.white,
-    borderRadius: 12,
-    overflow: 'hidden',
-    width: '100%',
+    padding: 16,
+    paddingTop: 10,
+    backgroundColor: 'white',
+    borderRadius: 10,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 12,
+    gap: 10,
+  },
+  monthYear: {
+    fontSize: 16,
+    fontFamily:appFonts.UrbanistBold,
+    color: appColors.GreyScale[900],
+    textAlign: 'center',
   },
   navButton: {
     padding: 6,
-  },
-  monthYear: {
-    fontFamily: appFonts.UrbanistSemiBold,
-    fontSize: 16,
-    color: appColors.GreyScale[800],
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: appColors.GreyScale[100],
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 34,
+    width: 34,
   },
   daysContainer: {
-    paddingVertical: 8,
-    paddingHorizontal: 4,
-    gap: 8,
+    marginTop: 10,
+    gap: 12,
   },
   dayItem: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    borderWidth: 1,
-    borderColor: appColors.GreyScale[200],
-    justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 6,    
+    justifyContent: 'center',
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    borderWidth: 1.5,
+    borderColor: appColors.GreyScale[800],
   },
   dayNumber: {
-    fontFamily: appFonts.UrbanistSemiBold,
     fontSize: 16,
-    color: appColors.GreyScale[900],
+    fontWeight: '600',
+    color: '#333',
   },
   dayName: {
-    fontFamily: appFonts.UrbanistRegular,
     fontSize: 12,
-    color: appColors.GreyScale[600],
+    fontWeight: '500',
+    color: appColors.GreyScale[400],
+    textAlign: 'center',
+    marginTop: 4,
   },
   selectedText: {
-    color: appColors.AdditionalColor.white,
+    color: 'white',
+  },
+  selectedTexts: {
+    color: appColors.main.Primary,
+    fontWeight: '600',
+  },
+  disabledText: {
+    color: appColors.GreyScale[200],
   },
 });
 
-export default CalendarSelect; 
+export default CalendarSelect;

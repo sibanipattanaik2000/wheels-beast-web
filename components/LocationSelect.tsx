@@ -1,30 +1,45 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import appFonts from '@/constants/Font';
 import { appColors } from '@/constants/Color';
 
 interface LocationSelectProps {
-  location: string;
+  location?: string;
   primaryColor?: string;
 }
 
 const LocationSelect = ({
-  location = 'Filbert street, San Francisco',
+  location = '',
   primaryColor = appColors.main.Primary
 }: LocationSelectProps) => {
+  const [locationInput, setLocationInput] = useState(location);
+
+  const handleIconPress = () => {
+    // You can add any action here, like opening a map or location picker
+    console.log('Location icon pressed');
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Your test drive will be</Text>
       
       <View style={styles.locationContainer}>
-        <Ionicons 
-          name="location-outline" 
-          size={24} 
-          color={primaryColor} 
-          style={styles.locationIcon} 
+        <TouchableOpacity onPress={handleIconPress}>
+          <Ionicons 
+            name="location-outline" 
+            size={24} 
+            color={primaryColor} 
+            style={styles.locationIcon} 
+          />
+        </TouchableOpacity>
+        <TextInput
+          style={styles.locationInput}
+          placeholder="Enter location"
+          placeholderTextColor={appColors.GreyScale[400]}
+          value={locationInput}
+          onChangeText={setLocationInput}
         />
-        <Text style={styles.locationText}>{location}</Text>
       </View>
     </View>
   );
@@ -54,11 +69,17 @@ const styles = StyleSheet.create({
   locationIcon: {
     marginRight: 12,
   },
-  locationText: {
+  locationInput: {
+    flex: 1,
     fontFamily: appFonts.UrbanistMedium,
     fontSize: 16,
     color: appColors.GreyScale[800],
-  }
+    ...Platform.select({
+      web: {
+        outlineStyle: 'none',
+      },
+    }),
+  },
 });
 
-export default LocationSelect; 
+export default LocationSelect;

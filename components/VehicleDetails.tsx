@@ -225,7 +225,6 @@ const VehicleDetails = ({ vehicle }: VehicleDetailsProps) => {
     setIsLiked(!isLiked);
   };
 
-
   return (
     <ScrollView
       style={{
@@ -648,8 +647,11 @@ const VehicleDetails = ({ vehicle }: VehicleDetailsProps) => {
       </View>
 
       {/* Share Modal Component */}
-      <Car360Modal visible={showModal} onClose={() => setShowModal(false)} 
-      vehicle={vehicle} />
+      <Car360Modal
+        visible={showModal}
+        onClose={() => setShowModal(false)}
+        vehicle={vehicle}
+      />
     </ScrollView>
   );
 };
@@ -659,7 +661,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 16,
     gap: 16,
-    backgroundColor: appColors.GreyScale[100],
+    backgroundColor: appColors.GreyScale[200],
     borderRadius: 16,
     paddingHorizontal: 30,
     paddingVertical: 40,
@@ -826,7 +828,6 @@ const styles = StyleSheet.create({
     backgroundColor: appColors.main.Primary,
   },
   collapsibleSections: {
-    // backgroundColor: appColors.AdditionalColor.white,
     borderRadius: 16,
     marginHorizontal: 16,
     marginVertical: 16,
@@ -853,7 +854,6 @@ const styles = StyleSheet.create({
     color: appColors.main.Primary,
   },
   sectionContent: {
-    paddingVertical: 16,
     backgroundColor: appColors.AdditionalColor.white,
     paddingHorizontal: 10,
     borderRadius: 10,

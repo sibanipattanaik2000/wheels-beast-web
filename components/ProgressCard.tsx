@@ -66,10 +66,10 @@ const ProgressCard = ({
   return (
     <View style={styles.cardContainer}>
       {/* Car Image and Details */}
-      <View style={{flexDirection:'row',gap:24,width:'100%'}}>
+      <View style={{flexDirection:'row',gap:24,width:'100%',borderBottomWidth:1,borderBottomColor:appColors.GreyScale[200]}}>
         <Image source={carImage} style={styles.carImage} />
         
-        <View style={{flex:1,gap:16}}>
+        <View style={{flex:1,gap:16,justifyContent:'center'}}>  
           <Text style={styles.carName} ellipsizeMode="tail" numberOfLines={1}>{carName}</Text>
           
           <View style={styles.sellerContainer}>
@@ -102,17 +102,16 @@ const ProgressCard = ({
 
 const styles = StyleSheet.create({
   cardContainer: {
-    width: "100%", 
     backgroundColor: "#FFFFFF",
     borderRadius: 40,
-    padding: 32,
+    padding: 25,
     overflow: "hidden",
     gap: 28,
-    flex:1
+     boxShadow: "0px 2px 3.8px rgba(0, 0, 0, 0.2)",
   },
   carImage: {
-    width: 252,
-    height: 162,
+    width: 254,
+    height: 200,
     resizeMode: "contain",
   },
   detailsContent: {
@@ -140,11 +139,11 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   flagIcon: {
-    width: 24,
-    height: 16,
+    width: 34,
+    height: 24,
   },
   countryText: {
-    fontSize: 16,
+    fontSize: 24,
     fontFamily: appFonts.UrbanistBold,
     color: appColors.GreyScale[900],
   },
@@ -173,22 +172,22 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(239, 68, 68, 0.1)",
   },
   ongoingText: {
-    fontSize: 14,
+    fontSize: 20,
     fontFamily: appFonts.UrbanistBold,
     color: "#4F46E5",
   },
   completedText: {
-    fontSize: 14,
+    fontSize: 20,
     fontFamily: appFonts.UrbanistBold,
     color: "#10B981",
   },
   canceledText: {
-    fontSize: 14,
+    fontSize: 20,
     fontFamily: appFonts.UrbanistBold,
     color: "#EF4444",
   },
   priceText: {
-    fontSize: 18,
+    fontSize: 32,
     fontFamily: appFonts.UrbanistBold,
     color: appColors.GreyScale[900],
   },

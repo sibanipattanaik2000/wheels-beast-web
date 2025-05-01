@@ -104,7 +104,6 @@ const SellCar = () => {
     },
     leftContainer: {
       width: "50%", 
-      alignSelf: 'center'
     },
     rightContainer: {
       width: "40%",
@@ -258,7 +257,9 @@ const SellCar = () => {
               logoSource={require("@/assets/images/carlist/Audi.png")}
               engineSource={require("@/assets/images/carlist/engine.png")}
               gearboxSource={require("@/assets/images/carlist/gear.png")}
-              carImageSource={require("@/assets/images/brand/whitecar.png")}
+              carImageSource={require("@/assets/images/carlist/whitecar.png")}
+              petrolSource={require("@/assets/images/carlist/petrol.png")}
+              isForSale={true}
             />
           </View>
 

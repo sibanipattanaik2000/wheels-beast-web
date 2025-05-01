@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import appFonts from '@/constants/Font';
-import { appColors } from '@/constants/Color';
-import MyTextInput from './MyTextInput';
-import { Image } from 'react-native';
+import React, { useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import appFonts from "@/constants/Font";
+import { appColors } from "@/constants/Color";
+import MyTextInput from "./MyTextInput";
+import { Image } from "react-native";
+import Button from "./Button";
 
 interface ProfileEditProps {
   userName: string;
@@ -19,14 +20,12 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({
 }) => {
   // State for form fields
   const [fullName, setFullName] = useState(userName);
-  const [phoneNumber, setPhoneNumber] = useState('+1 756 7894 00');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState("+1 756 7894 00");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  // Handle save changes
   const handleSaveChanges = () => {
-    console.log('Saving changes...');
-    // Implement save logic here
+    console.log("Saving changes...");
   };
 
   return (
@@ -41,8 +40,6 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({
           </View>
         </View>
 
-        <View style={styles.divider} />
-
         {/* Form fields */}
         <View style={styles.formSection}>
           <View style={styles.rowContainer}>
@@ -52,8 +49,14 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({
                 label=""
                 value={fullName}
                 onChangeText={setFullName}
-                icon={<Ionicons name="person-outline" size={20} color={appColors.GreyScale[500]} />}
-                placeholder='Enter Your Name'
+                icon={
+                  <Ionicons
+                    name="person-outline"
+                    size={20}
+                    color={appColors.GreyScale[500]}
+                  />
+                }
+                placeholder="Enter Your Name"
               />
             </View>
 
@@ -62,10 +65,22 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({
               <MyTextInput
                 label=""
                 value={phoneNumber}
-                onChangeText={setPhoneNumber}
-                icon={<Ionicons name="call-outline" size={20} color={appColors.GreyScale[500]} />}
+                onChangeText={(text) => {
+                  const numericText = text.replace(/[^0-9]/g, ""); // remove non-numeric characters
+                  if (numericText.length <= 10) {
+                    setPhoneNumber(numericText);
+                  }
+                }}
+                icon={
+                  <Ionicons
+                    name="call-outline"
+                    size={20}
+                    color={appColors.GreyScale[500]}
+                  />
+                }
                 isVerified={true}
-                 placeholder='Enter Your Phone Number'
+                placeholder="Enter Your Phone Number"
+                // isVerified={phoneNumber === signedInPhone}
               />
             </View>
           </View>
@@ -78,8 +93,15 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({
                 value={email}
                 onChangeText={setEmail}
                 placeholder="Enter your email"
-                icon={<Ionicons name="mail-outline" size={20} color={appColors.GreyScale[500]} />}
+                icon={
+                  <Ionicons
+                    name="mail-outline"
+                    size={20}
+                    color={appColors.GreyScale[500]}
+                  />
+                }
                 isUnverified={true}
+                // isUnverified={email !== signedInEmail}
               />
             </View>
 
@@ -90,8 +112,14 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry={true}
-                icon={<Ionicons name="lock-closed-outline" size={20} color={appColors.GreyScale[500]} />}
-                 placeholder='Enter Your Password'
+                icon={
+                  <Ionicons
+                    name="lock-closed-outline"
+                    size={20}
+                    color={appColors.GreyScale[500]}
+                  />
+                }
+                placeholder="Enter Your Password"
               />
             </View>
           </View>
@@ -99,9 +127,16 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({
       </View>
 
       {/* Save button */}
-      <TouchableOpacity style={styles.saveButton} onPress={handleSaveChanges}>
+      <Button
+        title="Save Changes"
+        onPress={handleSaveChanges}
+        variant="filled"
+        color={appColors.AdditionalColor.white}
+        style={{ backgroundColor: appColors.main.Primary }}
+      />
+      {/* <TouchableOpacity style={styles.saveButton} onPress={handleSaveChanges}>
         <Text style={styles.saveButtonText}>Save Change</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };
@@ -114,24 +149,25 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: appColors.GreyScale[100],
     padding: 24,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   content: {
     flex: 1,
+    gap: 30
   },
   profileHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
+    gap: 10,
   },
   profileImage: {
     width: 64,
     height: 64,
     borderRadius: 32,
-    marginRight: 16,
+    alignSelf: "center",
   },
   profileInfo: {
-    justifyContent: 'center',
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
   },
   userName: {
     fontSize: 18,
@@ -144,21 +180,16 @@ const styles = StyleSheet.create({
     fontFamily: appFonts.UrbanistMedium,
     color: appColors.GreyScale[500],
   },
-  divider: {
-    height: 1,
-    backgroundColor: appColors.GreyScale[200],
-    marginVertical: 20,
-  },
   formSection: {
     marginTop: 10,
   },
   rowContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 20,
   },
   formColumn: {
-    width: '48%',
+    width: "48%",
   },
   sectionLabel: {
     fontSize: 14,
@@ -170,8 +201,8 @@ const styles = StyleSheet.create({
     backgroundColor: appColors.main.Primary,
     paddingVertical: 16,
     borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginTop: 20,
   },
   saveButtonText: {
@@ -181,4 +212,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileEdit; 
+export default ProfileEdit;

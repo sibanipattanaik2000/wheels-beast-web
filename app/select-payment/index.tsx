@@ -100,11 +100,11 @@ const SelectPayment = () => {
               
               {/* Confirm button */}
               <Button 
-                title="Confirm Address"
+                title="Select Payment"
                 variant="filled"
                 style={styles.confirmButton}
                 color={appColors.AdditionalColor.white}
-                onPress={()=> router.push("/payment-receipt" as Href)}
+                onPress={()=> router.push("/payment" as Href)}
               />
             </View>
           </View>

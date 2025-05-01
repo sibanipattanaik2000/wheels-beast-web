@@ -10,10 +10,11 @@ import Button from "@/components/Button";
 import CarCard from "@/components/CarCard";
 import Sortby from "@/components/Sortby";
 import { Image } from "expo-image";
+import { Href, useRouter } from "expo-router";
 
 const carData = [
   {
-    image: require("@/assets/images/Signup/car.png"),
+    image: require("@/assets/images/carlist/blkcar.png"),
     brand: "Ferrari 488 Spider",
     price: "$120,000",
     fuelType: "Automatic",
@@ -21,35 +22,67 @@ const carData = [
     isLiked: true,
   },
   {
-    image: require("@/assets/images/Signup/car.png"),
+    image: require("@/assets/images/brand/bluecar.png"),
     brand: "Audi A8 Quattro",
     price: "$115,000",
     fuelType: "Manual",
     brandicon: require("@/assets/images/carlist/Audi.png"),
-    isLiked: false,
+    isLiked: true,
   },
   {
-    image: require("@/assets/images/Signup/car.png"),
+    image: require("@/assets/images/carlist/redcar.png"),
     brand: "Ferrari 488 Spider",
     price: "$130,000",
     fuelType: "Automatic",
     brandicon: require("@/assets/images/carlist/Ferrari.png"),
-    isLiked: false,
+    isLiked: true,
   },
   {
-    image: require("@/assets/images/Signup/car.png"),
+    image: require("@/assets/images/brand/whitecar.png"),
     brand: "Audi A8 Quattro",
     price: "$130,000",
     fuelType: "Automatic",
     brandicon: require("@/assets/images/carlist/Audi.png"),
-    isLiked: false,
+    isLiked: true,
+  },
+  {
+    image: require("@/assets/images/carlist/blkcar.png"),
+    brand: "Ferrari 488 Spider",
+    price: "$120,000",
+    fuelType: "Automatic",
+    brandicon: require("@/assets/images/carlist/Ferrari.png"),
+    isLiked: true,
+  },
+  {
+    image: require("@/assets/images/brand/bluecar.png"),
+    brand: "Audi A8 Quattro",
+    price: "$115,000",
+    fuelType: "Manual",
+    brandicon: require("@/assets/images/carlist/Audi.png"),
+    isLiked: true,
+  },
+  {
+    image: require("@/assets/images/carlist/redcar.png"),
+    brand: "Ferrari 488 Spider",
+    price: "$130,000",
+    fuelType: "Automatic",
+    brandicon: require("@/assets/images/carlist/Ferrari.png"),
+    isLiked: true,
+  },
+  {
+    image: require("@/assets/images/brand/whitecar.png"),
+    brand: "Audi A8 Quattro",
+    price: "$130,000",
+    fuelType: "Automatic",
+    brandicon: require("@/assets/images/carlist/Audi.png"),
+    isLiked: true,
   },
 ];
 
 const Favourites = () => {
   // Filter cars that are liked
   const favouriteCars = carData.filter((car) => car.isLiked);
-
+  const router = useRouter(); // Initialize router for navigation
   return (
     <CustomSafeArea>
       <Header type="home" />
@@ -57,7 +90,7 @@ const Favourites = () => {
         <View
           style={{
             flex: 1,
-            paddingHorizontal: 70,
+            paddingHorizontal: 90,
             paddingVertical: 47,
             
           }}
@@ -101,7 +134,7 @@ const Favourites = () => {
                 <Text style={{fontSize:36,fontFamily:appFonts.UrbanistBold,color:appColors.GreyScale[900],alignSelf:"center"}}>No favorite yet!</Text>
                 <Text style={{fontSize:24,fontFamily:appFonts.UrbanistRegular,color:appColors.GreyScale[500],alignSelf:"center"}}>Dis morbi neque elementum quis eget sit facilisis hac Nunc tempus fames.</Text>
                 </View>
-                <Button variant="filled" style={{backgroundColor:appColors.main.Primary}} title="Search Car" color={appColors.AdditionalColor.white}/>
+                <Button variant="filled" style={{backgroundColor:appColors.main.Primary}} title="Search Car" color={appColors.AdditionalColor.white} onPress={()=>router.push('/searchcar' as Href)}/>
               </View>
             )}
         </View>

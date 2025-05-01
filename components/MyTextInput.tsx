@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, TextInput, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import appFonts from '@/constants/Font';
 import { appColors } from '@/constants/Color';
@@ -52,7 +52,7 @@ const MyTextInput: React.FC<MyTextInputProps> = ({
             onPress={() => setShowPassword(!showPassword)}
           >
             <Ionicons 
-              name={showPassword ? 'eye-off-outline' : 'eye-outline'} 
+              name={showPassword ? 'eye-outline' : 'eye-off-outline'} 
               size={24} 
               color={appColors.GreyScale[500]}
             />
@@ -110,6 +110,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: appColors.GreyScale[900],
     fontFamily: appFonts.UrbanistRegular,
+    ...Platform.select({
+      web:{
+        outlineStyle: "none",
+      }
+    })
   },
   eyeIcon: {
     padding: 5,

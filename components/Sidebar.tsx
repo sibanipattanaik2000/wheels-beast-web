@@ -65,9 +65,9 @@ export const SidebarComponent = () => {
 };
 
 const styles = StyleSheet.create({
-  sidebar: { padding: 16, width: '100%', maxWidth: 300, backgroundColor: appColors.AdditionalColor.white },
+  sidebar: { padding: 16, width: '100%', maxWidth: 300, backgroundColor: appColors.AdditionalColor.white, },
   header: { fontSize: 24, fontFamily:appFonts.UrbanistBold, marginBottom: 10 ,color: appColors.GreyScale[900]},
   optionRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 8, gap: 8 },
-  moreText: { color:appColors.GreyScale[900], marginTop: 5,fontSize:20,fontFamily:appFonts.UrbanistMedium, },
-  option:{ fontSize: 20, color: appColors.GreyScale[900],fontFamily: appFonts.UrbanistSemiBold, },
+  moreText: { color:appColors.GreyScale[900], marginTop: 5,fontSize:18,fontFamily:appFonts.UrbanistMedium, },
+  option:{ fontSize: 18, color: appColors.GreyScale[900],fontFamily: appFonts.UrbanistSemiBold, },
 });

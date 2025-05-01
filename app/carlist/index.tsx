@@ -12,7 +12,6 @@ import { AntDesign } from "@expo/vector-icons"; // for arrow icon
 import Search from "@/components/Searchbar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Href, useRouter } from "expo-router";
 
 const carData = [
   {
@@ -24,14 +23,14 @@ const carData = [
     
   },
   {
-    image: require("@/assets/images/brand/bluecar.png"),
+    image: require("@/assets/images/carlist/blkcar.png"),
     brand: "Audi A8 Quattro",
     price: "$115,000",
     fuelType: "Manual",
     brandicon: require("@/assets/images/carlist/Audi.png"),
   },
   {
-    image: require("@/assets/images/brand/bluecar.png"),
+    image: require("@/assets/images/carlist/redcar.png"),
     brand: "Ferrari 488 Spider",
     price: "$130,000",
     fuelType: "Automatic",
@@ -39,58 +38,76 @@ const carData = [
   },
   {
     image: require("@/assets/images/brand/bluecar.png"),
-    brand: "Audi A8 Quattro",
-    price: "$130,000",
+    brand: "Ferrari 488 Spider",
+    price: "$120,000",
     fuelType: "Automatic",
+    brandicon: require("@/assets/images/carlist/Ferrari.png"),
+    
+  },
+  {
+    image: require("@/assets/images/carlist/blkcar.png"),
+    brand: "Audi A8 Quattro",
+    price: "$115,000",
+    fuelType: "Manual",
     brandicon: require("@/assets/images/carlist/Audi.png"),
   },
   {
-    image: require("@/assets/images/brand/bluecar.png"),
-    brand: "Audi A8 Quattro",
+    image: require("@/assets/images/carlist/redcar.png"),
+    brand: "Ferrari 488 Spider",
     price: "$130,000",
     fuelType: "Automatic",
-    brandicon: require("@/assets/images/carlist/Audi.png"),
+    brandicon: require("@/assets/images/carlist/Ferrari.png"),
   },
   {
     image: require("@/assets/images/brand/bluecar.png"),
-    brand: "Audi A8 Quattro",
-    price: "$130,000",
+    brand: "Ferrari 488 Spider",
+    price: "$120,000",
     fuelType: "Automatic",
+    brandicon: require("@/assets/images/carlist/Ferrari.png"),
+    
+  },
+  {
+    image: require("@/assets/images/carlist/blkcar.png"),
+    brand: "Audi A8 Quattro",
+    price: "$115,000",
+    fuelType: "Manual",
     brandicon: require("@/assets/images/carlist/Audi.png"),
   },
   {
-    image: require("@/assets/images/brand/bluecar.png"),
-    brand: "Audi A8 Quattro",
+    image: require("@/assets/images/carlist/redcar.png"),
+    brand: "Ferrari 488 Spider",
     price: "$130,000",
     fuelType: "Automatic",
-    brandicon: require("@/assets/images/carlist/Audi.png"),
+    brandicon: require("@/assets/images/carlist/Ferrari.png"),
   },
   {
     image: require("@/assets/images/brand/bluecar.png"),
-    brand: "Audi A8 Quattro",
-    price: "$130,000",
+    brand: "Ferrari 488 Spider",
+    price: "$120,000",
     fuelType: "Automatic",
+    brandicon: require("@/assets/images/carlist/Ferrari.png"),
+    
+  },
+  {
+    image: require("@/assets/images/carlist/blkcar.png"),
+    brand: "Audi A8 Quattro",
+    price: "$115,000",
+    fuelType: "Manual",
     brandicon: require("@/assets/images/carlist/Audi.png"),
   },
   {
-    image: require("@/assets/images/brand/bluecar.png"),
-    brand: "Audi A8 Quattro",
+    image: require("@/assets/images/carlist/redcar.png"),
+    brand: "Ferrari 488 Spider",
     price: "$130,000",
     fuelType: "Automatic",
-    brandicon: require("@/assets/images/carlist/Audi.png"),
+    brandicon: require("@/assets/images/carlist/Ferrari.png"),
   },
-  {
-    image: require("@/assets/images/brand/bluecar.png"),
-    brand: "Audi A8 Quattro",
-    price: "$130,000",
-    fuelType: "Automatic",
-    brandicon: require("@/assets/images/carlist/Audi.png"),
-  },
+
 ];
 
 const CarListPage = () => {
   const [showPrivacy, setShowPrivacy] = useState(false);
-const router = useRouter()
+
   const togglePrivacy = () => {
     setShowPrivacy((prev) => !prev);
   };
@@ -133,24 +150,22 @@ const router = useRouter()
             contentContainerStyle={{
               flexWrap: "wrap",
               flexDirection: "row",
-              justifyContent:'space-between',
+              justifyContent: "space-between",
+              gap: 20,
               paddingHorizontal: 20,
-              gap: 50,
             }}
             showsHorizontalScrollIndicator={false}
           >
             {carData.map((car, index) => (
               <CarCard key={index} {...car} />
             ))}
-            <View style={{ width: "100%", marginTop: 60, marginBottom: 30 ,alignSelf:'center'}}>
+            <View style={{ width: "30%", marginTop: 60, marginBottom: 30 ,left:'30%'}}>
               <Button
                 title="Show More Car"
                 variant="filled"
                 fontWeight="UrbanistBold"
                 color={appColors.AdditionalColor.white}
-                style={{ backgroundColor: appColors.main.Primary,alignSelf:'center' }}
-                width={'30%'}
-                onPress={()=> router.push('/brand-car' as Href)}
+                style={{ backgroundColor: appColors.main.Primary }}
               />
             </View>
           </ScrollView>

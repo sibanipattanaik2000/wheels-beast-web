@@ -143,7 +143,7 @@ const OrderProgress = () => {
 
   return (
    <CustomSafeArea>
-    <ScrollView style={{flex:1,backgroundColor:appColors.GreyScale[200]}} showsVerticalScrollIndicator={false}>
+    <ScrollView style={{flex:1,backgroundColor:appColors.GreyScale[100]}} showsVerticalScrollIndicator={false}>
       <View style={{gap:24}}>
         <MyPurchases/>
          <View>

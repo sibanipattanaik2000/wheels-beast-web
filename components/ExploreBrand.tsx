@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { appColors } from "@/constants/Color";
 import appFonts from "@/constants/Font";
+import { Href, useRouter } from "expo-router";
 
 interface Brand {
   name: string;
@@ -14,7 +15,7 @@ interface ExploreBrandProps {
 
 const ExploreBrand = ({ title }: ExploreBrandProps) => {
   const [showAll, setShowAll] = useState(false);
-
+  const router = useRouter();
   const allBrands: Brand[] = [
     { name: "BMW", icon: require("@/assets/images/brand/BMW.png") },
     { name: "Ferarrri", icon: require("@/assets/images/carlist/Ferrari.png") },
@@ -31,7 +32,13 @@ const ExploreBrand = ({ title }: ExploreBrandProps) => {
   return (
     <View
       style={{
-        borderColor:appColors.GreyScale[200],borderWidth:1,margin:80,paddingHorizontal:60,paddingVertical:50,gap:24,borderRadius:20,
+        borderColor: appColors.GreyScale[200],
+        borderWidth: 1,
+        margin: 80,
+        paddingHorizontal: 60,
+        paddingVertical: 50,
+        gap: 24,
+        borderRadius: 20,
       }}
     >
       {/* <View style={{flexDirection:'row',gap:10}}>
@@ -49,34 +56,56 @@ const ExploreBrand = ({ title }: ExploreBrandProps) => {
         </View>
        
       </View> */}
-      <View style={{ flexDirection:'row',justifyContent:'space-between' }}>
+      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <Text
           style={{
-            color:appColors.GreyScale[900],fontSize:32,fontFamily:appFonts.UrbanistBold
+            color: appColors.GreyScale[900],
+            fontSize: 32,
+            fontFamily: appFonts.UrbanistBold,
           }}
         >
           {title}
         </Text>
         {/* {!showAll && ( */}
-          <TouchableOpacity onPress={() => setShowAll(true)}>
-            <Text
-                style={{color:appColors.GreyScale[500],fontSize:32,fontFamily:appFonts.UrbanistBold}}
-            >
-              View All
-            </Text>
-          </TouchableOpacity>
-        {/* )} */}
+        <TouchableOpacity
+          onPress={() => {
+            setShowAll(true);
+            router.push("/brand-car" as Href);
+          }}
+        >
+          <Text
+            style={{
+              color: appColors.GreyScale[500],
+              fontSize: 32,
+              fontFamily: appFonts.UrbanistBold,
+            }}
+          >
+            View All
+          </Text>
+        </TouchableOpacity>
       </View>
-      <View style={{ flexDirection: "row", flexWrap: "wrap",gap:24}}>
+      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 24 }}>
         {brandsToShow.map((brand, index) => (
-          <View key={index} style={{ alignItems: "center",borderWidth:1,borderColor:appColors.GreyScale[200],padding:16,gap:12,width:130,borderRadius:16}}>
+          <TouchableOpacity
+            key={index}
+            style={{
+              alignItems: "center",
+              borderWidth: 1,
+              borderColor: appColors.GreyScale[200],
+              padding: 16,
+              gap: 12,
+              width: 130,
+              borderRadius: 16,
+            }}
+          >
             <View
               style={{
                 backgroundColor: appColors.GreyScale[900],
                 borderRadius: 10,
                 justifyContent: "center",
                 alignItems: "center",
-                height: 40, width: 40,
+                height: 40,
+                width: 40,
               }}
             >
               <Image
@@ -94,7 +123,7 @@ const ExploreBrand = ({ title }: ExploreBrandProps) => {
             >
               {brand.name}
             </Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
     </View>

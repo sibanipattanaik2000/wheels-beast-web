@@ -58,7 +58,8 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ title, items }) => {
 
 const styles = StyleSheet.create({
   card: {
-    gap: 12,
+    gap: 20,
+    padding:14
   },
   title: {
     fontSize: 24,
@@ -70,12 +71,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   item: {
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: appColors.GreyScale[200],
     borderRadius: 32,
-    padding: 30,
+    padding: 20,
     width: "30%",
-    gap: 24,
+    gap: 18,
   },
   lineText1: {
     fontSize: 20,

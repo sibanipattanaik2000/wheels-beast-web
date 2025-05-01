@@ -12,6 +12,8 @@ interface CardPurchaseProps {
   engineSource: any;
   gearboxSource: any;
   carImageSource: any;
+  petrolSource?: any; // NEW prop for petrol icon
+  isForSale?: boolean;
 }
 
 const CarPurchase: React.FC<CardPurchaseProps> = ({
@@ -22,31 +24,33 @@ const CarPurchase: React.FC<CardPurchaseProps> = ({
   engineSource,
   gearboxSource,
   carImageSource,
+  petrolSource,
+  isForSale = false,
 }) => {
   const styles = StyleSheet.create({
     leftContainer: {
-      width: "100%",
       gap: 18,
+      width: isForSale ? "100%" : "50%",
+      alignItems: isForSale ? "center" : "flex-start",
     },
     rightContainer: {
-      width: "50%",
-      position: "absolute",
-      right: 0,
-    },
-    cardImage: {
-      width: 37,
-      height: 37,
-      borderRadius: 10,
+      width: isForSale ? "100%" : "50%",
+      ...(isForSale
+        ? { alignItems: "center", marginTop: 40 }
+        : { position: "absolute", right: 0 }),
     },
     carName: {
       fontSize: 36,
       fontFamily: appFonts.UrbanistBold,
       color: appColors.GreyScale[900],
+      textAlign: isForSale ? "center" : "left",
     },
     carPrice: {
       flexDirection: "row",
       alignItems: "center",
-      gap: 10,
+      gap: 20,
+      flexWrap: "wrap",
+      justifyContent: isForSale ? "center" : "flex-start",
     },
     detailText: {
       fontSize: 24,
@@ -58,7 +62,7 @@ const CarPurchase: React.FC<CardPurchaseProps> = ({
   return (
     <View
       style={{
-        flexDirection: "row",
+        flexDirection: isForSale ? "column" : "row",
         alignItems: "center",
         gap: 40,
         paddingHorizontal: 30,
@@ -68,25 +72,28 @@ const CarPurchase: React.FC<CardPurchaseProps> = ({
       }}
     >
       <View style={styles.leftContainer}>
-        <View style={{ width: "30%", height: 12 }}>
-          <Image
-            source={logoSource}
-            style={{ width: 48, height: 21 }}
-            contentFit="contain"
-          />
+        <View style={{ width: 48, height: 21 }}>
+          <Image source={logoSource} style={{ width: 48, height: 21,tintColor:appColors.main.Primary }} contentFit="contain" />
         </View>
         <Text style={styles.carName}>{carName}</Text>
         <View style={styles.carPrice}>
-          <View style={{ gap: 10, flexDirection: "row", alignItems: "center" }}>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
             <Image source={engineSource} style={{ width: 32, height: 32 }} />
             <Text style={styles.detailText}>{horsepower}</Text>
           </View>
-          <View style={{ gap: 10, flexDirection: "row", alignItems: "center" }}>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
             <Image source={gearboxSource} style={{ width: 32, height: 32 }} />
             <Text style={styles.detailText}>{transmission}</Text>
           </View>
+          {isForSale && petrolSource && (
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+              <Image source={petrolSource} style={{ width: 32, height: 32 }} />
+              <Text style={styles.detailText}>Petrol</Text>
+            </View>
+          )}
         </View>
       </View>
+
       <View style={styles.rightContainer}>
         <Image
           source={carImageSource}
