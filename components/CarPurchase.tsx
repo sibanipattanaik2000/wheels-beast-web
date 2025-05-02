@@ -73,7 +73,11 @@ const CarPurchase: React.FC<CardPurchaseProps> = ({
     >
       <View style={styles.leftContainer}>
         <View style={{ width: 48, height: 21 }}>
-          <Image source={logoSource} style={{ width: 48, height: 21,tintColor:appColors.main.Primary }} contentFit="contain" />
+          <Image
+            source={logoSource}
+            style={{ width: 48, height: 21, tintColor: appColors.main.Primary }}
+            contentFit="contain"
+          />
         </View>
         <Text style={styles.carName}>{carName}</Text>
         <View style={styles.carPrice}>
@@ -86,7 +90,9 @@ const CarPurchase: React.FC<CardPurchaseProps> = ({
             <Text style={styles.detailText}>{transmission}</Text>
           </View>
           {isForSale && petrolSource && (
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+            <View
+              style={{ flexDirection: "row", alignItems: "center", gap: 10 }}
+            >
               <Image source={petrolSource} style={{ width: 32, height: 32 }} />
               <Text style={styles.detailText}>Petrol</Text>
             </View>

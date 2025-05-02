@@ -22,7 +22,7 @@ const TestDrive = () => {
     image: require('@/assets/images/Profile/avtar.png'),
   };
 
-  // Sample test drive data
+  // Sample test drive data with added BMW and Mercedes entries
   const [testDrives, setTestDrives] = useState([
     {
       id: '1',
@@ -44,6 +44,26 @@ const TestDrive = () => {
       time: '10:40 AM - 11:40 AM',
       carImage: require('@/assets/images/brand/Car.png'),
     },
+    {
+      id: '3',
+      carName: 'BMW X5',
+      location: 'Los Angeles, California',
+      distance: '15 KM',
+      status: 'Active',
+      date: 'July 12, 2025',
+      time: '09:00 AM - 09:40 AM',
+      carImage: require('@/assets/images/brand/Car.png'),
+    },
+    {
+      id: '4',
+      carName: 'Mercedes-Benz C-Class',
+      location: 'San Diego, California',
+      distance: '20 KM',
+      status: 'Completed',
+      date: 'July 11, 2025',
+      time: '02:00 PM - 02:40 PM',
+      carImage: require('@/assets/images/brand/Car.png'),
+    },
   ]);
 
   // Filter states
@@ -62,6 +82,22 @@ const TestDrive = () => {
   const statusOptions = ['All status', 'Active', 'Completed', 'Cancelled'];
   const dateOptions = ['All dates', 'Today', 'This Week', 'This Month', 'This Year'];
   const modelOptions = ['All Models', 'Audi', 'Ford', 'BMW', 'Mercedes'];
+
+  // Filter the test drives based on the selected status
+  const filteredByStatus = testDrives.filter(drive => {
+    if (selectedStatus === 'All status') {
+      return true; // Show all cards
+    }
+    return drive.status.toLowerCase() === selectedStatus.toLowerCase();
+  });
+
+  // Further filter by selected model
+  const filteredTestDrives = filteredByStatus.filter(drive => {
+    if (selectedModel === 'All Models') {
+      return true; // Show all cards after status filter
+    }
+    return drive.carName.toLowerCase().includes(selectedModel.toLowerCase());
+  });
 
   // Handle date and time update
   const handleUpdateDateTime = (id: string, date: string, time: string) => {
@@ -121,7 +157,6 @@ const TestDrive = () => {
                 {/* Replace CalendarComponent with direct DateTimePicker implementation */}
                 <View>
                   <TouchableOpacity 
-                 
                     onPress={handleCalendarClick}
                   >
                    <Image style={{height:24,width:24}} source={require('@/assets/images/Profile/calendar.png')}/>
@@ -208,7 +243,7 @@ const TestDrive = () => {
               {/* Test drive cards */}
               <View style={styles.cardsContainer}>
                 <FlatList
-                  data={testDrives}
+                  data={filteredTestDrives}
                   keyExtractor={(item) => item.id}
                   renderItem={({ item }) => (
                     <TestDriveCard
@@ -307,4 +342,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default TestDrive; 
+export default TestDrive;

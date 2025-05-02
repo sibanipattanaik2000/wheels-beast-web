@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import appFonts from "@/constants/Font";
 import { appColors } from "@/constants/Color";
@@ -29,7 +29,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.content}>
         {/* Profile header */}
         <View style={styles.profileHeader}>
@@ -127,17 +127,18 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({
       </View>
 
       {/* Save button */}
+      <View style={{width:'100%',justifyContent:'center',alignItems:"center" }}>
       <Button
         title="Save Changes"
         onPress={handleSaveChanges}
         variant="filled"
         color={appColors.AdditionalColor.white}
-        style={{ backgroundColor: appColors.main.Primary }}
+        style={{ backgroundColor: appColors.main.Primary, }}
+        width={"30%"}
+        
       />
-      {/* <TouchableOpacity style={styles.saveButton} onPress={handleSaveChanges}>
-        <Text style={styles.saveButtonText}>Save Change</Text>
-      </TouchableOpacity> */}
-    </View>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -196,19 +197,6 @@ const styles = StyleSheet.create({
     fontFamily: appFonts.UrbanistMedium,
     color: appColors.GreyScale[500],
     marginBottom: 8,
-  },
-  saveButton: {
-    backgroundColor: appColors.main.Primary,
-    paddingVertical: 16,
-    borderRadius: 12,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 20,
-  },
-  saveButtonText: {
-    color: appColors.AdditionalColor.white,
-    fontSize: 16,
-    fontFamily: appFonts.UrbanistBold,
   },
 });
 

@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import appFonts from "@/constants/Font";
 import { appColors } from "@/constants/Color";
@@ -28,26 +35,12 @@ const EditProfileSidebar: React.FC<EditProfileSidebarProps> = ({
 
   const sidebarItems: SidebarItem[] = [
     {
-      id: "my-purchases",
-      label: "My purchases",
-      icon: (
-        <Ionicons
-          name="cart-outline"
-          size={24}
-          color={appColors.GreyScale[600]}
-        />
-      ),
-      route: "/order-progress",
-      notification: 1,
-    },
-    {
       id: "edit-profile",
       label: "Edit Profile",
       icon: (
-        <Ionicons
-          name="person-outline"
-          size={24}
-          color={appColors.GreyScale[600]}
+        <Image
+          source={require("@/assets/images/purchase/edit.png")}
+          style={{ height: 24, width: 24,tintColor: appColors.GreyScale[400] }}
         />
       ),
       route: "/profile/edit-profile",
@@ -56,10 +49,9 @@ const EditProfileSidebar: React.FC<EditProfileSidebarProps> = ({
       id: "appointment",
       label: "Appointment",
       icon: (
-        <Ionicons
-          name="calendar-outline"
-          size={24}
-          color={appColors.GreyScale[600]}
+        <Image
+          source={require("@/assets/images/Profile/note.png")}
+          style={{ height: 24, width: 24,tintColor: appColors.GreyScale[400] }}
         />
       ),
       route: "/profile/appointment",
@@ -68,11 +60,10 @@ const EditProfileSidebar: React.FC<EditProfileSidebarProps> = ({
       id: "test-drive",
       label: "Test Drive",
       icon: (
-        <Ionicons
-          name="car-outline"
-          size={24}
-          color={appColors.GreyScale[600]}
-        />
+        <Image
+        source={require("@/assets/images/Profile/gear.png")}
+        style={{ height: 24, width: 24,tintColor: appColors.GreyScale[400] }}
+      />
       ),
       route: "/profile/test-drive",
     },
@@ -80,10 +71,9 @@ const EditProfileSidebar: React.FC<EditProfileSidebarProps> = ({
       id: "my-vouchers",
       label: "My vouchers",
       icon: (
-        <Ionicons
-          name="ticket-outline"
-          size={24}
-          color={appColors.GreyScale[600]}
+        <Image
+          source={require("@/assets/images/Profile/voucher.png")}
+          style={{ height: 24, width: 24,tintColor: appColors.GreyScale[400] }}
         />
       ),
       route: "/profile/my-voucher",
@@ -92,10 +82,9 @@ const EditProfileSidebar: React.FC<EditProfileSidebarProps> = ({
       id: "settings",
       label: "Settings",
       icon: (
-        <Ionicons
-          name="settings-outline"
-          size={24}
-          color={appColors.GreyScale[600]}
+        <Image
+          source={require("@/assets/images/Profile/voucher.png")}
+          style={{ height: 24, width: 24,tintColor: appColors.GreyScale[400] }}
         />
       ),
       route: "/settings",
@@ -103,7 +92,6 @@ const EditProfileSidebar: React.FC<EditProfileSidebarProps> = ({
   ];
 
   const signOut = () => {
-    // Implement sign out logic here
     console.log("Signing out...");
     router.navigate("/home");
   };
@@ -117,61 +105,141 @@ const EditProfileSidebar: React.FC<EditProfileSidebarProps> = ({
   };
 
   return (
-    <View style={styles.container}>
-      {/* User profile section */}
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.profileSection}>
         <Image source={userImage} style={styles.profileImage} />
         <Text style={styles.userName}>{userName}</Text>
         <Text style={styles.userRole}>{userRole}</Text>
       </View>
 
-      {/* <View style={styles.divider} /> */}
-
-      {/* Navigation items */}
       <View style={styles.navigationSection}>
-        {sidebarItems.map((item) => (
-          <TouchableOpacity
-            key={item.id}
-            style={[
-              styles.navigationItem,
-              isActive(item.route) && styles.activeItem,
-            ]}
-            onPress={() => navigateTo(item.route)}
-          >
-            <View style={styles.iconAndLabel}>
-              {item.icon}
-              <Text
-                style={[
-                  styles.navigationLabel,
-                  isActive(item.route) && styles.activeLabel,
-                ]}
-              >
-                {item.label}
-              </Text>
+        {/* My Purchases - separated */}
+        <TouchableOpacity
+          style={[
+            styles.navigationItem,
+            isActive("/order-progress") && styles.activeItem,
+            {
+              borderWidth: 1,
+              borderColor: appColors.GreyScale[200],
+              borderRadius: 14,
+            },
+          ]}
+          onPress={() => navigateTo("/order-progress")}
+        >
+          <View style={styles.iconAndLabel}>
+            <View
+              style={{
+                height: 40,
+                width: 40,
+                borderRadius: 8,
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: appColors.main.Primary,
+              }}
+            >
+              <Ionicons
+                name="cart-outline"
+                size={24}
+                color={appColors.AdditionalColor.white}
+              />
             </View>
-            {item.notification && (
-              <View style={styles.notificationBadge}>
-                <Text style={styles.notificationText}>{item.notification}</Text>
-              </View>
-            )}
+            <Text
+              style={[
+                styles.navigationLabel,
+                isActive("/order-progress") && styles.activeLabel,
+              ]}
+            >
+              My purchases
+            </Text>
+          </View>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 2 }}>
+            <View style={styles.notificationBadge}>
+              <Text style={styles.notificationText}>1</Text>
+            </View>
             <Ionicons
               name="chevron-forward"
               size={20}
               color={appColors.GreyScale[400]}
             />
-          </TouchableOpacity>
-        ))}
+          </View>
+        </TouchableOpacity>
+
+        {/* Remaining items */}
+        <Text
+          style={{
+            fontFamily: appFonts.UrbanistBold,
+            fontSize: 14,
+            color: appColors.GreyScale[400],
+          }}
+        >
+          General
+        </Text>
+        {sidebarItems
+          .filter((item) => item.id !== "my-purchases")
+          .map((item) => (
+            <TouchableOpacity
+              key={item.id}
+              style={[
+                styles.navigationItem,
+                isActive(item.route) && styles.activeItem,
+              ]}
+              onPress={() => navigateTo(item.route)}
+            >
+              <View style={styles.iconAndLabel}>
+                <View
+                  style={{
+                    height: 40,
+                    width: 40,
+                    borderRadius: 8,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    backgroundColor: appColors.GreyScale[50],
+                  }}
+                >
+                  {item.icon}
+                </View>
+                <Text
+                  style={[
+                    styles.navigationLabel,
+                    isActive(item.route) && styles.activeLabel,
+                  ]}
+                >
+                  {item.label}
+                </Text>
+              </View>
+              {item.notification && (
+                <View style={styles.notificationBadge}>
+                  <Text style={styles.notificationText}>
+                    {item.notification}
+                  </Text>
+                </View>
+              )}
+              <Ionicons
+                name="chevron-forward"
+                size={20}
+                color={appColors.GreyScale[400]}
+              />
+            </TouchableOpacity>
+          ))}
       </View>
 
-      {/* <View style={styles.divider} /> */}
-
-      {/* Sign out button */}
       <TouchableOpacity style={styles.signOutButton} onPress={signOut}>
-        <Ionicons
-          name="log-out-outline"
-          size={24}
-          color={appColors.alert.Error}
-        />
+        <View
+          style={{
+            height: 40,
+            width: 40,
+            borderRadius: 8,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#FFF0F0",
+          }}
+        >
+          <Ionicons
+            name="log-out-outline"
+            size={24}
+            color={appColors.alert.Error}
+          />
+        </View>
         <Text style={styles.signOutText}>Sign out</Text>
         <View style={{ flex: 1 }} />
         <Ionicons
@@ -180,7 +248,7 @@ const EditProfileSidebar: React.FC<EditProfileSidebarProps> = ({
           color={appColors.GreyScale[400]}
         />
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -188,7 +256,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: appColors.AdditionalColor.white,
     paddingHorizontal: 36,
-    paddingVertical: 10,
+    paddingVertical: 14,
     borderRadius: 10,
     shadowColor: appColors.GreyScale[500],
     shadowOffset: { width: 0, height: 2 },
@@ -216,16 +284,9 @@ const styles = StyleSheet.create({
     fontFamily: appFonts.UrbanistMedium,
     color: appColors.GreyScale[500],
   },
-  divider: {
-    height: 1,
-    backgroundColor: appColors.main.Primary,
-    marginVertical: 16,
-    width: "50%",
-    alignSelf: "flex-end",
-  },
   navigationSection: {
     flex: 1,
-    gap: 36,
+    gap: 20,
   },
   navigationItem: {
     flexDirection: "row",
@@ -233,12 +294,10 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 14,
     justifyContent: "space-between",
-    borderWidth: 1,
-    borderColor: appColors.GreyScale[200],
     gap: 30,
   },
   activeItem: {
-    backgroundColor: appColors.GreyScale[100],
+    backgroundColor: appColors.GreyScale[200],
   },
   iconAndLabel: {
     flexDirection: "row",
@@ -246,38 +305,39 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   navigationLabel: {
-    fontSize: 16,
-    fontFamily: appFonts.UrbanistMedium,
-    color: appColors.GreyScale[700],
+    fontSize: 14,
+    fontFamily: appFonts.UrbanistBold,
+    color: appColors.GreyScale[900],
   },
   activeLabel: {
     fontFamily: appFonts.UrbanistBold,
     color: appColors.GreyScale[900],
+    fontSize: 14,
   },
   notificationBadge: {
-    backgroundColor: appColors.main.Primary,
+    backgroundColor: appColors.GreyScale[900],
     width: 24,
     height: 24,
     borderRadius: 12,
     justifyContent: "center",
     alignItems: "center",
-    marginRight: 8,
   },
   notificationText: {
-    color: "white",
+    color: appColors.AdditionalColor.white,
     fontSize: 12,
     fontFamily: appFonts.UrbanistBold,
   },
   signOutButton: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 14,
     paddingHorizontal: 12,
     gap: 12,
+    marginTop: 20,
+    paddingVertical: 12,
   },
   signOutText: {
-    fontSize: 16,
-    fontFamily: appFonts.UrbanistMedium,
+    fontSize: 14,
+    fontFamily: appFonts.UrbanistBold,
     color: appColors.alert.Error,
   },
 });

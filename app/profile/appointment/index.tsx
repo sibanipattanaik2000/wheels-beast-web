@@ -1,75 +1,89 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native';
-import EditProfileSidebar from '@/components/EditProfileSidebar';
-import { appColors } from '@/constants/Color';
-import CustomSafeArea from '@/components/CustomSafeArea';
-import appFonts from '@/constants/Font';
-import AppointmentCard from '@/components/AppointmentCard';
-import CalendarComponent from '@/components/CalendarComponent';
-import Search from '@/components/Searchbar';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  FlatList,
+  useWindowDimensions,
+} from "react-native";
+import EditProfileSidebar from "@/components/EditProfileSidebar";
+import { appColors } from "@/constants/Color";
+import CustomSafeArea from "@/components/CustomSafeArea";
+import appFonts from "@/constants/Font";
+import AppointmentCard from "@/components/AppointmentCard";
+import CalendarComponent from "@/components/CalendarComponent";
+import Search from "@/components/Searchbar";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const Appointment = () => {
+  const { height, width } = useWindowDimensions();
   // Sample user data
   const userData = {
-    name: 'Saski Ropokova',
-    role: 'Buyer\'s Account',
-    image: require('@/assets/images/Profile/avtar.png'),
+    name: "Saski Ropokova",
+    role: "Buyer's Account",
+    image: require("@/assets/images/Profile/avtar.png"),
   };
 
   // Sample appointment data
   const [appointments, setAppointments] = useState([
     {
-      id: '1',
-      carName: 'Audi RS5 Coupe',
-      location: 'Commerce Sir, California',
-      date: 'July 15, 2025',
-      time: '08:00 AM - 08:40 AM',
-      carImage: require('@/assets/images/brand/Car.png'), // Make sure this image exists
+      id: "1",
+      carName: "Audi RS5 Coupe",
+      location: "Commerce Sir, California",
+      date: "July 15, 2025",
+      time: "08:00 AM - 08:40 AM",
+      carImage: require("@/assets/images/brand/Car.png"), // Make sure this image exists
     },
     {
-      id: '2',
-      carName: 'Audi RS5 Coupe',
-      location: 'Commerce Sir, California',
-      date: 'July 15, 2025',
-      time: '08:00 AM - 08:40 AM',
-      carImage: require('@/assets/images/brand/Car.png'), // Make sure this image exists
+      id: "2",
+      carName: "Audi RS5 Coupe",
+      location: "Commerce Sir, California",
+      date: "July 15, 2025",
+      time: "08:00 AM - 08:40 AM",
+      carImage: require("@/assets/images/brand/Car.png"), // Make sure this image exists
     },
     {
-      id: '3',
-      carName: 'Audi RS5 Coupe',
-      location: 'Commerce Sir, California',
-      date: 'July 15, 2025',
-      time: '08:00 AM - 08:40 AM',
-      carImage: require('@/assets/images/brand/Car.png'), // Make sure this image exists
+      id: "3",
+      carName: "Audi RS5 Coupe",
+      location: "Commerce Sir, California",
+      date: "July 15, 2025",
+      time: "08:00 AM - 08:40 AM",
+      carImage: require("@/assets/images/brand/Car.png"), // Make sure this image exists
     },
     {
-      id: '4',
-      carName: 'Audi RS5 Coupe',
-      location: 'Commerce Sir, California',
-      date: 'July 15, 2025',
-      time: '08:00 AM - 08:40 AM',
-      carImage: require('@/assets/images/brand/Car.png'), // Make sure this image exists
+      id: "4",
+      carName: "Audi RS5 Coupe",
+      location: "Commerce Sir, California",
+      date: "July 15, 2025",
+      time: "08:00 AM - 08:40 AM",
+      carImage: require("@/assets/images/brand/Car.png"), // Make sure this image exists
     },
   ]);
 
   // Function to update appointment date and time
   const handleUpdateDateTime = (id: string, date: string, time: string) => {
-    setAppointments(prev => 
-      prev.map(app => 
-        app.id === id ? { ...app, date, time } : app
-      )
+    setAppointments((prev) =>
+      prev.map((app) => (app.id === id ? { ...app, date, time } : app))
     );
   };
 
   return (
     <CustomSafeArea>
-      <Header type='home'/>
-      <ScrollView showsVerticalScrollIndicator={false} style={{flex:1}}>
-        <View style={styles.container}>
+      <Header type="home" />
+      <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
+        <View
+          style={{
+            flexDirection: "row",
+            backgroundColor: appColors.GreyScale[50],
+            paddingHorizontal: 70,
+            paddingVertical: 47,
+            width: width,
+          }}
+        >
           {/* Left sidebar */}
-          <View>
+          <View style={{ maxHeight: height }}>
             <EditProfileSidebar
               userName={userData.name}
               userRole={userData.role}
@@ -82,20 +96,20 @@ const Appointment = () => {
             <View style={styles.contentCard}>
               <View style={styles.header}>
                 <Text style={styles.title}>Appointment</Text>
-                <CalendarComponent 
+                <CalendarComponent
                   onSelectDateTime={(date, time) => {
                     // For demonstration purposes, we'll update the first appointment
                     if (appointments.length > 0) {
                       handleUpdateDateTime(appointments[0].id, date, time);
                     }
-                  }} 
+                  }}
                 />
               </View>
 
               <View style={styles.searchContainer}>
-                <Search 
-                  placeholder="Search..." 
-                  onSearch={(text) => console.log('Searching:', text)}
+                <Search
+                  placeholder="Search..."
+                  onSearch={(text) => console.log("Searching:", text)}
                 />
               </View>
               <FlatList
@@ -118,23 +132,17 @@ const Appointment = () => {
             </View>
           </View>
         </View>
-      <Footer/>
+        <Footer />
       </ScrollView>
     </CustomSafeArea>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    backgroundColor: appColors.GreyScale[50],
-    paddingHorizontal: 70,
-    paddingVertical: 47,
-  },
   contentContainer: {
     flex: 1,
     shadowColor: appColors.GreyScale[500],
-    shadowOffset: {width: 0, height: 2},
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
@@ -148,9 +156,9 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 20,
   },
   title: {
@@ -159,16 +167,16 @@ const styles = StyleSheet.create({
     color: appColors.GreyScale[900],
   },
   searchContainer: {
-    width: '60%'
+    width: "60%",
   },
   appointmentRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginVertical:20
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginVertical: 20,
   },
   appointmentList: {
-    width: '100%',
-  }
+    width: "100%",
+  },
 });
 
-export default Appointment; 
+export default Appointment;
