@@ -40,7 +40,8 @@ const EditProfileSidebar: React.FC<EditProfileSidebarProps> = ({
       icon: (
         <Image
           source={require("@/assets/images/purchase/edit.png")}
-          style={{ height: 24, width: 24,tintColor: appColors.GreyScale[400] }}
+          //source={require("@/assets/images/Profile/edit.png")}
+          style={{ height: 24, width: 24, tintColor: appColors.GreyScale[400] }}
         />
       ),
       route: "/profile/edit-profile",
@@ -51,7 +52,7 @@ const EditProfileSidebar: React.FC<EditProfileSidebarProps> = ({
       icon: (
         <Image
           source={require("@/assets/images/Profile/note.png")}
-          style={{ height: 24, width: 24,tintColor: appColors.GreyScale[400] }}
+          style={{ height: 24, width: 24, tintColor: appColors.GreyScale[400] }}
         />
       ),
       route: "/profile/appointment",
@@ -61,9 +62,9 @@ const EditProfileSidebar: React.FC<EditProfileSidebarProps> = ({
       label: "Test Drive",
       icon: (
         <Image
-        source={require("@/assets/images/Profile/gear.png")}
-        style={{ height: 24, width: 24,tintColor: appColors.GreyScale[400] }}
-      />
+          source={require("@/assets/images/Profile/gear.png")}
+          style={{ height: 24, width: 24, tintColor: appColors.GreyScale[400] }}
+        />
       ),
       route: "/profile/test-drive",
     },
@@ -73,7 +74,7 @@ const EditProfileSidebar: React.FC<EditProfileSidebarProps> = ({
       icon: (
         <Image
           source={require("@/assets/images/Profile/voucher.png")}
-          style={{ height: 24, width: 24,tintColor: appColors.GreyScale[400] }}
+          style={{ height: 24, width: 24, tintColor: appColors.GreyScale[400] }}
         />
       ),
       route: "/profile/my-voucher",
@@ -84,7 +85,7 @@ const EditProfileSidebar: React.FC<EditProfileSidebarProps> = ({
       icon: (
         <Image
           source={require("@/assets/images/Profile/voucher.png")}
-          style={{ height: 24, width: 24,tintColor: appColors.GreyScale[400] }}
+          style={{ height: 24, width: 24, tintColor: appColors.GreyScale[400] }}
         />
       ),
       route: "/settings",

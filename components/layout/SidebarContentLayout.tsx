@@ -7,10 +7,6 @@ interface SidebarContentLayoutProps {
   content: ReactNode;
 }
 
-/**
- * A reusable layout component that displays a sidebar on the left and content on the right
- * For use in settings pages, profile pages, and other sections that need this layout.
- */
 const SidebarContentLayout: React.FC<SidebarContentLayoutProps> = ({ 
   sidebar, 
   content 
@@ -31,7 +27,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'stretch', // ✨ this ensures left and right have same height
+    alignItems: 'stretch', 
     overflow: 'hidden',
     
   },

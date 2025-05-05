@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, useWindowDimensions } from "react-native";
 import EditProfileSidebar from "@/components/EditProfileSidebar";
 import { appColors } from "@/constants/Color";
 import CustomSafeArea from "@/components/CustomSafeArea";
@@ -11,7 +11,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 const MyVoucher = () => {
-  // Sample user data
+const { height, width } = useWindowDimensions();
   const userData = {
     name: "Saski Ropokova",
     role: "Buyer's Account",
@@ -24,7 +24,7 @@ const MyVoucher = () => {
       <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
         <View style={styles.container}>
           {/* Left sidebar */}
-          <View>
+          <View style={{ maxHeight:height}}>
             <EditProfileSidebar
               userName={userData.name}
               userRole={userData.role}
@@ -33,7 +33,7 @@ const MyVoucher = () => {
           </View>
 
           {/* Right content */}
-          <View style={styles.contentContainer}>
+          <ScrollView style={styles.contentContainer}>
             <View
               style={{ paddingVertical: 47, gap: 36, paddingHorizontal: 24 }}
             >
@@ -78,7 +78,7 @@ const MyVoucher = () => {
                 />
               </View>
             </View>
-          </View>
+          </ScrollView>
         </View>
         <Footer />
       </ScrollView>

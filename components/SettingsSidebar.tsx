@@ -33,7 +33,7 @@ const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
   onSelectSetting,
 }) => {
   return (
-    <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
+    <ScrollView style={styles.container} contentContainerStyle={{ flex: 1 }} showsVerticalScrollIndicator={false}>
       <Text style={styles.sectionTitle}>Settings</Text>
 
       {/* Account Settings */}

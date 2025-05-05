@@ -1,99 +1,113 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, FlatList, TouchableOpacity } from 'react-native';
-import EditProfileSidebar from '@/components/EditProfileSidebar';
-import { appColors } from '@/constants/Color';
-import CustomSafeArea from '@/components/CustomSafeArea';
-import appFonts from '@/constants/Font';
-import TestDriveCard from '@/components/TestDriveCard';
-import Search from '@/components/Searchbar';
-import FilterDropdown from '@/components/FilterDropdown';
-import CalendarComponent from '@/components/CalendarComponent';
-import { Ionicons } from '@expo/vector-icons';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { Image } from 'expo-image';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  FlatList,
+  TouchableOpacity,
+  useWindowDimensions,
+} from "react-native";
+import EditProfileSidebar from "@/components/EditProfileSidebar";
+import { appColors } from "@/constants/Color";
+import CustomSafeArea from "@/components/CustomSafeArea";
+import appFonts from "@/constants/Font";
+import TestDriveCard from "@/components/TestDriveCard";
+import Search from "@/components/Searchbar";
+import FilterDropdown from "@/components/FilterDropdown";
+import CalendarComponent from "@/components/CalendarComponent";
+import { Ionicons } from "@expo/vector-icons";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { Image } from "expo-image";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const TestDrive = () => {
   // Sample user data
   const userData = {
-    name: 'Saski Ropokova',
-    role: 'Buyer\'s Account',
-    image: require('@/assets/images/Profile/avtar.png'),
+    name: "Saski Ropokova",
+    role: "Buyer's Account",
+    image: require("@/assets/images/Profile/avtar.png"),
   };
 
   // Sample test drive data with added BMW and Mercedes entries
   const [testDrives, setTestDrives] = useState([
     {
-      id: '1',
-      carName: 'Audi RS5 Coupe',
-      location: 'Commerce Sir, California',
-      distance: '10 KM',
-      status: 'Active',
-      date: 'July 15, 2025',
-      time: '08:00 AM - 08:40 AM',
-      carImage: require('@/assets/images/brand/Car.png'),
+      id: "1",
+      carName: "Audi RS5 Coupe",
+      location: "Commerce Sir, California",
+      distance: "10 KM",
+      status: "Active",
+      date: "July 15, 2025",
+      time: "08:00 AM - 08:40 AM",
+      carImage: require("@/assets/images/brand/Car.png"),
     },
     {
-      id: '2',
-      carName: 'Ford Mustang GT',
-      location: 'Sacramento, California',
-      distance: '10 KM',
-      status: 'Completed',
-      date: 'July 10, 2025',
-      time: '10:40 AM - 11:40 AM',
-      carImage: require('@/assets/images/brand/Car.png'),
+      id: "2",
+      carName: "Ford Mustang GT",
+      location: "Sacramento, California",
+      distance: "10 KM",
+      status: "Completed",
+      date: "July 10, 2025",
+      time: "10:40 AM - 11:40 AM",
+      carImage: require("@/assets/images/brand/Car.png"),
     },
     {
-      id: '3',
-      carName: 'BMW X5',
-      location: 'Los Angeles, California',
-      distance: '15 KM',
-      status: 'Active',
-      date: 'July 12, 2025',
-      time: '09:00 AM - 09:40 AM',
-      carImage: require('@/assets/images/brand/Car.png'),
+      id: "3",
+      carName: "BMW X5",
+      location: "Los Angeles, California",
+      distance: "15 KM",
+      status: "Active",
+      date: "July 12, 2025",
+      time: "09:00 AM - 09:40 AM",
+      carImage: require("@/assets/images/brand/Car.png"),
     },
     {
-      id: '4',
-      carName: 'Mercedes-Benz C-Class',
-      location: 'San Diego, California',
-      distance: '20 KM',
-      status: 'Completed',
-      date: 'July 11, 2025',
-      time: '02:00 PM - 02:40 PM',
-      carImage: require('@/assets/images/brand/Car.png'),
+      id: "4",
+      carName: "Mercedes-Benz C-Class",
+      location: "San Diego, California",
+      distance: "20 KM",
+      status: "Completed",
+      date: "July 11, 2025",
+      time: "02:00 PM - 02:40 PM",
+      carImage: require("@/assets/images/brand/Car.png"),
     },
   ]);
 
-  // Filter states
+ 
   const [showStatusDropdown, setShowStatusDropdown] = useState(false);
   const [showDatesDropdown, setShowDatesDropdown] = useState(false);
   const [showModelsDropdown, setShowModelsDropdown] = useState(false);
-  const [selectedStatus, setSelectedStatus] = useState('All status');
-  const [selectedDate, setSelectedDate] = useState('All dates');
-  const [selectedModel, setSelectedModel] = useState('All Models');
+  const [selectedStatus, setSelectedStatus] = useState("All status");
+  const [selectedDate, setSelectedDate] = useState("All dates");
+  const [selectedModel, setSelectedModel] = useState("All Models");
 
-  // Date picker states
+  const { height, width } = useWindowDimensions();
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
 
   // Filter options
-  const statusOptions = ['All status', 'Active', 'Completed', 'Cancelled'];
-  const dateOptions = ['All dates', 'Today', 'This Week', 'This Month', 'This Year'];
-  const modelOptions = ['All Models', 'Audi', 'Ford', 'BMW', 'Mercedes'];
+  const statusOptions = ["All status", "Active", "Completed", "Cancelled"];
+  const dateOptions = [
+    "All dates",
+    "Today",
+    "This Week",
+    "This Month",
+    "This Year",
+  ];
+  const modelOptions = ["All Models", "Audi", "Ford", "BMW", "Mercedes"];
 
   // Filter the test drives based on the selected status
-  const filteredByStatus = testDrives.filter(drive => {
-    if (selectedStatus === 'All status') {
+  const filteredByStatus = testDrives.filter((drive) => {
+    if (selectedStatus === "All status") {
       return true; // Show all cards
     }
     return drive.status.toLowerCase() === selectedStatus.toLowerCase();
   });
 
   // Further filter by selected model
-  const filteredTestDrives = filteredByStatus.filter(drive => {
-    if (selectedModel === 'All Models') {
+  const filteredTestDrives = filteredByStatus.filter((drive) => {
+    if (selectedModel === "All Models") {
       return true; // Show all cards after status filter
     }
     return drive.carName.toLowerCase().includes(selectedModel.toLowerCase());
@@ -101,10 +115,8 @@ const TestDrive = () => {
 
   // Handle date and time update
   const handleUpdateDateTime = (id: string, date: string, time: string) => {
-    setTestDrives(prev => 
-      prev.map(drive => 
-        drive.id === id ? { ...drive, date, time } : drive
-      )
+    setTestDrives((prev) =>
+      prev.map((drive) => (drive.id === id ? { ...drive, date, time } : drive))
     );
   };
 
@@ -118,14 +130,14 @@ const TestDrive = () => {
     const currentDate = selectedDate || new Date();
     setShowDatePicker(false);
     setCurrentDate(currentDate);
-    
+
     // Format the date for display
-    const formattedDate = currentDate.toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric'
+    const formattedDate = currentDate.toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
     });
-    
+
     // Update the first test drive with the new date
     if (testDrives.length > 0) {
       // Keep the time the same
@@ -135,11 +147,20 @@ const TestDrive = () => {
 
   return (
     <CustomSafeArea>
-      <Header type='home'/>
-      <ScrollView showsVerticalScrollIndicator={false} style={{flex:1}}>
-        <View style={styles.container}>
+      <Header type="home" />
+      <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            backgroundColor: appColors.GreyScale[50],
+            paddingHorizontal: 70,
+            paddingVertical: 47,
+            width: width
+          }}
+        >
           {/* Left sidebar */}
-          <View>
+          <View style={{ minHeight: height }}>
             <EditProfileSidebar
               userName={userData.name}
               userRole={userData.role}
@@ -148,20 +169,21 @@ const TestDrive = () => {
           </View>
 
           {/* Right content */}
-          <View style={styles.contentContainer}>
+          <ScrollView style={styles.contentContainer}>
             <View style={styles.contentCard}>
               {/* Header with title and calendar */}
               <View style={styles.header}>
                 <Text style={styles.title}>Test drive</Text>
-                
+
                 {/* Replace CalendarComponent with direct DateTimePicker implementation */}
                 <View>
-                  <TouchableOpacity 
-                    onPress={handleCalendarClick}
-                  >
-                   <Image style={{height:24,width:24}} source={require('@/assets/images/Profile/calendar.png')}/>
+                  <TouchableOpacity onPress={handleCalendarClick}>
+                    <Image
+                      style={{ height: 24, width: 24 }}
+                      source={require("@/assets/images/Profile/calendar.png")}
+                    />
                   </TouchableOpacity>
-                  
+
                   {showDatePicker && (
                     <DateTimePicker
                       value={currentDate}
@@ -175,19 +197,23 @@ const TestDrive = () => {
 
               {/* Search bar */}
               <View style={styles.searchContainer}>
-                <Search 
-                  placeholder="Search..." 
-                  width="100%" 
-                  onSearch={(text) => console.log('Searching:', text)}
+                <Search
+                  placeholder="Search..."
+                  width="100%"
+                  onSearch={(text) => console.log("Searching:", text)}
                 />
               </View>
 
               {/* Filters row - needs higher z-index to appear above cards */}
               <View style={styles.filtersContainer}>
                 <View style={styles.filterItem}>
-                  <Ionicons name="options-outline" size={24} color={appColors.GreyScale[500]} />
+                  <Ionicons
+                    name="options-outline"
+                    size={24}
+                    color={appColors.GreyScale[500]}
+                  />
                 </View>
-                
+
                 <FilterDropdown
                   filterLabel="Status"
                   options={statusOptions}
@@ -263,26 +289,19 @@ const TestDrive = () => {
                 />
               </View>
             </View>
-          </View>
+          </ScrollView>
         </View>
-        <Footer/>
+        <Footer />
       </ScrollView>
     </CustomSafeArea>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: appColors.GreyScale[50],
-    paddingHorizontal: 70,
-    paddingVertical: 47,
-  },
   contentContainer: {
     flex: 1,
     shadowColor: appColors.GreyScale[500],
-    shadowOffset: {width: 0, height: 2},
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
@@ -296,9 +315,9 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 20,
   },
   title: {
@@ -307,16 +326,16 @@ const styles = StyleSheet.create({
     color: appColors.GreyScale[900],
   },
   searchContainer: {
-    width:'60%',
+    width: "60%",
     zIndex: 10,
   },
   filtersContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 10,
     marginVertical: 20,
     zIndex: 100, // High z-index to ensure filter dropdowns appear above cards
-    position: 'relative',
+    position: "relative",
   },
   filterItem: {
     padding: 8,
@@ -333,13 +352,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   cardRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 20,
   },
   cardsList: {
     paddingBottom: 20,
-  }
+  },
 });
 
 export default TestDrive;
