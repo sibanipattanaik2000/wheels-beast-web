@@ -10,7 +10,6 @@ import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { appColors } from "@/constants/Color";
 import appFonts from "@/constants/Font";
 import { Image } from "expo-image";
-import ToggleButton from "./ToggleButton";
 
 export type SettingsSection =
   | "payment_method"
@@ -33,7 +32,12 @@ const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
   onSelectSetting,
 }) => {
   return (
-    <ScrollView style={styles.container} contentContainerStyle={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={{ flex: 1 }}
+      showsVerticalScrollIndicator={false}
+      nestedScrollEnabled={true}
+    >
       <Text style={styles.sectionTitle}>Settings</Text>
 
       {/* Account Settings */}
@@ -45,8 +49,7 @@ const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
             styles.menuItem,
             activeSetting === "payment_method" && styles.activeMenuItem,
           ]}
-          onPress={() => onSelectSetting("payment_method")}
-        >
+          onPress={() => onSelectSetting("payment_method")} >
           <Ionicons
             name="card-outline"
             size={20}
@@ -368,7 +371,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   section: {
-    marginBottom: 24,
+    paddingVertical:15
   },
   sectionHeader: {
     fontSize: 14,
@@ -381,7 +384,7 @@ const styles = StyleSheet.create({
   menuItem: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 12,
+    paddingVertical: 15,
     borderRadius: 8,
   },
   activeMenuItem: {

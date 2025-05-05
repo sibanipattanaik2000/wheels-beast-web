@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   TextInput,
   Modal,
+  Platform,
 } from "react-native";
 import { Image } from "expo-image";
 import { Ionicons } from "@expo/vector-icons";
@@ -335,6 +336,11 @@ const styles = StyleSheet.create({
     height: 50,
     fontFamily: appFonts.UrbanistMedium,
     fontSize: 14,
+    ...Platform.select({
+      web: { 
+        outlineStyle: "none",
+      },
+    }),
   },
   listContainer: {
     paddingHorizontal: 20,

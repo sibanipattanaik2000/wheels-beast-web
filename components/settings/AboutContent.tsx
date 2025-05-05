@@ -27,21 +27,21 @@ const features: Feature[] = [
     title: "Financing Made Simple",
     description:
       "Get personalized loan terms and monthly payment in minutes without impacting your credit score.",
-    icon: require("@/assets/images/Profile/avtar.png"),
+    icon: require("@/assets/images/about/card.png"),
   },
   {
     id: "2",
     title: "Secure Transactions",
     description:
       "Every transaction is protected with bank-level security and encryption.",
-    icon: require("@/assets/images/Profile/avtar.png"),
+    icon: require("@/assets/images/about/shield.png"),
   },
   {
     id: "3",
     title: "Expert Support",
     description:
       "24/7 customer support to help you with any questions or concerns.",
-    icon: require("@/assets/images/Profile/avtar.png"),
+    icon: require("@/assets/images/about/dollar.png"),
   },
 ];
 
