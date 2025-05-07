@@ -15,9 +15,9 @@ const CarDetailsPage = () => {
       "Audi Q7 50 Quattro with automatic transmission in Carrara White with Laser headlights and a Black optic. As the most substantial SUV in the Audi lineup, the Audi Q7 has ample cargo room and more-than-accommodating passenger capacity—proving that bigger is better.",
     price: 80063,
     images: [
-      require("@/assets/images/Signup/car.png"),
-      require("@/assets/images/Signup/car.png"),
-      require("@/assets/images/Signup/car.png"),
+      require("@/assets/images/carlist/View1.png"),
+      require("@/assets/images/carlist/imgDetails.png"),
+      require("@/assets/images/carlist/carInterior.png"),
       require("@/assets/images/Signup/car.png"),
     ],
     specs: {

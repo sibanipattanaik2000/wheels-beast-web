@@ -15,6 +15,9 @@ interface SearchBarProps {
   width?: DimensionValue;
   placeholder?: string;
   onSearch?: (text: string) => void;
+  borderRadius?: number;
+  borderWidth?: number;
+  borderColor?: string;
 }
 const LANGUAGE_KEY = "selectedLanguage";
 
@@ -23,6 +26,9 @@ const Search: React.FC<SearchBarProps> = ({
   width = "100%",
   onSearch,
   placeholder = "Search brand, or model",
+  borderRadius ,
+  borderWidth ,
+  borderColor,
 }) => {
   const [searchText, setSearchText] = useState("");
 
@@ -66,8 +72,10 @@ const Search: React.FC<SearchBarProps> = ({
         {
           height,
           width,
-          borderColor: appColors.GreyScale[500],
+          borderColor: appColors.GreyScale[500] || borderColor,
           flexDirection: "row",
+          borderWidth: borderWidth,
+          borderRadius: borderRadius,
         },
       ]}
     >

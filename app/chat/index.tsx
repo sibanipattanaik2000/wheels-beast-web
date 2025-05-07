@@ -424,7 +424,7 @@ const Chat = () => {
               </TouchableOpacity>
 
               <TextInput
-                style={[styles.input, { color: appColors.GreyScale[900] }]}
+                style={[styles.input, { color: appColors.GreyScale[900], }]}
                 placeholder="Write message"
                 placeholderTextColor={appColors.GreyScale[500]}
                 value={message}

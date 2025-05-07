@@ -7,7 +7,7 @@ export type TextInputProps = {
   value: string
   onChangeText: (text: string) => void
   secureTextEntry?: boolean
-  icon?: 'user' | 'email' | 'password'
+  icon?: 'user' | 'email' | 'password'| 'card'
   style?: any
   filled?: boolean
   label?: string
@@ -68,6 +68,16 @@ const TextInput = ({
         />
       )
     }
+    if (icon === 'card') {
+      return (
+        <Image
+          source={require('@/assets/images/purchase/card.png')}
+          style={[styles.iconLeft, {
+             //tintColor: colors.text.tertiary 
+            }]}
+        />
+      )
+    }
     return null
   }
  
@@ -100,7 +110,7 @@ const TextInput = ({
             left: icon ? 40 : 16,
             top: animatedLabelPosition.interpolate({
               inputRange: [0, 1],
-              outputRange: [17, 6]
+              outputRange: [15, 6]
             }),
             fontSize: animatedLabelPosition.interpolate({
               inputRange: [0, 1],
@@ -125,10 +135,10 @@ const TextInput = ({
                 // color: theme.colors.text.primary 
                 },
             (!isFocused && value.length > 0) ? {
-                 paddingTop: 8
+                 paddingBottom: 4,
                  }
                  : {
-                  paddingTop: 20
+                  paddingTop: 10,
                  }
           ]}
           secureTextEntry={secureTextEntry && !isPasswordVisible}

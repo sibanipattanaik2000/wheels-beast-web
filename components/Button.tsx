@@ -16,6 +16,7 @@ export type ButtonProps = {
   fontWeight?: "UrbanistBold" | "UrbanistSemiBold" | "UrbanistMedium" | "UrbanistRegular";
   disabled?: boolean;
   width?: number | string; // ✅ Add width prop
+  fontSize?: number ; // ✅ Add fontSize prop
 };
  
 const Button = ({
@@ -30,7 +31,8 @@ const Button = ({
   lightLogo,
   fontWeight,
   width = "100%",
-  disabled = false
+  disabled = false,
+  fontSize 
 
 }: ButtonProps) => {
 
@@ -111,7 +113,7 @@ const Button = ({
     >
       <View style={{ flexDirection: "row", alignItems: "center", width:"65%", justifyContent:icon?"space-between":"center" }}>
         {renderIcon()}
-        <Text style={[styles.text, { color: color}]}>{title}</Text>
+        <Text style={[styles.text, {fontSize:fontSize|| 16, color: color}]}>{title}</Text>
       </View>
     </TouchableOpacity>
   );

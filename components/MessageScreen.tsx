@@ -26,6 +26,7 @@ interface MessageItem {
   unread: boolean;
   avatar: any;
   isOnline?: boolean;
+  onChatSelect?: (id :number) => void;
 }
 
 // Sample data for message list
@@ -91,6 +92,7 @@ export default function MessageScreen() {
   const router = useRouter();
   const [filterModalVisible, setFilterModalVisible] = useState(false);
   const [filterType, setFilterType] = useState<"all" | "unread">("all");
+  const [selectedChat, setSelectedChat] = useState<string | null>(null);
 
   // Filter the messages based on the selected filter type
   const filteredMessages =
@@ -108,7 +110,7 @@ export default function MessageScreen() {
           backgroundColor: appColors.AdditionalColor.white,
         },
       ]}
-      onPress={() => router.push("/chat" as Href)}
+     onPress={() =>setSelectedChat(item.id)}
       activeOpacity={0.7}
     >
       <View style={styles.avatarContainer}>

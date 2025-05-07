@@ -42,10 +42,21 @@ const DropDownComponent: React.FC<DropDownProps> = ({ label, options, onSelect }
     }).start();
   };
 
+  const maxDropdownHeight = 120; // Fixed maximum height for the dropdown
+
   const animatedHeight = animation.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, options.length * 40], // Adjust height per item
+    outputRange: [0, Math.min(maxDropdownHeight, options.length * 40)], // Cap at maxDropdownHeight
   });
+
+  const renderItem = ({ item }: { item: string }) => (
+    <TouchableOpacity
+      style={styles.item}
+      onPress={() => handleSelect(item)}
+    >
+      <Text style={styles.optionText}>{item}</Text>
+    </TouchableOpacity>
+  );
 
   return (
     <View style={styles.container}>
@@ -57,15 +68,13 @@ const DropDownComponent: React.FC<DropDownProps> = ({ label, options, onSelect }
       </TouchableOpacity>
 
       <Animated.View style={[styles.dropdown, { height: animatedHeight }]}>
-        {options.map((option, index) => (
-          <TouchableOpacity
-            key={index}
-            style={styles.item}
-            onPress={() => handleSelect(option)}
-          >
-            <Text style={styles.optionText}>{option}</Text>
-          </TouchableOpacity>
-        ))}
+        <FlatList
+          data={options}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+          style={{ maxHeight: maxDropdownHeight }}
+        />
       </Animated.View>
     </View>
   );
@@ -76,29 +85,28 @@ export default DropDownComponent;
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    borderRadius:16,
+    borderRadius: 16,
     borderWidth: 1,
     borderColor: appColors.GreyScale[200],
-    backgroundColor:'#fff',
-
+    backgroundColor: '#fff',
   },
   header: {
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-   padding:16,
-    color:appColors.GreyScale[900]
+    padding: 16,
+    color: appColors.GreyScale[900],
   },
   label: {
     fontSize: 16,
-    color:appColors.GreyScale[900],
-    fontFamily:appFonts.UrbanistBold
+    color: appColors.GreyScale[900],
+    fontFamily: appFonts.UrbanistBold,
   },
   dropdown: {
     overflow: 'hidden',
-    paddingHorizontal:16,
-    bottom:10
+    paddingHorizontal: 16,
+    bottom: 10,
   },
   item: {
     paddingVertical: 10,

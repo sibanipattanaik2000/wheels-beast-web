@@ -8,7 +8,7 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { act, useState } from "react";
 import CustomSafeArea from "@/components/CustomSafeArea";
 import Header from "@/components/Header";
 import appFonts from "@/constants/Font";
@@ -142,7 +142,7 @@ const Home = () => {
   const [carFilter, setCarFilter] = useState<"new" | "used">("new");
   const [cardNumber, setCardNumber] = useState<string>("");
   const [images, setImages] = useState<(string | null)[]>([null, null, null]);
-
+  const [activeButton, setActiveButton] = useState<string | null>(null);
   const pickImage = async (index: number) => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
@@ -279,6 +279,31 @@ const Home = () => {
       marginBottom: 24,
       width: "80%",
     },
+    button: {
+      flexDirection: "row",
+      gap: 10,
+      alignItems: "center",
+      borderWidth: 1,
+      borderColor: appColors.GreyScale[200],
+      borderRadius: 10,
+      paddingHorizontal: 10,
+      paddingVertical: 5,
+    },
+    buttonActive: {
+      backgroundColor: appColors.main.Primary,
+    },
+    text: {
+      fontSize: 14,
+      fontFamily: appFonts.UrbanistMedium,
+      color: appColors.GreyScale[900],
+    },
+    textActive: {
+      color: appColors.AdditionalColor.white,
+    },
+    image: {
+      height: 24,
+      width: 24,
+    },
   });
 
   const videoRef = useRef<Video>(null);
@@ -310,20 +335,21 @@ const Home = () => {
         {/* Top Section */}
         <View style={{ flex: 1 }}>
           <ImageBackground
-            source={require("@/assets/images/Signup/car.png")}
-            style={{ height: 750, width: "100%" }}
-            resizeMode="cover"
+            source={require("@/assets/images/home/main.png")}
+            style={{ height: height * 1.5, width: "100%" }}
+            resizeMode="contain"
           />
           <View
             style={{
               position: "absolute",
               backgroundColor: "#fff",
               paddingHorizontal: 20,
+              top: 150,
+              left: 70,
               paddingVertical: 40,
-              gap: 25,
-              margin: 70,
+              gap: 15,
               borderRadius: 30,
-              width: "35%",
+              width: "30%",
             }}
           >
             <Text
@@ -432,7 +458,7 @@ const Home = () => {
             </View>
             <DropDownComponent
               label="Select Budget"
-              options={["0- 1 Lakh", "1- 2 Lakh", "2- 3 Lakh", "3-4 Lakh"]}
+              options={["5-10$", "10-15$", "15-20$", "20-25$"]}
               onSelect={(value) => console.log("Selected:", value)}
             />
 
@@ -451,27 +477,37 @@ const Home = () => {
           </View>
         </View>
         {/* Middle Section */}
+
         <View
           style={{
-            borderTopLeftRadius: 16,
-            borderTopRightRadius: 16,
-            bottom: 20,
+            borderTopLeftRadius: 80,
+            borderTopRightRadius: 80,
+            paddingHorizontal: 70,
+            paddingTop: 100,
+            gap: 34,
+            position: "relative",
+            top: -100,
             backgroundColor: "#fff",
           }}
         >
           <ExploreBrand title="Explore Our Pemium Brands" />
           <View
             style={{
-              marginHorizontal: 70,
               gap: 20,
               padding: 40,
-              borderWidth: 1,
-              borderColor: appColors.GreyScale[200],
               borderRadius: 20,
               marginBottom: 40,
+              elevation: 3,
+              shadowColor: appColors.GreyScale[900],
+              shadowOffset: {
+                width: 0,
+                height: 0,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 5,
             }}
           >
-            <View style={{ flexDirection: "row", gap: 30 }}>
+            {/* <View style={{ flexDirection: "row", gap: 30 }}>
               <TouchableOpacity
                 style={{
                   flexDirection: "row",
@@ -550,6 +586,84 @@ const Home = () => {
                   convertible
                 </Text>
               </TouchableOpacity>
+            </View> */}
+
+            <View style={{ flexDirection: "row", gap: 30 }}>
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  activeButton === "sedan" && styles.buttonActive,
+                ]}
+                onPress={() => setActiveButton("sedan")}
+              >
+                <Image
+                  source={require("@/assets/images/brand/sedan.png")}
+                  style={styles.image}
+                  tintColor={
+                    activeButton === "sedan"
+                      ? "#fff"
+                      : appColors.GreyScale[900]
+                  }
+                />
+                <Text
+                  style={[
+                    styles.text,
+                    activeButton === "sedan" && styles.textActive,
+                  ]}
+                >
+                  Sedan
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  activeButton === "hatchback" && styles.buttonActive,
+                ]}
+                onPress={() => setActiveButton("hatchback")}
+              >
+                <Image
+                  source={require("@/assets/images/brand/convertible.png")}
+                  style={styles.image}
+                  tintColor={
+                    activeButton === "hatchback"
+                      ? "#fff"
+                      : appColors.GreyScale[900]
+                  }
+                />
+                <Text
+                  style={[
+                    styles.text,
+                    activeButton === "hatchback" && styles.textActive,
+                  ]}
+                >
+                  Hatchnack
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  activeButton === "convertible" && styles.buttonActive,
+                ]}
+                onPress={() => setActiveButton("convertible")}
+              >
+                <Image
+                  source={require("@/assets/images/brand/convertible.png")}
+                  style={styles.image}
+                  tintColor={
+                    activeButton === "convertible"
+                      ? "#fff"
+                      : appColors.GreyScale[900]
+                  }
+                />
+                <Text
+                  style={[
+                    styles.text,
+                    activeButton === "convertible" && styles.textActive,
+                  ]}
+                >
+                  Convertible
+                </Text>
+              </TouchableOpacity>
             </View>
             <ViewAll
               title="Car recommnendation"
@@ -582,12 +696,17 @@ const Home = () => {
           </View>
           <View
             style={{
-              marginHorizontal: 70,
               gap: 20,
               padding: 40,
-              borderWidth: 1,
-              borderColor: appColors.GreyScale[200],
               borderRadius: 20,
+              elevation: 3,
+              shadowColor: appColors.GreyScale[900],
+              shadowOffset: {
+                width: 0,
+                height: 0,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 5,
               marginBottom: 40,
             }}
           >
@@ -626,11 +745,12 @@ const Home = () => {
             style={{
               backgroundColor: appColors.GreyScale[900],
               height: height * 0.5,
-              width: "100%",
+              paddingLeft: 70,
+              width: width,
+              alignSelf: "center",
               justifyContent: "center",
               flexDirection: "row",
               alignItems: "center",
-              paddingHorizontal: 40,
             }}
           >
             <View style={{ gap: 10, flex: 1 }}>
@@ -677,11 +797,16 @@ const Home = () => {
           <View
             style={{
               padding: 40,
-              marginHorizontal: 70,
-              borderWidth: 1,
-              borderRadius: 24,
+              borderRadius: 20,
+              elevation: 3,
+              shadowColor: appColors.GreyScale[900],
+              shadowOffset: {
+                width: 0,
+                height: 0,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 5,
               overflow: "hidden",
-              borderColor: appColors.GreyScale[200],
             }}
           >
             {/* Car Sales Section */}
@@ -692,19 +817,15 @@ const Home = () => {
               }}
             >
               {/* Left side with car image */}
-              <View
-                style={{ width: "50%", position: "relative" }}
-              >
-
+              <View style={{ width: "50%", position: "relative" }}>
                 <Video
                   ref={videoRef}
                   source={require("@/assets/videos/car.mp4")}
                   style={{ width: "100%", height: "100%" }}
-                  isLooping  
+                  isLooping
                   shouldPlay
                   useNativeControls={true}
                   resizeMode={ResizeMode.CONTAIN}
-                  
                 />
               </View>
 
@@ -847,10 +968,15 @@ const Home = () => {
           <View
             style={{
               padding: 40,
-              marginHorizontal: 70,
-              borderWidth: 1,
-              borderRadius: 24,
-              borderColor: appColors.GreyScale[200],
+              borderRadius: 20,
+              elevation: 3,
+              shadowColor: appColors.GreyScale[900],
+              shadowOffset: {
+                width: 0,
+                height: 0,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 5,
               marginVertical: 40,
             }}
           >
@@ -950,11 +1076,16 @@ const Home = () => {
           <View
             style={{
               padding: 40,
-              marginHorizontal: 70,
               marginBottom: 40,
-              borderWidth: 1,
-              borderRadius: 24,
-              borderColor: appColors.GreyScale[200],
+              borderRadius: 20,
+              elevation: 3,
+              shadowColor: appColors.GreyScale[900],
+              shadowOffset: {
+                width: 0,
+                height: 0,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 5,
             }}
           >
             <View
@@ -1097,12 +1228,17 @@ const Home = () => {
           <View
             style={{
               padding: 40,
-              marginHorizontal: 70,
               marginVertical: 40,
               gap: 36,
-              borderWidth: 1,
-              borderRadius: 24,
-              borderColor: appColors.GreyScale[200],
+              borderRadius: 20,
+              elevation: 3,
+              shadowColor: appColors.GreyScale[900],
+              shadowOffset: {
+                width: 0,
+                height: 0,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 5,
             }}
           >
             <Text
@@ -1212,11 +1348,16 @@ const Home = () => {
           <View
             style={{
               padding: 40,
-              marginHorizontal: 70,
               marginBottom: 40,
-              borderWidth: 1,
-              borderRadius: 24,
-              borderColor: appColors.GreyScale[200],
+              borderRadius: 20,
+              elevation: 3,
+              shadowColor: appColors.GreyScale[900],
+              shadowOffset: {
+                width: 0,
+                height: 0,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 5,
             }}
           >
             <Text
@@ -1382,7 +1523,6 @@ const Home = () => {
           <View
             style={{
               padding: 40,
-              marginHorizontal: 70,
               marginBottom: 40,
               borderWidth: 1,
               borderRadius: 24,
@@ -1417,6 +1557,7 @@ const Home = () => {
             </View>
           </View>
         </View>
+
         <Footer />
       </ScrollView>
     </CustomSafeArea>

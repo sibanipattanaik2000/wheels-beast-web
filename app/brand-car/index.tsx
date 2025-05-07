@@ -145,6 +145,61 @@ const brandCategories = [
 const BrandCar = () => {
   const [selectedCategory, setSelectedCategory] = useState("Audi");
   const router = useRouter();
+
+  const styles = StyleSheet.create({
+    scrollView: {
+      flex: 1,
+    },
+    mainContainer: {
+      flexDirection: "row",
+      flex: 1,
+    },
+    sidebar: {
+      width: "20%",
+    },
+    contentContainer: {
+      flex: 1,
+      backgroundColor: appColors.GreyScale[50],
+      paddingVertical: 47,
+      paddingLeft:34,
+      paddingRight:70,
+      gap:36
+    },
+    titleContainer: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: 20,
+    },
+    pageTitle: {
+      fontSize: 32,
+      fontFamily: appFonts.UrbanistBold,
+      color: appColors.GreyScale[900],
+    },
+    categoriesContainer: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      flexWrap: "wrap",
+      gap: 20,
+      width: "100%",
+    },
+    sectionTitleContainer: {
+      marginTop: 30,
+      marginBottom: 20,
+    },
+    sectionTitle: {
+      fontSize: 24,
+      fontFamily: appFonts.UrbanistBold,
+      color: appColors.GreyScale[900],
+    },
+    carsContainer: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      justifyContent: "space-between",
+      paddingHorizontal: 20,
+      gap: 50,
+    },
+  });
   return (
     <CustomSafeArea>
       <Header type="home" />
@@ -161,7 +216,7 @@ const BrandCar = () => {
             {/* Brands title and search */}
             <View style={styles.titleContainer}>
               <Text style={styles.pageTitle}>Brands</Text>
-              <SearchBar width="40%" placeholder="Search Brand or model" />
+              <SearchBar width="40%" placeholder="Search Brand or model"  borderRadius={16} borderColor={appColors.GreyScale[50]}/>
             </View>
 
             {/* Brand categories */}
@@ -220,57 +275,6 @@ const BrandCar = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  scrollView: {
-    flex: 1,
-  },
-  mainContainer: {
-    flexDirection: "row",
-    flex: 1,
-  },
-  sidebar: {
-    width: "20%",
-  },
-  contentContainer: {
-    flex: 1,
-    backgroundColor: appColors.GreyScale[50],
-    paddingVertical: 20,
-    paddingHorizontal: 20,
-  },
-  titleContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  pageTitle: {
-    fontSize: 32,
-    fontFamily: appFonts.UrbanistBold,
-    color: appColors.GreyScale[900],
-  },
-  categoriesContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    flexWrap: "wrap",
-    gap: 20,
-    width: "100%",
-  },
-  sectionTitleContainer: {
-    marginTop: 30,
-    marginBottom: 20,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontFamily: appFonts.UrbanistBold,
-    color: appColors.GreyScale[900],
-  },
-  carsContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
-    gap: 50,
-  },
-});
+
 
 export default BrandCar;

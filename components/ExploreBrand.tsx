@@ -32,13 +32,21 @@ const ExploreBrand = ({ title }: ExploreBrandProps) => {
   return (
     <View
       style={{
-        borderColor: appColors.GreyScale[200],
-        borderWidth: 1,
-        margin: 80,
+        // borderColor: appColors.GreyScale[200],
+        // borderWidth: 1,
         paddingHorizontal: 60,
         paddingVertical: 50,
         gap: 24,
         borderRadius: 20,
+        elevation:3,
+        shadowColor: appColors.GreyScale[900],
+        shadowOffset: {
+          width: 0,
+          height: 0,
+        },
+        shadowOpacity: 0.25,
+        //backgroundColor: appColors.GreyScale[100],
+        shadowRadius: 5,
       }}
     >
       {/* <View style={{flexDirection:'row',gap:10}}>

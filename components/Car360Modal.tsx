@@ -19,7 +19,7 @@ const { width, height } = Dimensions.get("window");
 
 const carFrames = Array.from({ length: 36 }, (_, i) =>
   //  `https://cdn.360carmoving.com/audi-q7/frame${i + 1}.png`
-  require("@/assets/images/brand/Car.png")
+  require("@/assets/images/carlist/View1.png")
 );
 
 export default function Car360Modal({

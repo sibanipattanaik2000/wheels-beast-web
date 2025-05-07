@@ -172,16 +172,13 @@ const Payment = () => {
               <View style={styles.fieldGroup}>
                 <Text style={styles.fieldLabel}>Card number</Text>
                 <View style={styles.cardNumberField}>
-                  <Image
-                    source={require("@/assets/images/purchase/card.png")}
-                    style={styles.fieldIcon}
-                    contentFit="contain"
-                  />
+                 
                   <TextInput
+                  icon="card"
                     placeholder="0000 0000 0000 0000"
                     value={cardNumber}
                     onChangeText={handleCardNumberChange}
-                    style={styles.customInput}
+                    // style={styles.customInput}
                   />
                 </View>
               </View>
@@ -201,7 +198,7 @@ const Payment = () => {
                     placeholder="MM/YY"
                     value={expiryDate}
                     onChangeText={handleExpiryChange}
-                    style={styles.customInput}
+                    // style={styles.customInput}
                   />
                 </View>
 
@@ -218,7 +215,6 @@ const Payment = () => {
                     placeholder="000"
                     value={cvv}
                     onChangeText={handleCVVChange}
-                    style={styles.customInput}
                   />
                 </View>
               </View>
@@ -230,7 +226,6 @@ const Payment = () => {
                   placeholder="Full name"
                   value={cardHolder}
                   onChangeText={setCardHolder}
-                  style={styles.customInput}
                 />
               </View>
 
