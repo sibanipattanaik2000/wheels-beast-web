@@ -1,10 +1,11 @@
 import Button from "@/components/Button";
 import CustomSafeArea from "@/components/CustomSafeArea";
 import Dots from "@/components/Dots";
+import { postRequest } from "@/constants/apiService";
 import { appColors } from "@/constants/Color";
 import appFonts from "@/constants/Font";
 import { Image } from "expo-image";
-import { Href, useRouter } from "expo-router";
+import { Href, useLocalSearchParams, useRouter } from "expo-router";
 import React, { useRef, useState } from "react";
 import {
   View,
@@ -16,6 +17,7 @@ import {
 } from "react-native";
 
 const OTPInput = () => {
+  const {otpid} =useLocalSearchParams()
   const [otp, setOtp] = useState(["", "", "", ""]);
   const inputs = useRef<Array<TextInput | null>>([]);
   const [currentIndex, setCurrentIndex] = useState(0); // For slider
@@ -39,6 +41,20 @@ const OTPInput = () => {
   const handleIndexChange = (index: number) => {
     setCurrentIndex(index);
   };
+
+  const hanldeContinue =async()=>{
+    const postData= {
+      step:2,
+      otp:otp.join(''),
+      otpid:otpid,
+
+    }
+    const response = await postRequest('/signup',postData)
+    if(response){
+      console.log(response);
+      
+    }
+  }
 
   return (
     <CustomSafeArea>
@@ -116,7 +132,7 @@ const OTPInput = () => {
                 variant="filled"
                 color={appColors.AdditionalColor.white}
                 style={{ backgroundColor: appColors.main.Primary }}
-                onPress={() => router.push("/home" as Href)}
+                onPress={() => hanldeContinue()}
               />
               <Button
                 title="Resend Code"

@@ -111,6 +111,7 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
             fontSize: 24,
             color: appColors.main.SecondaryBase,
             fontFamily: appFonts.UrbanistBold,
+            letterSpacing:2
           }}
         >
           WheelsBeast
@@ -127,7 +128,8 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
-          padding: 20,
+          paddingHorizontal: 70,
+          paddingVertical:34
         }}
       >
         <TouchableOpacity
@@ -147,6 +149,7 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
               fontSize: 24,
               color: appColors.main.SecondaryBase,
               fontFamily: appFonts.UrbanistBold,
+              letterSpacing:2
             }}
           >
             WheelsBeast
@@ -159,6 +162,7 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
             gap: 12,
             justifyContent: 'center',
             alignItems: 'center',
+            width:"30%"
           }}
         >
           <TouchableOpacity
@@ -190,7 +194,7 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
             </Text>
             <Text
               style={{
-                fontFamily: appFonts.UrbanistMedium,
+                fontFamily: appFonts.UrbanistBold,
                 color: appColors.GreyScale[900],
                 fontSize: 14,
               }}
@@ -198,19 +202,21 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
               San Fransisco
             </Text>
           </View>
-        </View>
+       
 
-        <TouchableOpacity style={{ width: '30%', justifyContent: 'center' }} 
-        //onPress={()=> router.push('/searchcar' as Href)}
+        <TouchableOpacity style={{ justifyContent: 'center',width:"95%" }} 
+        onPress={()=> router.push('/searchcar' as Href)}
           >
-          <SearchBar />
+          <SearchBar borderRadius={16}/>
         </TouchableOpacity>
-
+        </View>
         <Button
-          title="Login/ SignUp"
+          title="Login/ Register"
           variant="outlined"
           borderColor={appColors.main.Primary}
           width="20%"
+          fontSize={16}
+          fontWeight="UrbanistBold"
           color={appColors.main.Primary}
           onPress={()=> router.push('/Auth/SignIn' as Href)}
         />

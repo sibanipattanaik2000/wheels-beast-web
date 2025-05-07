@@ -1,5 +1,11 @@
 import { useRouter } from "expo-router";
-import { Platform, Text, useWindowDimensions, View } from "react-native";
+import { useEffect } from "react";
+import {
+  Platform,
+  Text,
+  useWindowDimensions,
+  View,
+} from "react-native";
 
 export default function Index() {
   const { width, height } = useWindowDimensions();
@@ -7,8 +13,9 @@ export default function Index() {
 
   const router = useRouter();
 
+  useEffect(() => {
+    router.push('/Auth/SignIn')
+  }, []);
 
-
-  return ;
+  return <View></View>;
 }
-

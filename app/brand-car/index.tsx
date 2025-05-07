@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import { View, Text, ScrollView, StyleSheet, useWindowDimensions } from "react-native";
 import React, { useState } from "react";
 import CustomSafeArea from "@/components/CustomSafeArea";
 import appFonts from "@/constants/Font";
@@ -145,6 +145,9 @@ const brandCategories = [
 const BrandCar = () => {
   const [selectedCategory, setSelectedCategory] = useState("Audi");
   const router = useRouter();
+  const [carCount, setCarCount] = useState(35); // initial count
+  const {height, width }= useWindowDimensions();
+
 
   const styles = StyleSheet.create({
     scrollView: {
@@ -155,15 +158,15 @@ const BrandCar = () => {
       flex: 1,
     },
     sidebar: {
-      width: "20%",
+      width: width/4,
     },
     contentContainer: {
       flex: 1,
-      backgroundColor: appColors.GreyScale[50],
+      backgroundColor: appColors.GreyScale[200],
       paddingVertical: 47,
-      paddingLeft:34,
-      paddingRight:70,
-      gap:36
+      paddingLeft: 34,
+      paddingRight: 70,
+      gap: 36,
     },
     titleContainer: {
       flexDirection: "row",
@@ -180,7 +183,7 @@ const BrandCar = () => {
       flexDirection: "row",
       justifyContent: "space-between",
       flexWrap: "wrap",
-      gap: 20,
+      gap: 36,
       width: "100%",
     },
     sectionTitleContainer: {
@@ -188,7 +191,7 @@ const BrandCar = () => {
       marginBottom: 20,
     },
     sectionTitle: {
-      fontSize: 24,
+      fontSize: 32,
       fontFamily: appFonts.UrbanistBold,
       color: appColors.GreyScale[900],
     },
@@ -196,8 +199,9 @@ const BrandCar = () => {
       flexDirection: "row",
       flexWrap: "wrap",
       justifyContent: "space-between",
-      paddingHorizontal: 20,
-      gap: 50,
+      width: "100%",
+      // gap: 50,
+      rowGap:36,
     },
   });
   return (
@@ -215,8 +219,12 @@ const BrandCar = () => {
           <View style={styles.contentContainer}>
             {/* Brands title and search */}
             <View style={styles.titleContainer}>
-              <Text style={styles.pageTitle}>Brands</Text>
-              <SearchBar width="40%" placeholder="Search Brand or model"  borderRadius={16} borderColor={appColors.GreyScale[50]}/>
+              <Text style={styles.sectionTitle}>Brands</Text>
+              <SearchBar
+                width="40%"
+                placeholder="Search Brand or model"
+                borderRadius={16}
+              />
             </View>
 
             {/* Brand categories */}
@@ -226,6 +234,7 @@ const BrandCar = () => {
               contentContainerStyle={styles.categoriesContainer}
             >
               {brandCategories.map((category) => (
+                <View style={{width:width/7.2, height:(width/7.2)-5,justifyContent:"center"}}>
                 <BrandCategoryCard
                   key={category.id}
                   name={category.name}
@@ -234,10 +243,12 @@ const BrandCar = () => {
                   isSelected={selectedCategory === category.id}
                   onPress={() => setSelectedCategory(category.id)}
                 />
+                </View>
               ))}
             </ScrollView>
 
             {/* Available Cars title */}
+
             <View style={styles.sectionTitleContainer}>
               <Text style={styles.sectionTitle}>Available Cars Audi</Text>
             </View>
@@ -257,15 +268,35 @@ const BrandCar = () => {
               ))}
             </View>
             <View
-              style={{ width: "40%", alignSelf: "center", marginVertical: 20 }}
+              style={{
+                position: "relative",
+                width: "100%",
+                alignItems: "center",
+                marginVertical: 20,
+              }}
             >
-              <Button
-                title="Show More Car"
-                variant="filled"
-                style={{ backgroundColor: appColors.main.Primary }}
-                color={appColors.AdditionalColor.white}
-                onPress={() => router.push("/searchcar" as Href)}
-              />
+              <View style={{ width: "40%" }}>
+                <Button
+                  title="Show More Car"
+                  variant="filled"
+                  style={{ backgroundColor: appColors.main.Primary }}
+                  color={appColors.AdditionalColor.white}
+                  onPress={() => router.push("/searchcar" as Href)}
+                />
+              </View>
+              <Text
+                style={{
+                  position: "absolute",
+                  right: 0,
+                  alignSelf:"flex-end",
+                  fontSize: 20,
+                  fontFamily: appFonts.UrbanistBold,
+                  color: appColors.GreyScale[500],
+                  top:20
+                }}
+              >
+                 {carCount} Car
+              </Text>
             </View>
           </View>
         </View>
@@ -274,7 +305,5 @@ const BrandCar = () => {
     </CustomSafeArea>
   );
 };
-
-
 
 export default BrandCar;

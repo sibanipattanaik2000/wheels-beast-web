@@ -17,6 +17,7 @@ import {
   import Dots from "@/components/Dots";
 import Header from "@/components/Header";
 import { useRouter } from "expo-router";
+import { postRequest } from "@/constants/apiService";
   
   const Signup = () => {
     const { width, height } = useWindowDimensions();
@@ -25,6 +26,32 @@ import { useRouter } from "expo-router";
     const [userName, setuserName] = useState("");
     const [currentIndex, setCurrentIndex] = useState(0); // For slider
     const router = useRouter();
+
+
+    const handleSignUp=async()=> {
+      
+      // const data= {
+      //   step:1,
+      //   first_name:userName,
+      //   password:password,
+      //   email:email
+      // }
+      // const response = await postRequest('/signup',data );
+     
+        router.push(`/Auth/otp`)
+      
+    }
+    
+    
+    // Handle index change from Dots component
+    const handleIndexChange = (index: number) => {
+      setCurrentIndex(index);
+    };
+    
+    const navigateToSignIn = () => {
+      router.push("/Auth/SignIn" as any);
+    };
+    
     const styles = StyleSheet.create({
       icon: {
         width: 24,
@@ -47,15 +74,7 @@ import { useRouter } from "expo-router";
         width: "100%",
       },
     });
-  
-    // Handle index change from Dots component
-    const handleIndexChange = (index: number) => {
-      setCurrentIndex(index);
-    };
-    
-    const navigateToSignIn = () => {
-      router.push("/Auth/SignIn" as any);
-    };
+
   
     return (
       <CustomSafeArea>
@@ -166,7 +185,7 @@ import { useRouter } from "expo-router";
                     fontWeight="UrbanistBold"
                     color={appColors.AdditionalColor.white}
                     style={{ backgroundColor: appColors.main.Primary }}
-                    onPress={() => router.push("/Auth/otp" as any)}
+                    onPress={() => {handleSignUp()}}
                   />
                   <Button
                     title="Sign up with Google"

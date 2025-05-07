@@ -72,23 +72,23 @@ const blogData = [
   {
     image: require("@/assets/images/brand/blogcar.png"),
     category: "Sound",
-    title: "The Future of Electric Vehicles: Trends to Watch",
-    date: "May 15, 2023",
-    author: "John Doe",
+    title: "2024 BMW ALPINA XB7 with exclusive details, extraordinary",
+    date: "November 22, 2023",
+    author: "Admin",
   },
   {
-    image: require("@/assets/images/brand/blogcar.png"),
+    image: require("@/assets/images/brand/blog2.png"),
     category: "Accessories",
-    title: "Essential Car Maintenance Tips for Every Driver",
-    date: "June 2, 2023",
-    author: "Jane Smith",
+    title: "BMW X6 M50i is designed to exceed your Sportiest.",
+    date: "November 22, 2023",
+    author: "Admin",
   },
   {
-    image: require("@/assets/images/brand/blogcar.png"),
+    image: require("@/assets/images/brand/blog3.png"),
     category: "Exterior",
-    title: "Top 10 Family SUVs of 2023: Comprehensive Guide",
-    date: "July 10, 2023",
-    author: "Mike Johnson",
+    title: "BMW X5 Gold 2024 Sport Review: Light on Sport.",
+    date: "November 22, 2023",
+    author: "Admin",
   },
 ];
 
@@ -304,6 +304,37 @@ const Home = () => {
       height: 24,
       width: 24,
     },
+    milliontext: {
+      fontFamily: appFonts.UrbanistBold,
+      fontSize: 38,
+      color: appColors.main.Primary,
+    },
+    graytext: {
+      fontFamily: appFonts.UrbanistMedium,
+      fontSize: 16,
+      color: "#334155",
+    },
+    choose: {
+      width: 243,
+      height: 243,
+      padding: 10,
+      borderWidth: 1,
+      borderColor: appColors.GreyScale[200],
+      borderRadius: 10,
+      gap: 14,
+      boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.25)",
+    },
+    img: { width: 50, height: 60, tintColor: "#6366F1",resizeMode:"contain" },
+    txt: {
+      fontSize: 20,
+      fontFamily: appFonts.UrbanistMedium,
+      color: appColors.GreyScale[900],
+    },
+    subtxt: {
+      fontSize: 15,
+      fontFamily: appFonts.UrbanistRegular,
+      color: appColors.GreyScale[500],
+    },
   });
 
   const videoRef = useRef<Video>(null);
@@ -349,7 +380,7 @@ const Home = () => {
               paddingVertical: 40,
               gap: 15,
               borderRadius: 30,
-              width: "30%",
+              width: "35%",
             }}
           >
             <Text
@@ -494,9 +525,9 @@ const Home = () => {
           <View
             style={{
               gap: 20,
-              padding: 40,
+              paddingHorizontal: 64,
+              paddingVertical: 50,
               borderRadius: 20,
-              marginBottom: 40,
               elevation: 3,
               shadowColor: appColors.GreyScale[900],
               shadowOffset: {
@@ -600,9 +631,7 @@ const Home = () => {
                   source={require("@/assets/images/brand/sedan.png")}
                   style={styles.image}
                   tintColor={
-                    activeButton === "sedan"
-                      ? "#fff"
-                      : appColors.GreyScale[900]
+                    activeButton === "sedan" ? "#fff" : appColors.GreyScale[900]
                   }
                 />
                 <Text
@@ -678,26 +707,33 @@ const Home = () => {
               contentContainerStyle={{
                 justifyContent: "space-between",
                 width: "100%",
+                flexDirection: "row",
+                gap: 50,
               }}
             >
               {carData.map((car, index) => (
-                <CarCard
-                  key={index}
-                  image={car.image}
-                  brand={car.brand}
-                  price={car.price}
-                  fuelType={car.fuelType}
-                  brandicon={car.brandicon}
-                  engine={car.engine}
-                  type="home"
-                />
+                <View
+                  style={{ width: width / 3.89, height: width / 3.89 - 15 }}
+                >
+                  <CarCard
+                    key={index}
+                    image={car.image}
+                    brand={car.brand}
+                    price={car.price}
+                    fuelType={car.fuelType}
+                    brandicon={car.brandicon}
+                    engine={car.engine}
+                    type="home"
+                  />
+                </View>
               ))}
             </ScrollView>
           </View>
           <View
             style={{
               gap: 20,
-              padding: 40,
+              paddingHorizontal: 64,
+              paddingVertical: 50,
               borderRadius: 20,
               elevation: 3,
               shadowColor: appColors.GreyScale[900],
@@ -707,7 +743,6 @@ const Home = () => {
               },
               shadowOpacity: 0.25,
               shadowRadius: 5,
-              marginBottom: 40,
             }}
           >
             <ViewAll
@@ -727,16 +762,19 @@ const Home = () => {
               }}
             >
               {carData.map((car, index) => (
-                <CarCard
-                  key={index}
-                  image={car.image}
-                  brand={car.brand}
-                  price={car.price}
-                  fuelType={car.fuelType}
-                  brandicon={car.brandicon}
-                  engine={car.engine}
-                  type="default"
-                />
+                <View style={{ width: width / 5.6, height: width / 5.6 + 20 }}>
+                  <CarCard
+                    key={index}
+                    image={car.image}
+                    brand={car.brand}
+                    price={car.price}
+                    fuelType={car.fuelType}
+                    brandicon={car.brandicon}
+                    engine={car.engine}
+                    type="default"
+                    imght={116}
+                  />
+                </View>
               ))}
             </ScrollView>
           </View>
@@ -744,8 +782,9 @@ const Home = () => {
           <View
             style={{
               backgroundColor: appColors.GreyScale[900],
-              height: height * 0.5,
-              paddingLeft: 70,
+              height: height * 0.7,
+              paddingVertical: 70,
+              paddingLeft: 88,
               width: width,
               alignSelf: "center",
               justifyContent: "center",
@@ -753,7 +792,7 @@ const Home = () => {
               alignItems: "center",
             }}
           >
-            <View style={{ gap: 10, flex: 1 }}>
+            <View style={{ gap: 4, flex: 1 }}>
               <Text
                 style={{
                   fontSize: 48,
@@ -786,775 +825,599 @@ const Home = () => {
             <Image
               source={require("@/assets/images/brand/Car.png")}
               style={{
-                height: height * 0.6,
-                width: height * 0.6,
+                height: height,
+                width: height,
                 resizeMode: "contain",
               }}
             />
           </View>
           <ExploreBrand title="Shop by car Type" />
 
+          {/* <View style={{}} > */}
+          {/* Car Sales Section */}
           <View
             style={{
-              padding: 40,
-              borderRadius: 20,
-              elevation: 3,
-              shadowColor: appColors.GreyScale[900],
-              shadowOffset: {
-                width: 0,
-                height: 0,
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 5,
-              overflow: "hidden",
+              flexDirection: "row",
+              backgroundColor: "#fff",
+              height: height,
             }}
           >
-            {/* Car Sales Section */}
-            <View
-              style={{
-                flexDirection: "row",
-                backgroundColor: "#fff",
-              }}
-            >
-              {/* Left side with car image */}
-              <View style={{ width: "50%", position: "relative" }}>
-                <Video
-                  ref={videoRef}
-                  source={require("@/assets/videos/car.mp4")}
-                  style={{ width: "100%", height: "100%" }}
-                  isLooping
-                  shouldPlay
-                  useNativeControls={true}
-                  resizeMode={ResizeMode.CONTAIN}
-                />
-              </View>
-
-              {/* Right side with content */}
-              <View
-                style={{
-                  width: "50%",
-                  padding: 40,
-                  justifyContent: "center",
-                  gap: 10,
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: 32,
-                    fontFamily: appFonts.UrbanistBold,
-                    color: appColors.GreyScale[900],
-                    textAlign: "center",
-                  }}
-                >
-                  Get A Fair Price For Your Car Sell To Us Today
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 24,
-                    fontFamily: appFonts.UrbanistMedium,
-                    color: appColors.GreyScale[500],
-                    textAlign: "center",
-                  }}
-                >
-                  We are committed to providing our customers with exceptional
-                  service, competitive pricing, and a wide range of.
-                </Text>
-
-                <View style={{ marginVertical: 20 }}>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      marginBottom: 10,
-                    }}
-                  >
-                    <Image
-                      source={require("@/assets/images/brand/tik.png")}
-                      style={{
-                        width: 20,
-                        height: 20,
-                        marginRight: 12,
-                        tintColor: appColors.main.Primary,
-                      }}
-                    />
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        fontFamily: appFonts.UrbanistMedium,
-                        color: appColors.GreyScale[700],
-                      }}
-                    >
-                      We are the UK's largest provider, with more patrols in
-                      more places
-                    </Text>
-                  </View>
-
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      marginBottom: 10,
-                    }}
-                  >
-                    <Image
-                      source={require("@/assets/images/brand/tik.png")}
-                      style={{
-                        width: 20,
-                        height: 20,
-                        marginRight: 12,
-                        tintColor: appColors.main.Primary,
-                      }}
-                    />
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        fontFamily: appFonts.UrbanistMedium,
-                        color: appColors.GreyScale[700],
-                      }}
-                    >
-                      We are the UK's largest provider, with more patrols in
-                      more places
-                    </Text>
-                  </View>
-
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      marginBottom: 10,
-                    }}
-                  >
-                    <Image
-                      source={require("@/assets/images/brand/tik.png")}
-                      style={{
-                        width: 20,
-                        height: 20,
-                        marginRight: 12,
-                        tintColor: appColors.main.Primary,
-                      }}
-                    />
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        fontFamily: appFonts.UrbanistMedium,
-                        color: appColors.GreyScale[700],
-                      }}
-                    >
-                      We are the UK's largest provider, with more patrols in
-                      more places
-                    </Text>
-                  </View>
-                </View>
-
-                <Button
-                  title="Get Started"
-                  variant="filled"
-                  fontWeight="UrbanistBold"
-                  color={appColors.AdditionalColor.white}
-                  style={{
-                    backgroundColor: appColors.main.Primary,
-                    marginTop: 10,
-                  }}
-                  width="40%"
-                  onPress={() => router.push("/carlist" as Href)}
-                />
-              </View>
+            {/* Left side with car image */}
+            <View style={{ width: "50%", position: "relative" }}>
+              <Video
+                ref={videoRef}
+                source={require("@/assets/videos/car.mp4")}
+                style={{ width: "100%", height: "100%" }}
+                isLooping
+                shouldPlay
+                useNativeControls={true}
+                resizeMode={ResizeMode.CONTAIN}
+              />
             </View>
 
-            {/* Stats Counter */}
-
-            {/* Car Search and Registration Section */}
-          </View>
-          <View
-            style={{
-              padding: 40,
-              borderRadius: 20,
-              elevation: 3,
-              shadowColor: appColors.GreyScale[900],
-              shadowOffset: {
-                width: 0,
-                height: 0,
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 5,
-              marginVertical: 40,
-            }}
-          >
+            {/* Right side with content */}
             <View
               style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingVertical: 20,
+                width: "50%",
+                padding: 40,
+                justifyContent: "center",
+                gap: 24,
               }}
             >
-              <View style={{ alignItems: "center", gap: 10 }}>
-                <Text
-                  style={{
-                    fontFamily: appFonts.UrbanistBold,
-                    fontSize: 32,
-                    color: appColors.main.Primary,
-                  }}
-                >
-                  836M
-                </Text>
-                <Text
-                  style={{
-                    fontFamily: appFonts.UrbanistMedium,
-                    fontSize: 16,
-                    color: appColors.GreyScale[700],
-                  }}
-                >
-                  CARS FOR SALE
-                </Text>
-              </View>
-
-              <View style={{ alignItems: "center", gap: 10 }}>
-                <Text
-                  style={{
-                    fontFamily: appFonts.UrbanistBold,
-                    fontSize: 32,
-                    color: appColors.main.Primary,
-                  }}
-                >
-                  738M
-                </Text>
-                <Text
-                  style={{
-                    fontFamily: appFonts.UrbanistMedium,
-                    fontSize: 16,
-                    color: appColors.GreyScale[700],
-                  }}
-                >
-                  DEALER REVIEWS
-                </Text>
-              </View>
-
-              <View style={{ alignItems: "center", gap: 10 }}>
-                <Text
-                  style={{
-                    fontFamily: appFonts.UrbanistBold,
-                    fontSize: 32,
-                    color: appColors.main.Primary,
-                  }}
-                >
-                  100M
-                </Text>
-                <Text
-                  style={{
-                    fontFamily: appFonts.UrbanistMedium,
-                    fontSize: 16,
-                    color: appColors.GreyScale[700],
-                  }}
-                >
-                  VISITORS PER DAY
-                </Text>
-              </View>
-
-              <View style={{ alignItems: "center", gap: 10 }}>
-                <Text
-                  style={{
-                    fontFamily: appFonts.UrbanistBold,
-                    fontSize: 32,
-                    color: appColors.main.Primary,
-                  }}
-                >
-                  238M
-                </Text>
-                <Text
-                  style={{
-                    fontFamily: appFonts.UrbanistMedium,
-                    fontSize: 16,
-                    color: appColors.GreyScale[700],
-                  }}
-                >
-                  VERIFIED DEALERS
-                </Text>
-              </View>
-            </View>
-          </View>
-          {/* add looking for a car */}
-          <View
-            style={{
-              padding: 40,
-              marginBottom: 40,
-              borderRadius: 20,
-              elevation: 3,
-              shadowColor: appColors.GreyScale[900],
-              shadowOffset: {
-                width: 0,
-                height: 0,
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 5,
-            }}
-          >
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                gap: 20,
-              }}
-            >
-              {/* Looking for a Car */}
-              <View
+              <Text
                 style={{
-                  width: "48%",
-                  backgroundColor: "#0F172A",
-                  borderRadius: 16,
-                  padding: 50,
-                  justifyContent: "center",
-                  gap: 14,
+                  fontSize: 48,
+                  fontFamily: appFonts.UrbanistBold,
+                  color: appColors.GreyScale[900],
+                  textAlign: "center",
                 }}
               >
-                <Text
+                Get A Fair Price For Your Car Sell To Us Today
+              </Text>
+              <Text
+                style={{
+                  fontSize: 24,
+                  fontFamily: appFonts.UrbanistMedium,
+                  color: appColors.GreyScale[500],
+                }}
+              >
+                We are committed to providing our customers with exceptional
+                service, competitive pricing, and a wide range of.
+              </Text>
+
+              <View style={{ gap: 16 }}>
+                <View
                   style={{
-                    fontSize: 24,
-                    fontFamily: appFonts.UrbanistBold,
-                    color: appColors.AdditionalColor.white,
+                    flexDirection: "row",
+                    alignItems: "center",
                   }}
                 >
-                  Are You Looking For a Car ?
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontFamily: appFonts.UrbanistMedium,
-                    color: appColors.GreyScale[400],
-                    width: "80%",
-                  }}
-                >
-                  We are committed to providing our customers with exceptional
-                  service.
-                </Text>
-                <Button
-                  title="Get Started"
-                  variant="filled"
-                  fontWeight="UrbanistBold"
-                  color={appColors.AdditionalColor.white}
-                  style={{
-                    backgroundColor: "#5E5CED",
-                    alignSelf: "flex-start",
-                  }}
-                  width="50%"
-                  onPress={() => router.push("/carlist" as Href)}
-                />
-                <View style={{ position: "absolute", right: 10, bottom: 80 }}>
                   <Image
-                    source={require("@/assets/images/brand/leftcar.png")}
+                    source={require("@/assets/images/brand/tik.png")}
                     style={{
-                      width: 100,
-                      height: 80,
-                      opacity: 0.7,
-                      resizeMode: "contain",
+                      width: 25,
+                      height: 25,
+                      marginRight: 12,
+                      tintColor: appColors.main.Primary,
                     }}
                   />
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      fontFamily: appFonts.UrbanistMedium,
+                      color: "#64748B",
+                    }}
+                  >
+                    We are the UK's largest provider, with more patrols in more
+                    places
+                  </Text>
+                </View>
+
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <Image
+                    source={require("@/assets/images/brand/tik.png")}
+                    style={{
+                      width: 25,
+                      height: 25,
+                      marginRight: 12,
+                      tintColor: appColors.main.Primary,
+                    }}
+                  />
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      fontFamily: appFonts.UrbanistMedium,
+                      color: "#64748B",
+                    }}
+                  >
+                    We are the UK's largest provider, with more patrols in more
+                    places
+                  </Text>
+                </View>
+
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <Image
+                    source={require("@/assets/images/brand/tik.png")}
+                    style={{
+                      width: 25,
+                      height: 25,
+                      marginRight: 12,
+                      tintColor: appColors.main.Primary,
+                    }}
+                  />
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      fontFamily: appFonts.UrbanistMedium,
+                      color: "#64748B",
+                    }}
+                  >
+                    We are the UK's largest provider, with more patrols in more
+                    places
+                  </Text>
                 </View>
               </View>
 
-              {/* Sell a Car */}
-              <View
+              <Button
+                title="Get Started"
+                variant="filled"
+                fontWeight="UrbanistBold"
+                color={appColors.AdditionalColor.white}
                 style={{
-                  width: "48%",
-                  backgroundColor: "#FFFFFF",
-                  borderRadius: 16,
-                  padding: 50,
+                  backgroundColor: appColors.main.Primary,
+                }}
+                width="45%"
+                onPress={() => router.push("/carlist" as Href)}
+              />
+            </View>
+          </View>
+
+          {/* Stats Counter */}
+
+          {/* Car Search and Registration Section */}
+        </View>
+        <View
+          style={{
+            borderRadius: 20,
+            elevation: 3,
+            shadowColor: appColors.GreyScale[900],
+            shadowOffset: {
+              width: 0,
+              height: 0,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 5,
+            marginHorizontal: 70,
+            paddingHorizontal: 60,
+            paddingVertical: 50,
+          }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              paddingVertical: 20,
+            }}
+          >
+            <View style={{ alignItems: "center", gap: 10 }}>
+              <Text style={styles.milliontext}>836M</Text>
+              <Text style={styles.graytext}>CARS FOR SALE</Text>
+            </View>
+
+            <View style={{ alignItems: "center", gap: 10 }}>
+              <Text style={styles.milliontext}>738M</Text>
+              <Text style={styles.graytext}>DEALER REVIEWS</Text>
+            </View>
+
+            <View style={{ alignItems: "center", gap: 10 }}>
+              <Text style={styles.milliontext}>100M</Text>
+              <Text style={styles.graytext}>VISITORS PER DAY</Text>
+            </View>
+
+            <View style={{ alignItems: "center", gap: 10 }}>
+              <Text style={styles.milliontext}>238M</Text>
+              <Text style={styles.graytext}>VERIFIED DEALERS</Text>
+            </View>
+          </View>
+        </View>
+
+        {/* add looking for a car */}
+        <View
+          style={{
+            marginHorizontal: 70,
+            marginVertical: 34,
+          }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              gap: 20,
+            }}
+          >
+            {/* Looking for a Car */}
+            <View
+              style={{
+                width: "48%",
+                backgroundColor: "#0F172A",
+                borderRadius: 16,
+                paddingTop: 50,
+                paddingHorizontal: 50,
+                paddingVertical: 34,
+                justifyContent: "center",
+                gap: 14,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 30,
+                  fontFamily: appFonts.UrbanistBold,
+                  color: appColors.AdditionalColor.white,
+                  width: "40%",
+                }}
+              >
+                Are You Looking For a Car ?
+              </Text>
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontFamily: appFonts.UrbanistMedium,
+                  color: appColors.AdditionalColor.white,
+                  width: "80%",
+                }}
+              >
+                We are committed to providing our customers with exceptional
+                service.
+              </Text>
+              <Button
+                title="Get Started"
+                variant="filled"
+                fontWeight="UrbanistBold"
+                color={appColors.AdditionalColor.white}
+                style={{
+                  backgroundColor: "#5E5CED",
+                  alignSelf: "flex-start",
+                }}
+                width="50%"
+                onPress={() => router.push("/carlist" as Href)}
+              />
+              <View style={{ position: "absolute", right: 50, bottom: 50 }}>
+                <Image
+                  source={require("@/assets/images/brand/leftcar.png")}
+                  style={{
+                    width: 110,
+                    height: 110,
+                    opacity: 0.7,
+                    resizeMode: "contain",
+                  }}
+                />
+              </View>
+            </View>
+
+            {/* Sell a Car */}
+            <View
+              style={{
+                width: "48%",
+                backgroundColor: "#FFFFFF",
+                borderRadius: 16,
+                paddingHorizontal: 50,
+                paddingTop: 50,
+                paddingBottom: 24,
+                borderWidth: 1,
+                borderColor: appColors.GreyScale[200],
+                gap: 14,
+                boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.25)",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 30,
+                  fontFamily: appFonts.UrbanistBold,
+                  color: appColors.GreyScale[900],
+                }}
+              >
+                Do You Want to Sell a Car ?
+              </Text>
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontFamily: appFonts.UrbanistMedium,
+                  color: appColors.GreyScale[500],
+                  width: "80%",
+                }}
+              >
+                We are committed to providing our customers with exceptional
+                service.
+              </Text>
+              <Text
+                style={{
+                  fontSize: 30,
+                  fontFamily: appFonts.UrbanistBold,
+                  color: appColors.GreyScale[900],
+                }}
+              >
+                Enter Your Car Registration Number
+              </Text>
+              <View style={{}}>
+                <TextInput
+                  placeholder="Enter Your Registration Car No.(DH-CM-0021)"
+                  icon={require("@/assets/images/brand/Car.png")}
+                  value={cardNumber}
+                  onChangeText={setCardNumber}
+                  style={{ width: "70%" }}
+                />
+                <Button
+                  title="Sell My Car"
+                  variant="filled"
+                  fontWeight="UrbanistBold"
+                  color={appColors.AdditionalColor.white}
+                  width="40%"
+                  style={{ backgroundColor: "#000000" }}
+                  onPress={() => router.push("/sellcar" as Href)}
+                />
+              </View>
+              <View style={{ position: "absolute", right: 50, bottom: 24 }}>
+                <Image
+                  source={require("@/assets/images/brand/right.png")}
+                  style={{
+                    width: 110,
+                    height: 110,
+                    opacity: 0.9,
+                    resizeMode: "contain",
+                  }}
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+
+        {/* Compare Cars Section */}
+        <View
+          style={{
+            gap: 36,
+            marginHorizontal: 80,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 32,
+              fontFamily: appFonts.UrbanistBold,
+              color: appColors.GreyScale[900],
+            }}
+          >
+            Compare Cars
+          </Text>
+
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            {[0, 1, 2].map((index) => (
+              <View
+                key={index}
+                style={{
+                  width: "30%",
                   borderWidth: 1,
                   borderColor: appColors.GreyScale[200],
                   gap: 10,
+                  padding: 30,
+                  borderRadius: 10,
+                  boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.25)",
                 }}
               >
-                <Text
+                <TouchableOpacity
+                  onPress={() => pickImage(index)}
                   style={{
-                    fontSize: 24,
-                    fontFamily: appFonts.UrbanistBold,
-                    color: appColors.GreyScale[900],
+                    width: 60,
+                    height: 60,
+                    borderRadius: 60,
+                    alignSelf: "center",
+                    overflow: "hidden",
                   }}
                 >
-                  Do You Want to Sell a Car ?
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontFamily: appFonts.UrbanistMedium,
-                    color: appColors.GreyScale[500],
-                    width: "80%",
-                  }}
-                >
-                  We are committed to providing our customers with exceptional
-                  service.
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontFamily: appFonts.UrbanistBold,
-                    color: appColors.GreyScale[900],
-                  }}
-                >
-                  Enter Your Car Registration Number
-                </Text>
-                <View style={{}}>
-                  <TextInput
-                    placeholder="Enter Your Registration Car No.(DH-CM-0021)"
-                    icon={require("@/assets/images/brand/Car.png")}
-                    value={cardNumber}
-                    onChangeText={setCardNumber}
-                  />
-                  <Button
-                    title="Sell My Car"
-                    variant="filled"
-                    fontWeight="UrbanistBold"
-                    color={appColors.AdditionalColor.white}
-                    width="40%"
-                    style={{ backgroundColor: "#000000" }}
-                    onPress={() => router.push("/sellcar" as Href)}
-                  />
-                </View>
-                <View style={{ position: "absolute", right: 20, bottom: 40 }}>
                   <Image
-                    source={require("@/assets/images/brand/right.png")}
-                    style={{
-                      width: 100,
-                      height: 80,
-                      opacity: 0.9,
-                      resizeMode: "contain",
-                    }}
-                  />
-                </View>
-              </View>
-            </View>
-          </View>
-
-          {/* Compare Cars Section */}
-          <View
-            style={{
-              padding: 40,
-              marginVertical: 40,
-              gap: 36,
-              borderRadius: 20,
-              elevation: 3,
-              shadowColor: appColors.GreyScale[900],
-              shadowOffset: {
-                width: 0,
-                height: 0,
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 5,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 24,
-                fontFamily: appFonts.UrbanistBold,
-                color: appColors.GreyScale[900],
-              }}
-            >
-              Compare Cars
-            </Text>
-
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
-            >
-              {[0, 1, 2].map((index) => (
-                <View
-                  key={index}
-                  style={{
-                    width: "32%",
-                    borderWidth: 1,
-                    borderColor: appColors.GreyScale[200],
-                    gap: 10,
-                    padding: 30,
-                    borderRadius: 10,
-                  }}
-                >
-                  <TouchableOpacity
-                    onPress={() => pickImage(index)}
+                    source={
+                      images[index]
+                        ? { uri: images[index] }
+                        : require("@/assets/images/brand/plus.png")
+                    }
                     style={{
                       width: 60,
                       height: 60,
                       borderRadius: 60,
                       alignSelf: "center",
-                      overflow: "hidden",
                     }}
-                  >
-                    <Image
-                      source={
-                        images[index]
-                          ? { uri: images[index] }
-                          : require("@/assets/images/brand/plus.png")
-                      }
-                      style={{
-                        width: 60,
-                        height: 60,
-                        borderRadius: 60,
-                        alignSelf: "center",
-                      }}
-                      contentFit={images[index] ? "cover" : "contain"}
-                    />
-                  </TouchableOpacity>
-
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      color: appColors.main.Primary,
-                      fontFamily: appFonts.UrbanistBold,
-                      textAlign: "center",
-                      marginBottom: 20,
-                    }}
-                  >
-                    Add Car
-                  </Text>
-
-                  <DropDownComponent
-                    label="Select Brand"
-                    options={["Audi", "BMW", "Ferrari", "Tesla"]}
-                    onSelect={(value) => console.log("Selected Brand:", value)}
-                  />
-
-                  <View style={{ height: 20 }} />
-
-                  <DropDownComponent
-                    label="Select Model"
-                    options={["Model 1", "Model 2", "Model 3"]}
-                    onSelect={(value) => console.log("Selected Model:", value)}
-                  />
-
-                  <View style={{ height: 20 }} />
-
-                  <DropDownComponent
-                    label="Variants"
-                    options={["Variant 1", "Variant 2", "Variant 3"]}
-                    onSelect={(value) =>
-                      console.log("Selected Variant:", value)
-                    }
-                  />
-                </View>
-              ))}
-            </View>
-
-            <View style={{ alignItems: "center" }}>
-              <Button
-                title="Compare Now"
-                variant="filled"
-                fontWeight="UrbanistBold"
-                color={appColors.AdditionalColor.white}
-                style={{ backgroundColor: appColors.main.Primary }}
-                width="30%"
-                onPress={() => router.push("/compare-car" as Href)}
-              />
-            </View>
-          </View>
-
-          {/* Why Choose Us Section */}
-          <View
-            style={{
-              padding: 40,
-              marginBottom: 40,
-              borderRadius: 20,
-              elevation: 3,
-              shadowColor: appColors.GreyScale[900],
-              shadowOffset: {
-                width: 0,
-                height: 0,
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 5,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 24,
-                fontFamily: appFonts.UrbanistBold,
-                color: appColors.GreyScale[900],
-                marginBottom: 30,
-              }}
-            >
-              Why Choose Us?
-            </Text>
-
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
-            >
-              {/* Special Financing Offers */}
-              <View
-                style={{
-                  width: "23%",
-                  padding: 10,
-                  borderWidth: 1,
-                  borderColor: appColors.GreyScale[200],
-                  borderRadius: 10,
-                  gap: 14,
-                }}
-              >
-                <Image
-                  source={require("@/assets/images/icons/finance.png")}
-                  style={{ width: 40, height: 40, tintColor: "#6366F1" }}
-                />
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontFamily: appFonts.UrbanistBold,
-                    color: appColors.GreyScale[900],
-                  }}
-                >
-                  Special Financing Offers
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    fontFamily: appFonts.UrbanistMedium,
-                    color: appColors.GreyScale[600],
-                  }}
-                >
-                  Our stress-free finance department that can find financial
-                  solutions to save you money
-                </Text>
-              </View>
-
-              {/* Trusted Car Dealership */}
-              <View
-                style={{
-                  width: "23%",
-                  padding: 10,
-                  borderWidth: 1,
-                  borderColor: appColors.GreyScale[200],
-                  borderRadius: 10,
-                  gap: 14,
-                }}
-              >
-                <Image
-                  source={require("@/assets/images/icons/Trust.png")}
-                  style={{ width: 40, height: 40, tintColor: "#6366F1" }}
-                />
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontFamily: appFonts.UrbanistBold,
-                    color: appColors.GreyScale[900],
-                  }}
-                >
-                  Trusted Car Dealership
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    fontFamily: appFonts.UrbanistMedium,
-                    color: appColors.GreyScale[600],
-                  }}
-                >
-                  Our stress-free finance department that can find financial
-                  solutions to save you money
-                </Text>
-              </View>
-
-              {/* Transparent Pricing */}
-              <View
-                style={{
-                  width: "23%",
-                  padding: 10,
-                  borderWidth: 1,
-                  borderColor: appColors.GreyScale[200],
-                  borderRadius: 10,
-                  gap: 14,
-                }}
-              >
-                <Image
-                  source={require("@/assets/images/icons/price.png")}
-                  style={{ width: 40, height: 40, tintColor: "#6366F1" }}
-                />
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontFamily: appFonts.UrbanistBold,
-                    color: appColors.GreyScale[900],
-                  }}
-                >
-                  Transparent Pricing
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    fontFamily: appFonts.UrbanistMedium,
-                    color: appColors.GreyScale[600],
-                  }}
-                >
-                  Our stress-free finance department that can find financial
-                  solutions to save you money
-                </Text>
-              </View>
-
-              {/* Expert Car Service */}
-              <View
-                style={{
-                  width: "23%",
-                  padding: 10,
-                  borderWidth: 1,
-                  borderColor: appColors.GreyScale[200],
-                  borderRadius: 10,
-                  gap: 14,
-                }}
-              >
-                <Image
-                  source={require("@/assets/images/icons/service.png")}
-                  style={{ width: 40, height: 40, tintColor: "#6366F1" }}
-                />
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontFamily: appFonts.UrbanistBold,
-                    color: appColors.GreyScale[900],
-                  }}
-                >
-                  Expert Car Service
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    fontFamily: appFonts.UrbanistMedium,
-                    color: appColors.GreyScale[600],
-                  }}
-                >
-                  Our stress-free finance department that can find financial
-                  solutions to save you money
-                </Text>
-              </View>
-            </View>
-          </View>
-
-          <View
-            style={{
-              padding: 40,
-              marginBottom: 40,
-              borderWidth: 1,
-              borderRadius: 24,
-              borderColor: appColors.GreyScale[200],
-            }}
-          >
-            <ViewAll
-              title="Latest Blogs"
-              onPress={() => {
-                router.push("/carlist" as Href);
-              }}
-              showAll={true}
-            />
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                marginTop: 24,
-              }}
-            >
-              {blogData.map((blog, index) => (
-                <TouchableOpacity key={index} style={{ width: "31%" }}>
-                  <BlogCard
-                    image={blog.image}
-                    category={blog.category}
-                    title={blog.title}
-                    date={blog.date}
-                    author={blog.author}
+                    contentFit={images[index] ? "cover" : "contain"}
                   />
                 </TouchableOpacity>
-              ))}
+
+                <Text
+                  style={{
+                    fontSize: 16,
+                    color: appColors.main.Primary,
+                    fontFamily: appFonts.UrbanistBold,
+                    textAlign: "center",
+                    marginBottom: 20,
+                  }}
+                >
+                  Add Car
+                </Text>
+
+                <DropDownComponent
+                  label="Select Brand"
+                  options={["Audi", "BMW", "Ferrari", "Tesla"]}
+                  onSelect={(value) => console.log("Selected Brand:", value)}
+                />
+
+                <View style={{ height: 20 }} />
+
+                <DropDownComponent
+                  label="Select Model"
+                  options={["Model 1", "Model 2", "Model 3"]}
+                  onSelect={(value) => console.log("Selected Model:", value)}
+                />
+
+                <View style={{ height: 20 }} />
+
+                <DropDownComponent
+                  label="Variants"
+                  options={["Variant 1", "Variant 2", "Variant 3"]}
+                  onSelect={(value) => console.log("Selected Variant:", value)}
+                />
+              </View>
+            ))}
+          </View>
+
+          <View style={{ alignItems: "center" }}>
+            <Button
+              title="Compare Now"
+              variant="filled"
+              fontWeight="UrbanistBold"
+              color={appColors.AdditionalColor.white}
+              style={{ backgroundColor: appColors.main.Primary }}
+              width="30%"
+              onPress={() => router.push("/compare-car" as Href)}
+            />
+          </View>
+        </View>
+
+        {/* Why Choose Us Section */}
+        <View
+          style={{
+            paddingHorizontal: 60,
+            paddingVertical: 50,
+            marginHorizontal: 70,
+            borderRadius: 20,
+            elevation: 3,
+            shadowColor: appColors.GreyScale[900],
+            shadowOffset: {
+              width: 0,
+              height: 0,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 5,
+            marginVertical: 34,
+            gap: 34,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 32,
+              fontFamily: appFonts.UrbanistBold,
+              color: appColors.GreyScale[900],
+            }}
+          >
+            Why Choose Us?
+          </Text>
+
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            {/* Special Financing Offers */}
+            <View style={styles.choose}>
+              <Image
+                source={require("@/assets/images/icons/finance.png")}
+                style={styles.img}
+              />
+              <Text style={styles.txt}>Special Financing Offers</Text>
+              <Text style={styles.subtxt}>
+                Our stress-free finance department that can find financial
+                solutions to save you money
+              </Text>
             </View>
+
+            {/* Trusted Car Dealership */}
+            <View style={styles.choose}>
+              <Image
+                source={require("@/assets/images/icons/Trust.png")}
+                style={styles.img}
+              />
+              <Text style={styles.txt}>Trusted Car Dealership</Text>
+              <Text style={styles.subtxt}>
+                Our stress-free finance department that can find financial
+                solutions to save you money
+              </Text>
+            </View>
+
+            {/* Transparent Pricing */}
+            <View style={styles.choose}>
+              <Image
+                source={require("@/assets/images/icons/price.png")}
+                style={styles.img}
+              />
+              <Text style={styles.txt}>Transparent Pricing</Text>
+              <Text style={styles.subtxt}>
+                Our stress-free finance department that can find financial
+                solutions to save you money
+              </Text>
+            </View>
+
+            {/* Expert Car Service */}
+            <View style={styles.choose}>
+              <Image
+                source={require("@/assets/images/icons/service.png")}
+                style={styles.img}
+              />
+              <Text style={styles.txt}>Expert Car Service</Text>
+              <Text style={styles.subtxt}>
+                Our stress-free finance department that can find financial
+                solutions to save you money
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View
+          style={{
+           marginHorizontal:70,
+           paddingHorizontal:60,
+           paddingVertical:50,
+           gap:34,
+           marginBottom:34
+          }}
+        >
+           <Text
+            style={{
+              fontSize: 32,
+              fontFamily: appFonts.UrbanistBold,
+              color: appColors.GreyScale[900],
+            }}
+          >
+            Latest Blog Posts 
+            </Text>
+          {/* <ViewAll
+            title="Latest Blogs"
+            onPress={() => {
+              router.push("/carlist" as Href);
+            }}
+            showAll={true}
+          /> */}
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            {blogData.map((blog, index) => (
+              <TouchableOpacity key={index} >
+                <BlogCard
+                  image={blog.image}
+                  category={blog.category}
+                  title={blog.title}
+                  date={blog.date}
+                  author={blog.author}
+                />
+              </TouchableOpacity>
+            ))}
           </View>
         </View>
 

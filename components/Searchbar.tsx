@@ -27,7 +27,7 @@ const Search: React.FC<SearchBarProps> = ({
   onSearch,
   placeholder = "Search brand, or model",
   borderRadius ,
-  borderWidth ,
+  borderWidth=0 ,
   borderColor,
 }) => {
   const [searchText, setSearchText] = useState("");
@@ -46,6 +46,7 @@ const Search: React.FC<SearchBarProps> = ({
       justifyContent: "space-between",
       borderWidth: 0.5,
       alignSelf: "center",
+      boxShadow :"0px 0px 2px rgba(0, 0, 0, 0.25)"
     },
     input: {
       flex: 1,
@@ -76,6 +77,7 @@ const Search: React.FC<SearchBarProps> = ({
           flexDirection: "row",
           borderWidth: borderWidth,
           borderRadius: borderRadius,
+          boxShadow:"0px 0px 2px rgba(0,0,0,0.25)"
         },
       ]}
     >

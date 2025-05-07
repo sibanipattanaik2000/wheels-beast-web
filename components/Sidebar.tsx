@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
-import CheckBox from 'expo-checkbox';
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet, useWindowDimensions } from 'react-native';
+  import CheckBox from 'expo-checkbox';
 import { appColors } from '@/constants/Color';
 import appFonts from '@/constants/Font';
 import PriceRange from './PriceRange';
@@ -9,13 +9,20 @@ const FilterSection = ({ title, options }: { title: string; options: string[] })
   const [showMore, setShowMore] = useState(false);
   const [selected, setSelected] = useState<string[]>([]);
   const visibleOptions = showMore ? options : options.slice(0, 6);
-
+  const {height,width}=useWindowDimensions()
   const toggleOption = (option: string) => {
     setSelected((prev) => prev.includes(option) ? prev.filter(o => o !== option) : [...prev, option]);
   };
+  const styles = StyleSheet.create({
+   
+    header: { fontSize: 24, fontFamily:appFonts.UrbanistBold, color: appColors.GreyScale[900],letterSpacing:3 },
+    optionRow: { flexDirection: 'row', alignItems: 'center', gap: 8, },
+    moreText: { color:appColors.GreyScale[900], fontSize:20,fontFamily:appFonts.UrbanistMedium, },
+    option:{ fontSize: 20, color: appColors.GreyScale[900],fontFamily: appFonts.UrbanistSemiBold,letterSpacing: 0.6, },
+  });
 
   return (
-    <View style={{ marginBottom: 20 }}>
+    <View style={{gap:28,marginVertical:20 }}>
       <Text style={styles.header}>{title}</Text>
       {visibleOptions.map((option, index) => (
         <View key={index} style={styles.optionRow}>
@@ -23,7 +30,7 @@ const FilterSection = ({ title, options }: { title: string; options: string[] })
             value={selected.includes(option)}
             onValueChange={() => toggleOption(option)}
             color={selected.includes(option) ? appColors.main.Primary : undefined} 
-            style={{ borderRadius: 10 }} 
+           // style={{borderWidth:1,borderRadius:20,borderColor:appColors.GreyScale[900],height:20,width:20}}
           />
           <Text style={styles.option}>{option}</Text>
         </View>
@@ -40,7 +47,12 @@ const FilterSection = ({ title, options }: { title: string; options: string[] })
 export const SidebarComponent = () => {
   const [minValue, setMinValue] = useState(10000);
   const [maxValue, setMaxValue] = useState(250000);
-
+  const {height,width}=useWindowDimensions()
+  const styles = StyleSheet.create({
+    sidebar: { padding: 16, width:'100%',  backgroundColor: appColors.AdditionalColor.white },
+    header: { fontSize: 24, fontFamily:appFonts.UrbanistBold, marginBottom: 10 ,color: appColors.GreyScale[900],letterSpacing: 0.9},
+  });
+ 
   return (
     <ScrollView style={styles.sidebar} showsHorizontalScrollIndicator={false}>
       <FilterSection title="TYPE" options={["Sport (10)", "SUV (20)", "MPV (12)", "Sedan (14)", "Coupe (6)", "Hatchback (11)", "Crossover (8)", "Convertible (5)"]} />
@@ -48,26 +60,11 @@ export const SidebarComponent = () => {
       <FilterSection title="MULTIMEDIA" options={["Android Auto", "Apple CarPlay", "Dab Radio", "HeadUp Dispaly", "On-Board Computer", "Navigation System", "WLAN/Wifi Hotsport"]} />
       <View style={{ marginTop: 20 }}>
         <Text style={styles.header}>PRICE RANGE</Text>
-        {/* <Slider
-          style={{ width: '100%', height: 40 }}
-          minimumValue={10000}
-          maximumValue={250000}
-          step={1000}
-          value={minValue}
-          onValueChange={(value) => setMinValue(value)}
-          minimumTrackTintColor="#0000ff"
-          maximumTrackTintColor="#000000"
-        /> */}
+     
         <PriceRange/>
       </View>
     </ScrollView>
   );
 };
 
-const styles = StyleSheet.create({
-  sidebar: { padding: 16, width: '100%', maxWidth: 300, backgroundColor: appColors.AdditionalColor.white, },
-  header: { fontSize: 24, fontFamily:appFonts.UrbanistBold, marginBottom: 10 ,color: appColors.GreyScale[900]},
-  optionRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 8, gap: 8 },
-  moreText: { color:appColors.GreyScale[900], marginTop: 5,fontSize:18,fontFamily:appFonts.UrbanistMedium, },
-  option:{ fontSize: 18, color: appColors.GreyScale[900],fontFamily: appFonts.UrbanistSemiBold, },
-});
+

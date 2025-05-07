@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions } from "react-native";
 import { Image } from "expo-image";
 import { appColors } from "@/constants/Color";
 import appFonts from "@/constants/Font";
@@ -25,9 +25,11 @@ const AudiCarCard = ({
   rating,
   logoSource,
 }: AudiCarCardProps) => {
+
+  const {height,width} =useWindowDimensions()
   const styles = StyleSheet.create({
     container: {
-      width: "47%",
+      width: width*0.33,
     },
     card: {
       backgroundColor: "white",
@@ -40,6 +42,8 @@ const AudiCarCard = ({
       shadowRadius: 3.84,
       elevation: 2,
       width: "100%",
+      boxShadow :"0px 0px 5px rgba(0, 0, 0, 0.25)",
+
     },
     cardHeader: {
       flexDirection: "row",

@@ -161,7 +161,7 @@ const Dots: React.FC<DotsProps> = ({ onIndexChange }) => {
                 width: isActive ? 24 : 10,
                 height: 10,
                 borderRadius: 5,
-                backgroundColor: appColors.GreyScale[200],
+                backgroundColor:isActive?appColors.AdditionalColor.white: appColors.GreyScale[700],
                 transitionDuration: "300ms",
               }}
             />
