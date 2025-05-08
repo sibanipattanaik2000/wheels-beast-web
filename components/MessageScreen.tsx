@@ -26,7 +26,6 @@ interface MessageItem {
   unread: boolean;
   avatar: any;
   isOnline?: boolean;
-  onChatSelect?: (id :number) => void;
 }
 
 // Sample data for message list
@@ -92,7 +91,6 @@ export default function MessageScreen() {
   const router = useRouter();
   const [filterModalVisible, setFilterModalVisible] = useState(false);
   const [filterType, setFilterType] = useState<"all" | "unread">("all");
-  const [selectedChat, setSelectedChat] = useState<string | null>(null);
 
   // Filter the messages based on the selected filter type
   const filteredMessages =
@@ -100,17 +98,17 @@ export default function MessageScreen() {
       ? messageData
       : messageData.filter((item) => item.unread);
 
-  const renderMessageItem = ({ item }: { item: MessageItem }) => (
+  const renderMessageItem = ({ item, index }: { item: MessageItem, index:number }) => (
     <TouchableOpacity
       style={[
         styles.messageItem,
         {
-          borderBottomWidth: 1,
+          borderBottomWidth:index=== filteredMessages.length-1?0: 1,
           borderColor: appColors.GreyScale[200],
           backgroundColor: appColors.AdditionalColor.white,
         },
       ]}
-     onPress={() =>setSelectedChat(item.id)}
+      onPress={() => router.push("/chat" as Href)}
       activeOpacity={0.7}
     >
       <View style={styles.avatarContainer}>
@@ -206,7 +204,7 @@ export default function MessageScreen() {
       {filteredMessages.length > 0 ? (
         <FlatList
           data={filteredMessages}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item,) => item.id}
           renderItem={renderMessageItem}
           contentContainerStyle={styles.listContainer}
           showsVerticalScrollIndicator={false}

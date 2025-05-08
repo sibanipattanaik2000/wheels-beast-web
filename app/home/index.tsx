@@ -40,7 +40,7 @@ const carData = [
     engine: "540hp",
   },
   {
-    image: require("@/assets/images/brand/blackcar.png"),
+    image: require("@/assets/images/carlist/redcar.png"),
     brand: "Audi A8 Quattro",
     price: "$115,000",
     fuelType: "Manual",
@@ -58,14 +58,15 @@ const carData = [
     engine: "320 hp",
   },
   {
-    image: require("@/assets/images/brand/blackcar.png"),
-    brand: "Audi A8 Quattro",
+    image: require("@/assets/images/brand/bluecar.png"),
+    brand: "Ferrari 488 Spider",
     price: "$130,000",
     fuelType: "Automatic",
-    brandicon: require("@/assets/images/carlist/Audi.png"),
+    brandicon: require("@/assets/images/carlist/Ferrari.png"),
     type: "home",
     engine: "320 hp",
   },
+ 
 ];
 
 const blogData = [
@@ -367,7 +368,7 @@ const Home = () => {
         <View style={{ flex: 1 }}>
           <ImageBackground
             source={require("@/assets/images/home/main.png")}
-            style={{ height: height * 1.5, width: "100%" }}
+            style={{ height: height * 1.477, width: "100%" }}
             resizeMode="contain"
           />
           <View
@@ -708,12 +709,13 @@ const Home = () => {
                 justifyContent: "space-between",
                 width: "100%",
                 flexDirection: "row",
-                gap: 50,
+                // gap: 50,
               }}
             >
-              {carData.map((car, index) => (
+              {carData.slice(0,3).map((car, index) => (
                 <View
-                  style={{ width: width / 3.89, height: width / 3.89 - 15 }}
+                key={index}
+                  style={{ width: width / 3.89,justifyContent:"center", height: width / 3.89 - 15 }}
                 >
                   <CarCard
                     key={index}
@@ -731,7 +733,7 @@ const Home = () => {
           </View>
           <View
             style={{
-              gap: 20,
+              // gap: 20,
               paddingHorizontal: 64,
               paddingVertical: 50,
               borderRadius: 20,
@@ -762,7 +764,7 @@ const Home = () => {
               }}
             >
               {carData.map((car, index) => (
-                <View style={{ width: width / 5.6, height: width / 5.6 + 20 }}>
+                <View key={index} style={{ width: width / 5.6, height: width / 5.6 + 20 }}>
                   <CarCard
                     key={index}
                     image={car.image}
@@ -1408,7 +1410,7 @@ const Home = () => {
             }}
           >
             {blogData.map((blog, index) => (
-              <TouchableOpacity key={index} >
+              <TouchableOpacity key={index} style={{ width :width /4.2, height :width /3.5}}>
                 <BlogCard
                   image={blog.image}
                   category={blog.category}

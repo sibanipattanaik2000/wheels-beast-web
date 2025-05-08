@@ -28,14 +28,15 @@ const BlogCard = ({
       borderRadius: 16,
        overflow: "hidden",
       // borderColor: appColors.GreyScale[200],
-      width:width/4.8,
-      height:width/3.2,
+      height :"100%",
+      width :"100%",
       backgroundColor:appColors.AdditionalColor.white,
+      // borderWidth:1
     },
     imageContainer: {
       position: "relative",
-      height:width/4.8,
-      width:width/4.23,
+      height:width/4.6,
+      width:width/4.13,
       borderRadius:16,
     },
     image: {

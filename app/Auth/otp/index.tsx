@@ -1,6 +1,7 @@
 import Button from "@/components/Button";
 import CustomSafeArea from "@/components/CustomSafeArea";
 import Dots from "@/components/Dots";
+import Header from "@/components/Header";
 import { postRequest } from "@/constants/apiService";
 import { appColors } from "@/constants/Color";
 import appFonts from "@/constants/Font";
@@ -17,10 +18,12 @@ import {
 } from "react-native";
 
 const OTPInput = () => {
-  const {otpid} =useLocalSearchParams()
+  const { otpid } = useLocalSearchParams();
   const [otp, setOtp] = useState(["", "", "", ""]);
   const inputs = useRef<Array<TextInput | null>>([]);
-  const [currentIndex, setCurrentIndex] = useState(0); // For slider
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
+
   const router = useRouter();
   const handleChange = (text: string, index: number) => {
     if (/^\d$/.test(text)) {
@@ -42,19 +45,34 @@ const OTPInput = () => {
     setCurrentIndex(index);
   };
 
-  const hanldeContinue =async()=>{
-    const postData= {
-      step:2,
-      otp:otp.join(''),
-      otpid:otpid,
-
-    }
-    const response = await postRequest('/signup',postData)
-    if(response){
+  const hanldeContinue = async () => {
+    const postData = {
+      step: 2,
+      otp: otp.join(""),
+      otpid: otpid,
+    };
+    const response = await postRequest("/signup", postData);
+    if (response) {
       console.log(response);
-      
     }
-  }
+  };
+
+
+  const styles = StyleSheet.create({
+    container: {
+      flexDirection: "row",
+      justifyContent: "center",
+      gap: 10,
+    },
+    input: {
+      width: 50,
+      height: 50,
+      backgroundColor:appColors.GreyScale[100],
+      borderRadius: 8,
+      textAlign: "center",
+      fontSize: 18,
+    },
+  });
 
   return (
     <CustomSafeArea>
@@ -64,28 +82,16 @@ const OTPInput = () => {
           <View style={{ width: "50%" }}>
             <Dots onIndexChange={handleIndexChange} />
           </View>
-          
+
           {/* Right side with the form */}
           <View style={{ width: "50%", paddingHorizontal: 64, paddingTop: 16 }}>
             {/* Logo */}
-            <View style={{ flexDirection: "row", gap: 7, alignItems: "center", marginBottom: 40 }}>
-              <Image
-                source={require("@/assets/images/Signup/wheel.png")}
-                style={{ height: 40, width: 40 }}
-              />
-              <Text
-                style={{
-                  fontSize: 24,
-                  color: appColors.main.SecondaryBase,
-                  fontFamily: appFonts.UrbanistBold,
-                }}
-              >
-                WheelsBeast
-              </Text>
-            </View>
-            
+            <Header type="default" />
+
             {/* Content */}
-            <View style={{ paddingVertical: 40, gap: 32 }}>
+            <View
+              style={{ paddingVertical: 40, gap: 32, paddingHorizontal: 56 }}
+            >
               <Image
                 source={require("@/assets/images/Signup/EmptyState.png")}
                 style={{ height: 96, width: 96, alignSelf: "center" }}
@@ -109,8 +115,8 @@ const OTPInput = () => {
                     textAlign: "center",
                   }}
                 >
-                  Check your email inbox and input the verification code to verify
-                  your account
+                  Check your email inbox and input the verification code to
+                  verify your account
                 </Text>
               </View>
               <View style={styles.container}>
@@ -121,7 +127,13 @@ const OTPInput = () => {
                     value={value}
                     onChangeText={(text) => handleChange(text, index)}
                     maxLength={1}
-                    style={styles.input}
+                    style={[
+                      styles.input,
+                      focusedIndex === index && {
+                        borderColor:appColors.main.Primary,
+                        borderWidth:1
+                      },
+                    ]}
                     keyboardType="number-pad"
                     returnKeyType="next"
                   />
@@ -148,21 +160,6 @@ const OTPInput = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    justifyContent: "center",
-    gap: 10,
-  },
-  input: {
-    width: 50,
-    height: 50,
-    borderWidth: 1,
-    borderColor: "#aaa",
-    borderRadius: 8,
-    textAlign: "center",
-    fontSize: 18,
-  },
-});
+
 
 export default OTPInput;

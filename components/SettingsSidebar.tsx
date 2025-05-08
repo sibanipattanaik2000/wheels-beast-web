@@ -361,6 +361,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     borderRightWidth: 1,
     borderColor: appColors.GreyScale[200],
+    borderRadius:10
   },
   sectionTitle: {
     fontSize: 20,

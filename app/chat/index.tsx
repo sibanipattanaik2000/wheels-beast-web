@@ -296,18 +296,19 @@ const Chat = () => {
   return (
     <CustomSafeArea>
       <Header type="home" />
+      <ScrollView>
       <View
         style={{
           flexDirection: "row",
-          backgroundColor: appColors.GreyScale[50],
+          backgroundColor: appColors.GreyScale[100],
           paddingHorizontal: 70,
-          paddingVertical: 40,
-          flex: 1,
+          paddingVertical: 50,
+          maxHeight:height
         }}
       >
         <View
           style={{
-            width: "30%",
+            width: width/3.22,
             borderRightWidth: 1,
             borderColor: appColors.GreyScale[300],
             height: "100%",
@@ -319,13 +320,8 @@ const Chat = () => {
           <MessageScreen />
         </View>
 
-        <ScrollView
-          style={[
-            styles.container,
-            { backgroundColor: appColors.AdditionalColor.white },
-          ]}
-          showsHorizontalScrollIndicator={false}
-        >
+
+        <View style={{flex:1}}>
           {/* Header */}
           <View
             style={[
@@ -389,6 +385,13 @@ const Chat = () => {
               />
             </TouchableOpacity>
           </View>
+        <ScrollView
+          style={[
+            styles.container,
+            { backgroundColor: appColors.AdditionalColor.white },
+          ]}
+          showsHorizontalScrollIndicator={false}
+        >
 
           {/* Messages */}
           <FlatList
@@ -407,6 +410,8 @@ const Chat = () => {
             }
           />
 
+    
+        </ScrollView>
           {/* Input area */}
           <View
             style={[
@@ -471,10 +476,11 @@ const Chat = () => {
               />
             </TouchableOpacity>
           </View>
-    
-        </ScrollView>
-          {/* <Footer /> */}
+
+          </View>
+        
       </View>
+      </ScrollView>
     </CustomSafeArea>
   );
 };

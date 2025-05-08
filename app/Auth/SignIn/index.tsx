@@ -14,6 +14,7 @@ import appFonts from "@/constants/Font";
 import Button from "@/components/Button";
 import Dots from "@/components/Dots";
 import { useRouter } from "expo-router";
+import Header from "@/components/Header";
 
 const SignIn = () => {
   const { width, height } = useWindowDimensions();
@@ -66,34 +67,14 @@ const SignIn = () => {
             <Dots onIndexChange={handleIndexChange} />
           </View>
           {/* right */}
-          <View style={{ width: "50%", paddingHorizontal: 64, paddingTop: 16 }}>
-            <View
-              style={{
-                flexDirection: "row",
-                gap: 7,
-                alignItems: "center",
-              }}
-            >
-              <Image
-                source={require("@/assets/images/Signup/wheel.png")}
-                style={{ height: 40, width: 40 }}
-              />
-              <Text
-                style={{
-                  fontSize: 24,
-                  color: appColors.main.SecondaryBase,
-                  fontFamily: appFonts.UrbanistBold,
-                }}
-              >
-                WheelsBeast
-              </Text>
-            </View>
+          <View style={{ width: "50%", paddingHorizontal: 64,}}>
+             <Header type="default" />
             <View
               style={{
                 justifyContent: "center",
                 alignItems: "center",
                 paddingHorizontal: 64,
-                paddingVertical: 50,
+                paddingVertical: 90,
               }}
             >
               <View style={{ gap: 24 }}>

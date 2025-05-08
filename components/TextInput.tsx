@@ -1,4 +1,4 @@
-import { View, TextInput as RNTextInput, StyleSheet, Text, TouchableOpacity, Image, Animated, Platform } from 'react-native'
+import { View, TextInput as RNTextInput, StyleSheet, Text, TouchableOpacity, Image, Animated, Platform, DimensionValue } from 'react-native'
 import React, { useState, useEffect, useRef } from 'react'
 import { appColors } from '@/constants/Color'
  
@@ -11,6 +11,7 @@ export type TextInputProps = {
   style?: any
   filled?: boolean
   label?: string
+  width?:DimensionValue
 }
  
 const TextInput = ({
@@ -21,7 +22,8 @@ const TextInput = ({
   icon,
   style,
   filled = false,
-  label
+  label,
+  width
 }: TextInputProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
   const [isFocused, setIsFocused] = useState(false)
@@ -88,6 +90,59 @@ const TextInput = ({
   const handleFocus = () => setIsFocused(true)
   const handleBlur = () => setIsFocused(false)
  
+
+
+  const styles = StyleSheet.create({
+    container: {
+      marginVertical: 8,
+      width:width|| '100%',
+      backgroundColor:'#F8FAFC',
+      borderRadius: 16,
+    },
+    label: {
+      fontSize: 14,
+      marginBottom: 8,
+      color: appColors.GreyScale[400],
+      //fontFamily: appFonts.UrbanistMedium,
+    },
+    inputContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      height: 56,
+      borderRadius: 16,
+      paddingHorizontal: 12,
+      width: '100%',
+      position: 'relative',
+    },
+    focusedContainer: {
+      borderWidth: 1,
+    },
+    filledContainer: {
+      borderColor: appColors.main.Primary,
+    },
+    input: {
+      flex: 1,
+      height: '100%',
+      paddingLeft: 8,
+      fontSize: 16,
+      ...Platform.select({
+              web:{
+                outlineStyle: "none",
+              }
+            })
+    },
+    iconLeft: {
+      width: 20,
+      height: 20,
+    },
+    eyeIcon: {
+      padding: 2,
+    },
+    icon: {
+      width: 20,
+      height: 20,
+    },
+  })
   return (
     <View style={[styles.container, style]}>
       {label && <Text style={[styles.label, {
@@ -164,56 +219,6 @@ const TextInput = ({
   )
 }
  
-const styles = StyleSheet.create({
-  container: {
-    marginVertical: 8,
-    width: '100%',
-    backgroundColor:'#F8FAFC',
-    borderRadius: 16,
-  },
-  label: {
-    fontSize: 14,
-    marginBottom: 8,
-    color: appColors.GreyScale[400],
-    //fontFamily: appFonts.UrbanistMedium,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: 56,
-    borderRadius: 16,
-    paddingHorizontal: 12,
-    width: '100%',
-    position: 'relative',
-  },
-  focusedContainer: {
-    borderWidth: 1,
-  },
-  filledContainer: {
-    borderColor: appColors.main.Primary,
-  },
-  input: {
-    flex: 1,
-    height: '100%',
-    paddingLeft: 8,
-    fontSize: 16,
-    ...Platform.select({
-            web:{
-              outlineStyle: "none",
-            }
-          })
-  },
-  iconLeft: {
-    width: 20,
-    height: 20,
-  },
-  eyeIcon: {
-    padding: 2,
-  },
-  icon: {
-    width: 20,
-    height: 20,
-  },
-})
+
  
 export default TextInput

@@ -66,7 +66,7 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
   const [notificationCount, setNotificationCount] = useState(0);
   const togglePrivacy = () => setShowPrivacy(!showPrivacy);
   const toggleNotifications = () => setShowNotifications(!showNotifications);
-
+  
   const styles = StyleSheet.create({
     text: {
       fontFamily: appFonts.UrbanistMedium,
@@ -123,13 +123,13 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
   if (type !== 'home') return null;
 
   return (
-    <>
+    <View style={{boxShadow:'0px 2px 3px rgba(0,0,0,0.15)',}}>
       <View
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
           paddingHorizontal: 70,
-          paddingVertical:34
+          paddingVertical:30,
         }}
       >
         <TouchableOpacity
@@ -255,13 +255,13 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
           <View style={{ alignItems: 'center' }}>
             <TouchableOpacity
               style={{ flexDirection: 'row', alignItems: 'center' }}
-              onPress={togglePrivacy}
+              onPress={()=>router.push('/profile')}
             >
               <Text style={styles.text}>Profile </Text>
-              <AntDesign name={showPrivacy ? 'up' : 'down'} size={16} />
+              {/* <AntDesign name={showPrivacy ? 'up' : 'down'} size={16} /> */}
             </TouchableOpacity>
 
-            {showPrivacy && (
+            {/* {showPrivacy && (
               <TouchableOpacity
                 style={{
                   padding: 8,
@@ -283,7 +283,7 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
                 Edit Profile 
                 </Text>
               </TouchableOpacity>
-            )}
+            )} */}
           </View>
            {/* Notification Bell */}
            <TouchableOpacity 
@@ -306,7 +306,7 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
         onClose={toggleNotifications}
         notifications={sampleNotifications}
       />
-    </>
+    </View>
   );
 };
 

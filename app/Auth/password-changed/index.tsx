@@ -7,6 +7,7 @@ import appFonts from "@/constants/Font";
 import { appColors } from "@/constants/Color";
 import { Href, useRouter } from "expo-router";
 import Button from "@/components/Button";
+import Header from "@/components/Header";
 
 const PasswordChanged = () => {
   const [currentIndex, setCurrentIndex] = useState(0); // For slider
@@ -27,13 +28,7 @@ const PasswordChanged = () => {
         {/* Right side with the form */}
         <View style={styles.rightContainer}>
           {/* Logo */}
-          <View style={styles.logoContainer}>
-            <Image
-              source={require("@/assets/images/Signup/wheel.png")}
-              style={styles.logoImage}
-            />
-            <Text style={styles.logoText}>WheelsBeast</Text>
-          </View>
+         <Header type="default"/>
           
           <View style={styles.contentContainer}>
             <Image
@@ -95,6 +90,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 32,
     paddingVertical: 40, 
+    paddingHorizontal:56
   },
   successImage: {
     width: 120,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import appFonts from "@/constants/Font";
 import { appColors } from "@/constants/Color";
-import { router, usePathname } from "expo-router";
+import { router, usePathname, useRouter } from "expo-router";
 
 type SidebarItem = {
   id: string;
@@ -24,18 +24,21 @@ interface EditProfileSidebarProps {
   userName: string;
   userRole: string;
   userImage: any;
+  onContentPress:(tab:string)=>void;
 }
 
 const EditProfileSidebar: React.FC<EditProfileSidebarProps> = ({
   userName,
   userRole,
   userImage,
+  onContentPress
 }) => {
   const pathname = usePathname();
-
+  const router =useRouter()
+  const [active, setActive]= useState("editprofile");
   const sidebarItems: SidebarItem[] = [
     {
-      id: "edit-profile",
+      id: "editprofile",
       label: "Edit Profile",
       icon: (
         <Image
@@ -58,7 +61,7 @@ const EditProfileSidebar: React.FC<EditProfileSidebarProps> = ({
       route: "/profile/appointment",
     },
     {
-      id: "test-drive",
+      id: "testdrive",
       label: "Test Drive",
       icon: (
         <Image
@@ -69,7 +72,7 @@ const EditProfileSidebar: React.FC<EditProfileSidebarProps> = ({
       route: "/profile/test-drive",
     },
     {
-      id: "my-vouchers",
+      id: "myvoucher",
       label: "My vouchers",
       icon: (
         <Image
@@ -94,7 +97,7 @@ const EditProfileSidebar: React.FC<EditProfileSidebarProps> = ({
 
   const signOut = () => {
     console.log("Signing out...");
-    router.navigate("/home");
+    router.push("/home");
   };
 
   const isActive = (route: string) => {
@@ -106,7 +109,7 @@ const EditProfileSidebar: React.FC<EditProfileSidebarProps> = ({
   };
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ScrollView style={styles.container} >
       <View style={styles.profileSection}>
         <Image source={userImage} style={styles.profileImage} />
         <Text style={styles.userName}>{userName}</Text>
@@ -125,7 +128,7 @@ const EditProfileSidebar: React.FC<EditProfileSidebarProps> = ({
               borderRadius: 14,
             },
           ]}
-          onPress={() => navigateTo("/order-progress")}
+          onPress={() => router.push("/order-progress")}
         >
           <View style={styles.iconAndLabel}>
             <View
@@ -182,9 +185,12 @@ const EditProfileSidebar: React.FC<EditProfileSidebarProps> = ({
               key={item.id}
               style={[
                 styles.navigationItem,
-                isActive(item.route) && styles.activeItem,
+                active===item.id && styles.activeItem,
               ]}
-              onPress={() => navigateTo(item.route)}
+              onPress={() => {
+                
+                setActive(item.id)
+                onContentPress(item.id)}}
             >
               <View style={styles.iconAndLabel}>
                 <View
@@ -258,12 +264,11 @@ const styles = StyleSheet.create({
     backgroundColor: appColors.AdditionalColor.white,
     paddingHorizontal: 36,
     paddingVertical: 14,
+    height:"100%",
+    width:"100%",
     borderRadius: 10,
-    shadowColor: appColors.GreyScale[500],
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    borderRightWidth:1,
+    borderColor:appColors.GreyScale[200]
   },
   profileSection: {
     alignItems: "center",

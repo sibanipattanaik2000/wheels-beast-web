@@ -45,18 +45,20 @@ const CarCard = ({
   const router = useRouter();
   const styles = StyleSheet.create({
     card: {
-      width: width || "100%",
-      height: height || "100%",
+      width: width || "99%",
+      height: height || "99%",
       borderRadius: 20,
+      alignSelf:"center",
       padding: 20,
       gap: 8,
       borderWidth:type === "home"?1: 1,
       borderColor: appColors.GreyScale[200],
+      boxShadow:"0px 2px 2px rgba(71, 85, 105, 0.25)",
       backgroundColor:
         type === "home"
           ? "#ffffff"
           : appColors.GreyScale[50],
-          boxShadow:"0px 2px 2px rgba(71, 85, 105, 0.08)"
+          
     },
   });
 
@@ -176,7 +178,7 @@ const CarCard = ({
           style={{
             fontSize: 14,
             fontFamily: appFonts.UrbanistBold,
-            color: appColors.GreyScale[900],
+            color: appColors.main.Primary,
           }}
         >
           {price}

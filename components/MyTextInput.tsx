@@ -91,10 +91,8 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: appColors.GreyScale[200],
+    backgroundColor:appColors.GreyScale[200],
     borderRadius: 12,
-    backgroundColor: appColors.AdditionalColor.white,
     paddingHorizontal: 12,
     height: 50,
   },

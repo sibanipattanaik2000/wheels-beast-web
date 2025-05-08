@@ -45,7 +45,6 @@ const ExploreBrand = ({ title }: ExploreBrandProps) => {
           height: 0,
         },
         shadowOpacity: 0.25,
-        //backgroundColor: appColors.GreyScale[100],
         shadowRadius: 5,
       }}
     >

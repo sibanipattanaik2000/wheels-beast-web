@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, useWindowDimensions } from 'react-native';
 import { Image } from 'expo-image';
 import { appColors } from '@/constants/Color';
 import appFonts from '@/constants/Font';
@@ -17,6 +17,46 @@ const SavedCard = ({ cardNumber, expiry, cardHolder, style }: SavedCardProps) =>
     const lastFourDigits = cardNumber.slice(-4);
     return `**** **** **** ${lastFourDigits}`;
   };
+  const {height , width } = useWindowDimensions();
+  const styles = StyleSheet.create({
+    cardContainer: {
+      width: width/4.4,
+      height: width/7.30,
+      borderRadius: 20,
+      backgroundColor: appColors.main.Primary, // Rich blue color as in the image
+      paddingLeft: 16,
+      paddingVertical:16,
+      position: 'relative',
+      overflow: 'hidden',
+      flexDirection:"row",
+      alignItems:"center",
+      justifyContent:"space-between"
+    },
+   
+    cardDetails: {
+      flex: 1,
+      justifyContent: 'space-between',
+    },
+    cardNumber: {
+      fontSize: 16,
+      fontFamily: appFonts.UrbanistBold,
+      color: 'white',
+      marginTop: 50,
+    },
+    expiry: {
+      fontSize: 12,
+      fontFamily: appFonts.UrbanistMedium,
+      color: 'white',
+      marginTop: 10,
+    },
+    cardHolder: {
+      fontSize: 14,
+      fontFamily: appFonts.UrbanistBold,
+      color: 'white',
+      marginTop: 20,
+    },
+  });
+
 
   return (
     <View style={[styles.cardContainer, style]}>
@@ -58,43 +98,6 @@ const SavedCard = ({ cardNumber, expiry, cardHolder, style }: SavedCardProps) =>
   );
 };
 
-const styles = StyleSheet.create({
-  cardContainer: {
-    width: '70%',
-    height: 200,
-    borderRadius: 20,
-    backgroundColor: appColors.main.Primary, // Rich blue color as in the image
-    paddingLeft: 16,
-    paddingVertical:16,
-    position: 'relative',
-    overflow: 'hidden',
-    flexDirection:"row",
-    alignItems:"center",
-    justifyContent:"space-between"
-  },
- 
-  cardDetails: {
-    flex: 1,
-    justifyContent: 'space-between',
-  },
-  cardNumber: {
-    fontSize: 16,
-    fontFamily: appFonts.UrbanistBold,
-    color: 'white',
-    marginTop: 50,
-  },
-  expiry: {
-    fontSize: 12,
-    fontFamily: appFonts.UrbanistMedium,
-    color: 'white',
-    marginTop: 10,
-  },
-  cardHolder: {
-    fontSize: 14,
-    fontFamily: appFonts.UrbanistBold,
-    color: 'white',
-    marginTop: 20,
-  },
-});
+
 
 export default SavedCard; 

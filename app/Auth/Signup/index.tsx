@@ -28,7 +28,7 @@ import { postRequest } from "@/constants/apiService";
     const router = useRouter();
 
 
-    const handleSignUp=async()=> {
+    const handleSignUp=()=> {
       
       // const data= {
       //   step:1,
@@ -85,14 +85,14 @@ import { postRequest } from "@/constants/apiService";
               <Dots onIndexChange={handleIndexChange} />
             </View>
             {/* right */}
-            <View style={{ width: "50%", paddingHorizontal: 64, paddingTop: 16 }}>
+            <View style={{ width: "50%", paddingHorizontal: 64,}}>
              <Header type="default" />
               <View
                 style={{
                   justifyContent: "center",
                   alignItems: "center",
                   paddingHorizontal: 64,
-                  paddingVertical: 50,
+                  paddingVertical:86
                 }}
               >
                 <View style={{ gap: 24 }}>

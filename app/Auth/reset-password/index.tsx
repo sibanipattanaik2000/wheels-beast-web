@@ -8,6 +8,7 @@ import Button from '@/components/Button';
 import Dots from '@/components/Dots';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import Header from '@/components/Header';
 
 const ResetPassword = () => {
   const [password, setPassword] = useState('');
@@ -65,26 +66,12 @@ const ResetPassword = () => {
           </View>
           
           {/* Right side with the form */}
-          <View style={{ width: "50%", paddingHorizontal: 64, paddingTop: 16 }}>
+          <View style={{ width: "50%", paddingHorizontal: 64 }}>
             {/* Logo */}
-            <View style={{ flexDirection: "row", gap: 7, alignItems: "center", marginBottom: 40 }}>
-              <Image
-                source={require("@/assets/images/Signup/wheel.png")}
-                style={{ height: 40, width: 40 }}
-              />
-              <Text
-                style={{
-                  fontSize: 24,
-                  color: appColors.main.SecondaryBase,
-                  fontFamily: appFonts.UrbanistBold,
-                }}
-              >
-                WheelsBeast
-              </Text>
-            </View>
+           <Header type='default'/>
             
             {/* Content */}
-            <View style={{ paddingVertical: 40, gap: 32 }}>
+            <View style={{ paddingVertical: 40, gap: 32}}>
               <Text style={{
                 fontSize: 48,
                 fontFamily: appFonts.UrbanistBold,
@@ -102,13 +89,14 @@ const ResetPassword = () => {
               }}>
                 Your new password must be different from previous password
               </Text>
-              
+              <View style={{alignSelf:"center",width:"100%",paddingHorizontal:56,gap:24}}>
               <TextInput 
                 icon="password" 
                 placeholder="New Password" 
                 value={password} 
                 onChangeText={validatePassword} 
                 secureTextEntry={true} 
+               // width={'60%'}
               />
               
               <TextInput 
@@ -117,8 +105,9 @@ const ResetPassword = () => {
                 value={confirmPassword} 
                 onChangeText={validateConfirmPassword} 
                 secureTextEntry={true} 
+                //width={'60%'}
               />
-  
+             
               <View style={{ width: "100%", gap: 16 }}>
                 <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
                   <Ionicons 
@@ -170,6 +159,7 @@ const ResetPassword = () => {
                 color={appColors.AdditionalColor.white} 
                 style={{ backgroundColor: appColors.main.Primary }}
               />
+            </View>
             </View>
           </View>
         </View>

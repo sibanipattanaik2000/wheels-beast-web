@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import { View, Text, ScrollView, StyleSheet, useWindowDimensions } from "react-native";
 import React, { useState } from "react"; // Added useState for potential dynamic data
 import CustomSafeArea from "@/components/CustomSafeArea";
 import { appColors } from "@/constants/Color";
@@ -83,6 +83,8 @@ const Favourites = () => {
   // Filter cars that are liked
   const favouriteCars = carData.filter((car) => car.isLiked);
   const router = useRouter(); // Initialize router for navigation
+  const count = 12;
+  const {height  , width } =useWindowDimensions();
   return (
     <CustomSafeArea>
       <Header type="home" />
@@ -90,23 +92,23 @@ const Favourites = () => {
         <View
           style={{
             flex: 1,
-            paddingHorizontal: 90,
+            paddingHorizontal: 70,
             paddingVertical: 47,
             
           }}
         >
         
             {favouriteCars.length > 0 ? (
-              <View style={{gap:36}}>
+              <View style={{gap:36, marginTop:10}}>
                 <View style={{ flexDirection: "row", justifyContent: "space-between",}}>
               <Text
                 style={{
-                  fontSize: 32,
+                  fontSize: 34,
                   fontFamily: appFonts.UrbanistBold,
                   color: appColors.GreyScale[900],
                 }}
               >
-                Favourite Cars
+               {count} Favourite Cars
               </Text>
               <Sortby />
             </View>
@@ -117,12 +119,14 @@ const Favourites = () => {
                       flexWrap: "wrap",
                       flexDirection: "row",
                       justifyContent: "space-between",
-                      gap: 40,
+                      rowGap:30
                     }}
                     showsHorizontalScrollIndicator={false}
                   >
                     {favouriteCars.map((car, index) => (
-                      <CarCard key={index} {...car} isLiked={true} type="home" />
+                      <View key={index} style={{width:width/4.8, height:(width/4.8)-30}}>
+                      <CarCard  {...car} isLiked={true}  />
+                      </View>
                     ))}
                   </ScrollView>
                 </View>

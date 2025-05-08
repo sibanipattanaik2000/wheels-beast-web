@@ -20,6 +20,7 @@ import CustomSafeArea from "@/components/CustomSafeArea";
 import TextInput from "@/components/TextInput";
 import { appColors } from "@/constants/Color";
 import Dots from "@/components/Dots";
+import Header from "@/components/Header";
 
 const ForgotPasswordScreen = () => {
   const router = useRouter();
@@ -55,26 +56,12 @@ const ForgotPasswordScreen = () => {
           </View>
           
           {/* Right side with the form */}
-          <View style={{ width: "50%", paddingHorizontal: 64, paddingTop: 16 }}>
+          <View style={{ width: "50%", paddingHorizontal: 64}}>
             {/* Logo */}
-            <View style={{ flexDirection: "row", gap: 7, alignItems: "center", marginBottom: 40 }}>
-              <Image
-                source={require("@/assets/images/Signup/wheel.png")}
-                style={{ height: 40, width: 40 }}
-              />
-              <Text
-                style={{
-                  fontSize: 24,
-                  color: appColors.main.SecondaryBase,
-                  fontFamily: appFonts.UrbanistBold,
-                }}
-              >
-                WheelsBeast
-              </Text>
-            </View>
+          <Header type="default"/>
             
             {/* Content */}
-            <View style={{ paddingVertical: 40, gap: 32 }}>
+            <View style={{ paddingVertical: 90, gap: 32,paddingHorizontal:56 }}>
               {/* Forgot Password icon */}
               <View style={styles.iconContainer}>
                 <Image

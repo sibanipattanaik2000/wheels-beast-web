@@ -28,6 +28,64 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({
     console.log("Saving changes...");
   };
 
+
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: appColors.AdditionalColor.white,
+      borderRadius: 12,
+      justifyContent: "space-between",
+      paddingTop:48,
+      paddingHorizontal:24
+    },
+    content: {
+      flex: 1,
+      gap: 30
+    },
+    profileHeader: {
+      gap: 10,
+    },
+    profileImage: {
+      width: 80,
+      height: 80,
+      borderRadius: 32,
+      alignSelf: "center",
+    },
+    profileInfo: {
+      justifyContent: "center",
+      alignItems: "center",
+      textAlign: "center",
+    },
+    userName: {
+      fontSize: 18,
+      fontFamily: appFonts.UrbanistBold,
+      color: appColors.GreyScale[900],
+      marginBottom: 4,
+    },
+    userRole: {
+      fontSize: 14,
+      fontFamily: appFonts.UrbanistMedium,
+      color: appColors.GreyScale[500],
+    },
+    formSection: {
+      marginTop: 10,
+    },
+    rowContainer: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      marginBottom: 20,
+    },
+    formColumn: {
+      width: "48%",
+    },
+    sectionLabel: {
+      fontSize: 14,
+      fontFamily: appFonts.UrbanistMedium,
+      color: appColors.GreyScale[500],
+      marginBottom: 8,
+    },
+  });
   return (
     <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.content}>
@@ -127,7 +185,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({
       </View>
 
       {/* Save button */}
-      <View style={{width:'100%',justifyContent:'center',alignItems:"center" }}>
+      <View style={{width:'100%',justifyContent:'center',alignItems:"center",paddingBottom:48 }}>
       <Button
         title="Save Changes"
         onPress={handleSaveChanges}
@@ -142,62 +200,6 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: appColors.AdditionalColor.white,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: appColors.GreyScale[100],
-    padding: 24,
-    justifyContent: "space-between",
-  },
-  content: {
-    flex: 1,
-    gap: 30
-  },
-  profileHeader: {
-    gap: 10,
-  },
-  profileImage: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    alignSelf: "center",
-  },
-  profileInfo: {
-    justifyContent: "center",
-    alignItems: "center",
-    textAlign: "center",
-  },
-  userName: {
-    fontSize: 18,
-    fontFamily: appFonts.UrbanistBold,
-    color: appColors.GreyScale[900],
-    marginBottom: 4,
-  },
-  userRole: {
-    fontSize: 14,
-    fontFamily: appFonts.UrbanistMedium,
-    color: appColors.GreyScale[500],
-  },
-  formSection: {
-    marginTop: 10,
-  },
-  rowContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 20,
-  },
-  formColumn: {
-    width: "48%",
-  },
-  sectionLabel: {
-    fontSize: 14,
-    fontFamily: appFonts.UrbanistMedium,
-    color: appColors.GreyScale[500],
-    marginBottom: 8,
-  },
-});
+
 
 export default ProfileEdit;

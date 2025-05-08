@@ -70,10 +70,11 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   title: {
-    fontSize: 24,
+    fontSize: 26,
+    paddingTop:32,
     fontFamily: appFonts.UrbanistBold,
     color: appColors.GreyScale[900],
-    marginBottom: 8,
+    marginBottom: 15,
   },
   subtitle: {
     fontSize: 14,
@@ -93,16 +94,12 @@ const styles = StyleSheet.create({
   optionsList: {
     backgroundColor: appColors.AdditionalColor.white,
     borderRadius: 12,
-    borderWidth: 1,
-    borderColor: appColors.GreyScale[100],
   },
   optionItem: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: appColors.GreyScale[100],
+    paddingVertical: 20,
   },
   optionLeft: {
     flexDirection: 'row',
@@ -119,7 +116,8 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   optionTitle: {
-    fontSize: 16,
+    fontSize: 15,
+    paddingBottom:5,
     fontFamily: appFonts.UrbanistBold,
     color: appColors.GreyScale[900],
   },

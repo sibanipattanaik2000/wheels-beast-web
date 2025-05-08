@@ -22,7 +22,7 @@ interface SearchBarProps {
 const LANGUAGE_KEY = "selectedLanguage";
 
 const Search: React.FC<SearchBarProps> = ({
-  height = 48,
+  height = 56,
   width = "100%",
   onSearch,
   placeholder = "Search brand, or model",

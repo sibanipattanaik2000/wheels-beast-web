@@ -85,7 +85,7 @@ const Dots: React.FC<DotsProps> = ({ onIndexChange }) => {
         <ImageBackground
           source={currentSlide.image}
           style={{ width: "100%", height: "100%" }}
-          resizeMode="stretch"
+          resizeMode="cover"
         />
       ) : currentIndex === 1 ? (
         <Image
